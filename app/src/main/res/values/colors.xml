@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="blue">#2955D8 </color>
+    <color name="red">#E80000</color>
+    <color name="green">#419E45</color>
+
+    <color name="fadeGreen">#E5FAE1</color>
+    <color name="fadeRed">#FAE1E1</color>
+    <color name="fadeBlue">#DCE8FF</color>
+    <color name="fadeBlack">#F4F4F4</color>
+
+    <color name="editText">#F4F6FF</color>
+    <color name="greyFont">#ff9e9e9e</color>
+    <color name="greyLine">#E1E1E1</color>
+
+    <color name="background_page">#F5F7F8</color>
+
+
+</resources>

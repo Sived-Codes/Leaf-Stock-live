@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_centerInParent="true"
+    tools:context=".ui.fragment.HomeFragment">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/background_page"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabTextAppearance="@style/CustomTabTextAppearance" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_layout" />
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:id="@+id/adminGen"
+        android:visibility="gone"
+        android:textSize="@dimen/_7sdp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/semibold_font"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        app:cornerRadius="@dimen/_11sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_10sdp"        android:layout_height="wrap_content"
+        android:text="Generate"/>
+
+
+</RelativeLayout>

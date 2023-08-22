@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_page"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.AccountFragment">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <include layout="@layout/shimmer_account" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/actionBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/_10sdp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/actionBarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/semibold_font"
+                    android:gravity="center"
+                    android:text="Account"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp" />
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_below="@id/actionBarLayout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/userImg"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:src="@drawable/baseline_account_circle_24"/>
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prashant Deshmukh"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:fontFamily="@font/semibold_font"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_toEndOf="@id/userImg"/>
+
+                    <TextView
+                        android:id="@+id/userPlan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Free plan for 14 days"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:layout_below="@id/userName"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_toEndOf="@id/userImg"/>
+
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img3"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_calendar_month_24"/>
+                    <TextView
+                        android:id="@+id/userDob"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img3"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="27-o8-2023"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img4"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/gender"/>
+                    <TextView
+                        android:id="@+id/userGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img4"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="Male"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img1"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_local_phone_24"/>
+                    <TextView
+                        android:id="@+id/userMobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img1"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="+91889818200"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img2"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_email_24"/>
+                    <TextView
+                        android:id="@+id/userMail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img2"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="Sived.official@gmail.com"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img5"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_lock_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img5"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="Change Password"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img8"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_star_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img8"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="Subscription"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img9"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_notes_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img9"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="Terms &amp; Condition"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img7"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_help_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img7"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="Help &amp; Support"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:id="@+id/logoutBtn"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_4sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:padding="@dimen/_10sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/img10"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/baseline_logout_24"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img10"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:fontFamily="@font/regular_font"
+                        android:textColor="@color/black"
+                        android:text="Logout"/>
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/_7sdp"
+            android:id="@+id/adminMore"
+            android:visibility="gone"
+            android:textColor="@color/white"
+            android:fontFamily="@font/semibold_font"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            app:cornerRadius="@dimen/_11sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            android:text="More"/>
+    </RelativeLayout>
+
+
+
+
+
+
+
+
+</RelativeLayout>

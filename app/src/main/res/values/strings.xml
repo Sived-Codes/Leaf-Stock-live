@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Stock Market Adviser</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="gender_options">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="plan_options">
+        <item>Select Stock Plan</item>
+        <item>Free Trial 14 days</item>
+        <item>Bank Nifty 2 Month 7000/rs</item>
+        <item>Bank Nifty 4 Month 12000/rs</item>
+        <item>Bank Nifty 6 Month 16000/rs</item>
+        <item>Bank Nifty 12 Month 28000/rs</item>
+        <item>Nifty 50 2 Month 7000/rs</item>
+        <item>Nifty 50 4 Month 12000/rs</item>
+        <item>Nifty 50 6 Month 16000/rs</item>
+        <item>Nifty 50 12 Month 28000/rs</item>
+    </string-array>
+
+
+</resources>

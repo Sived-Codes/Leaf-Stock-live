@@ -19,5 +19,8 @@
 
     <color name="background_page">#F5F7F8</color>
 
+    <color name="prime_member_color">#8BC34A</color>
+    <color name="trial_member_color">#FF9800</color>
+
 
 </resources>

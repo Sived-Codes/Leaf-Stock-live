@@ -36,18 +36,12 @@ public class NotificationSender {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            // Handle response
-
-                            // Display a success Toast
                             Toast.makeText(context, "Notification sent successfully", Toast.LENGTH_SHORT).show();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            // Handle error
-
-                            // Display an error Toast
                             Toast.makeText(context, "Failed to send notification", Toast.LENGTH_SHORT).show();
                         }
                     }) {

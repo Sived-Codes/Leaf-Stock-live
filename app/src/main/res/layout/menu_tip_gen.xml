@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_15sdp"
+    android:layout_margin="@dimen/_25sdp"
+    android:layout_marginEnd="@dimen/_25sdp"
+    android:background="@drawable/button_bg_blue"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/edit_sell_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Sell Value"
+        android:fontFamily="@font/semibold_font"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/_15sdp"
+        android:id="@+id/edit_buy_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Buy Value"
+        android:fontFamily="@font/semibold_font"
+        android:clickable="true"
+        android:focusable="true"/>
+
+
+</LinearLayout>

@@ -44,75 +44,65 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <RelativeLayout
+        android:layout_below="@id/actionBarLayout"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_6sdp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/actionBarLayout">
+        android:layout_height="match_parent">
+
+
+        <EditText
+            android:id="@+id/feed_detail"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/buttonLayout"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/edit_text_bg_blue"
+            android:gravity="start"
+            android:hint="What's on your mind ?"
+            android:paddingTop="@dimen/_10sdp" />
+
 
         <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/_10sdp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/fadeBlack"
+                android:drawableStart="@drawable/baseline_add_24"
+                android:fontFamily="@font/semibold_font"
+                android:text="Add Photo"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_7sdp"
+                app:cornerRadius="@dimen/_10sdp" />
 
-
-                <EditText
-                    android:id="@+id/feed_detail"
-                    style="@style/EditTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/edit_text_bg_blue"
-                    android:gravity="start"
-                    android:hint="What's on your mind ?"
-                    android:paddingTop="@dimen/_10sdp" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/feed_detail"
-                    android:layout_marginTop="@dimen/_10sdp">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/fadeBlack"
-                        android:drawableStart="@drawable/baseline_add_24"
-                        android:fontFamily="@font/semibold_font"
-                        android:text="Add Photo"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_7sdp"
-                        app:cornerRadius="@dimen/_10sdp" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/feedPostBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/fadeGreen"
-                        android:drawableStart="@drawable/baseline_add_24"
-                        android:fontFamily="@font/semibold_font"
-                        android:text="Post Feed"
-                        android:textColor="@color/green"
-                        android:textSize="@dimen/_7sdp"
-                        app:cornerRadius="@dimen/_10sdp" />
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/feedPostBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/fadeGreen"
+                android:drawableStart="@drawable/baseline_add_24"
+                android:fontFamily="@font/semibold_font"
+                android:text="Post Feed"
+                android:textColor="@color/green"
+                android:textSize="@dimen/_7sdp"
+                app:cornerRadius="@dimen/_10sdp" />
         </LinearLayout>
 
-    </ScrollView>
+
+    </RelativeLayout>
+
 
 
 </RelativeLayout>

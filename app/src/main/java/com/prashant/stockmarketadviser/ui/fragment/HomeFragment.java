@@ -1,6 +1,7 @@
 package com.prashant.stockmarketadviser.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.prashant.stockmarketadviser.adapter.FragmentAdapter;
 import com.prashant.stockmarketadviser.databinding.FragmentHomeBinding;
+import com.prashant.stockmarketadviser.ui.admin.TipGenActivity;
 import com.prashant.stockmarketadviser.util.LocalPreference;
 
 public class HomeFragment extends Fragment {
@@ -32,6 +34,14 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         bind = FragmentHomeBinding.inflate(inflater, container, false);
+
+
+        bind.adminGen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, TipGenActivity.class));
+            }
+        });
 
         // Initialize the ViewPager2 and TabLayout
         ViewPager2 viewPager = bind.viewPager;

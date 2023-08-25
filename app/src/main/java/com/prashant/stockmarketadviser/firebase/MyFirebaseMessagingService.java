@@ -23,7 +23,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         String title = notification.getTitle();
         String body = notification.getBody();
-
         showNotification(title, body);
     }
 
@@ -33,9 +32,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String channelName = "stc"; // Replace with your channel name
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
+
         Intent intent = new Intent(this, DashboardActivity.class); // Replace with the activity that hosts your fragment
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -43,8 +43,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.logo_one)
                 .setContentTitle(title)
                 .setContentText(body)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // Set priority to high for heads-up style
                 .setContentIntent(pendingIntent)
+                .setFullScreenIntent(pendingIntent, true) // Enable heads-up notification
                 .setAutoCancel(true);
 
         notificationManager.notify(0, notificationBuilder.build());

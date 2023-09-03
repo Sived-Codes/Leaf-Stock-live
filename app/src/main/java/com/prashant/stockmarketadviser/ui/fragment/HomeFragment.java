@@ -15,8 +15,12 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.prashant.stockmarketadviser.adapter.FragmentAdapter;
 import com.prashant.stockmarketadviser.databinding.FragmentHomeBinding;
+import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.ui.admin.TipGenActivity;
-import com.prashant.stockmarketadviser.util.LocalPreference;
+import com.prashant.stockmarketadviser.ui.chat.ChatListActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -31,41 +35,36 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         bind = FragmentHomeBinding.inflate(inflater, container, false);
 
 
-        bind.adminGen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, TipGenActivity.class));
-            }
-        });
+        if (AuthManager.isAdmin()) {
+            bind.adminGen.setVisibility(View.VISIBLE);
+        }
 
-        // Initialize the ViewPager2 and TabLayout
+
+        bind.adminGen.setOnClickListener(view -> startActivity(new Intent(mContext, TipGenActivity.class)));
+
+        bind.chatBtn.setOnClickListener(view -> startActivity(new Intent(mContext, ChatListActivity.class)));
+
         ViewPager2 viewPager = bind.viewPager;
         TabLayout tabLayout = bind.tabLayout;
 
-        // Create an adapter for the ViewPager
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(this);
-        viewPager.setAdapter(fragmentAdapter);
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(new TrialFragment());
+        fragmentList.add(new PrimeFragment());
 
-        // Connect the TabLayout with the ViewPager
-        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> {
-                    if (position == 0) {
-                        tab.setText("Trial Tips");
-                    } else if (position == 1) {
-                        tab.setText("Prime Tips");
-                    }
-                    // Add more tabs as needed
-                });
-        tabLayoutMediator.attach();
+        List<String> tabNames = new ArrayList<>();
+        tabNames.add("Trial Scrip");
+        tabNames.add("Prime Scrip");
 
-        if (LocalPreference.getUserType(mContext).equals("admin")){
-            bind.adminGen.setVisibility(View.VISIBLE);
-        }
+        FragmentAdapter adapter = new FragmentAdapter(this, fragmentList, tabNames); // 'this' is your fragment or activity
+
+        viewPager.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(adapter.getTabName(position))).attach();
 
         return bind.getRoot();
     }

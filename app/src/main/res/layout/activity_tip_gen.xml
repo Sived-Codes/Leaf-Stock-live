@@ -145,6 +145,7 @@
                             app:cornerRadius="@dimen/_14sdp" />
 
                         <ImageView
+                            android:id="@+id/copy_third_profit_btn"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_weight="1"
@@ -232,6 +233,7 @@
                             app:cornerRadius="@dimen/_14sdp" />
 
                         <ImageView
+                            android:id="@+id/copy_second_profit_btn"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_weight="1"
@@ -318,6 +320,7 @@
                             app:cornerRadius="@dimen/_14sdp" />
 
                         <ImageView
+                            android:id="@+id/copy_first_profit_btn"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_weight="1"
@@ -405,6 +408,7 @@
                             app:cornerRadius="@dimen/_14sdp" />
 
                         <ImageView
+                            android:id="@+id/copy_third_target_btn"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_weight="1"
@@ -492,6 +496,7 @@
                             app:cornerRadius="@dimen/_14sdp" />
 
                         <ImageView
+                            android:id="@+id/copy_second_target_btn"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_weight="1"
@@ -579,6 +584,8 @@
                             app:cornerRadius="@dimen/_14sdp" />
 
                         <ImageView
+                            android:id="@+id/copy_first_target_btn"
+
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_weight="1"
@@ -666,6 +673,7 @@
                             app:cornerRadius="@dimen/_14sdp" />
 
                         <ImageView
+                            android:id="@+id/copy_tip_btn"
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_weight="1"
@@ -738,6 +746,7 @@
                         <com.google.android.material.button.MaterialButton
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/generatedTipClearBtn"
                             android:layout_weight="1"
                             android:backgroundTint="@color/greyFont"
                             android:text="Clear all"
@@ -764,7 +773,7 @@
                             android:gravity="center"
                             android:hint="Rate" />
 
-                        <EditText
+                        <AutoCompleteTextView
                             android:id="@+id/gen_script_name"
                             style="@style/EditTextStyleGrey"
                             android:layout_width="0dp"
@@ -772,7 +781,6 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:hint="Name" />
-
 
                     </LinearLayout>
 

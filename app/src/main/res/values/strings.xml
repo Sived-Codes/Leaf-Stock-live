@@ -1,7 +1,5 @@
 <resources>
-    <string name="app_name">Stock Market Adviser</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Leaf Stock</string>
 
     <string-array name="gender_options">
         <item>Select Gender</item>
@@ -21,6 +19,33 @@
         <item>Nifty 50 6 Month 16000/rs</item>
         <item>Nifty 50 12 Month 28000/rs</item>
     </string-array>
+
+    <string name="write_something">Write something</string>
+    <string name="feed_posted">Feed Posted</string>
+    <string name="failed_to_post">Failed to Post. Please try again!</string>
+    <string name="feed_updated">Feed Updated</string>
+    <string name="failed_to_update">Failed to Update. Please try again!</string>
+    <string name="update_feed">Update Feed</string>
+    <string name="update_now">Update Now</string>
+    <string name="new_feed">New Feed</string>
+    <string name="error">Error</string>
+    <string name="administrator">Administrator</string>
+
+
+    <string name="first_name_hint">First name cannot be empty</string>
+    <string name="last_name_hint">Last name cannot be empty</string>
+    <string name="gender_hint">Please select Gender</string>
+    <string name="dob_hint">Date of birth cannot be empty</string>
+    <string name="mobile_empty_error">Mobile number cannot be empty</string>
+    <string name="mobile_length_error">Mobile number should be 10 digits</string>
+    <string name="select_plan_warning">Please select any plan</string>
+    <string name="address_hint">Address cannot be empty</string>
+    <string name="email_empty_error">Email address cannot be empty</string>
+    <string name="invalid_email_domain_error">Invalid email domain</string>
+    <string name="password_empty_error">Password cannot be empty</string>
+    <string name="confirm_password_empty_error">Confirm password cannot be empty</string>
+    <string name="passwords_do_not_match_error">Passwords do not match</string>
+    <string name="registration_done">Registration done !</string>
 
 
 </resources>

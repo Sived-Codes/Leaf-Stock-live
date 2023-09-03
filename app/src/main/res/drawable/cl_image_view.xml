@@ -1,0 +1,9 @@
+<!-- background_with_alpha.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/background">
+        <bitmap android:src="@drawable/logo2" />
+    </item>
+    <item android:id="@+id/background_overlay">
+        <color android:color="#F5FFFFFF" /> <!-- Adjust alpha value here -->
+    </item>
+</layer-list>

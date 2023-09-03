@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_page"
     tools:context=".ui.fragment.FeedFragment">
 
@@ -18,8 +18,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/_15sdp"
             android:visibility="visible">
 
             <TextView
@@ -40,13 +40,6 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feedRecyclerview"
-        android:layout_below="@id/actionBarLayout"
-        android:layout_width="match_parent"
-        android:layout_centerInParent="true"
-        android:layout_height="match_parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shimmerRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/actionBarLayout"
@@ -54,17 +47,30 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
         android:id="@+id/addFeedBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:fontFamily="@font/semibold_font"
+        android:text="Add Feed"
+        android:textColor="@color/white"
         android:textSize="@dimen/_7sdp"
         android:visibility="gone"
-        android:textColor="@color/white"
-        android:fontFamily="@font/semibold_font"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:cornerRadius="@dimen/_11sdp"
-        android:layout_marginEnd="@dimen/_14sdp"
-        android:layout_marginBottom="@dimen/_10sdp"        android:layout_height="wrap_content"
-        android:text="Add Feed"/>
+        app:cornerRadius="@dimen/_11sdp" />
+
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        layout="@layout/custom_progress_bar" />
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/view"
+        layout="@layout/cl_empty_view" />
+
 
 </RelativeLayout>

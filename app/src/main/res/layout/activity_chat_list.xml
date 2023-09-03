@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_page"
+    tools:context=".ui.chat.ChatListActivity">
+
+    <RelativeLayout
+        android:id="@+id/actionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/_10sdp">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/baseline_back" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_toEndOf="@id/back"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/actionBarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/semibold_font"
+                android:gravity="center"
+                android:text="Chat List"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_13sdp" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/actionBarLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="@dimen/_14sdp">
+
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_toStartOf="@id/addChatBtn"
+            android:background="@drawable/edit_text_bg_white"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:drawablePadding="@dimen/_10sdp"
+            android:fontFamily="@font/semibold_font"
+            android:hint="Search by name, mobile, email"
+            android:paddingStart="@dimen/_10sdp"
+            android:textColorHint="@color/greyFont"
+            android:textSize="@dimen/_10sdp" />
+
+        <ImageView
+            android:id="@+id/addChatBtn"
+            android:layout_width="@dimen/_38sdp"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/mid_round_white_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_add_24" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/custom_progress_bar"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/view"
+        layout="@layout/cl_empty_view"
+        android:visibility="gone" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ChatListRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchBarLayout"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/_4sdp" />
+
+
+</RelativeLayout>

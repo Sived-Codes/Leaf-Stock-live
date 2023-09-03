@@ -2,17 +2,13 @@ package com.prashant.stockmarketadviser.util;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.core.content.ContextCompat;
 
@@ -77,10 +73,6 @@ public class CProgressDialog {
         }
     }
 
-    public static boolean isDialogShown() {
-        return isDialogShown;
-    }
-
     public static void mDismiss() {
         if (dialog != null && dialog.isShowing()) {
             MaterialCardView dialogContainer = dialog.findViewById(R.id.dialog_container);
@@ -110,22 +102,4 @@ public class CProgressDialog {
         isDialogShown = false;
     }
 
-    public static void hideKeyboard(Activity activity) {
-        try {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            View focusedView = activity.getCurrentFocus();
-            if (focusedView != null && imm != null) {
-                imm.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
-            }
-        } catch (Exception e) {
-            Log.e("Tag", "Error message", e);
-        }
-    }
-
-    public static void handleBackPress(Activity activity, int keyCode) {
-        if (isDialogShown && keyCode == KeyEvent.KEYCODE_BACK) {
-            mDismiss();
-            activity.onBackPressed();
-        }
-    }
 }

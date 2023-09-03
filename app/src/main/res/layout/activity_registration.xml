@@ -75,7 +75,6 @@
                         android:layout_marginStart="@dimen/_4sdp"
                         android:fontFamily="@font/regular_font"
                         android:text="First Name"
-
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp" />
 
@@ -143,17 +142,31 @@
                         android:layout_marginStart="@dimen/_4sdp"
                         android:fontFamily="@font/regular_font"
                         android:text="Gender"
-
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp" />
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/genderSpinner"
-                        style="@style/SpinnerStyle"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/genderBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4sdp"
-                        android:hint="Select Gender" />
+                        app:cardCornerRadius="@dimen/_14sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/genderTextView"
+                                style="@style/TextViewStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="Select Gender"
+                                android:textColor="@color/greyFont" />
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
 
 
                 </LinearLayout>
@@ -174,17 +187,31 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/dobEd"
-                        style="@style/EditTextStyle"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/dobBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4sdp"
-                        android:clickable="true"
-                        android:editable="false"
-                        android:hint="Select Date Of Birth"
-                        android:inputType="none"
-                        android:singleLine="true" />
+                        app:cardCornerRadius="@dimen/_14sdp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/dobTextView"
+                                style="@style/TextViewStyle"
+                                android:layout_width="match_parent"
+
+                                android:layout_height="wrap_content"
+
+                                android:gravity="center_vertical"
+                                android:text="Date of birth"
+                                android:textColor="@color/greyFont"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
 
 
                 </LinearLayout>
@@ -244,13 +271,23 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/_10sdp" />
 
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/stockPlanEd"
-                        style="@style/SpinnerStyle"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/stockPlanBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_4sdp"
-                        android:hint="Select Stock Plan" />
+                        app:cardCornerRadius="@dimen/_14sdp">
+
+                        <TextView
+                            android:id="@+id/stockPlanTextView"
+                            style="@style/TextViewStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="Select your plan"
+                            android:textColor="@color/greyFont"
+                            android:textSize="@dimen/_10sdp" />
+                    </com.google.android.material.card.MaterialCardView>
 
 
                 </LinearLayout>
@@ -379,12 +416,14 @@
                 android:text="Submit" />
 
             <TextView
+                android:id="@+id/privacyBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/light_font"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:gravity="center"
-                android:text="Creating an account implies your acceptance of our Terms &amp; Conditions and Privacy Policy, outlining the rules and how we handle your data."
+                android:text="Creating an account implies your acceptance of our Terms &amp; Conditions and Privacy Policy, outlining the rules and how we handle your data. tap to see privacy &amp; policy."
                 android:textColor="@color/black"
                 android:textSize="@dimen/_9sdp" />
 
@@ -392,8 +431,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-
 
 
 </RelativeLayout>

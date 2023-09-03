@@ -22,8 +22,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Posted By"
+                android:textSize="@dimen/_10sdp"
                 android:fontFamily="@font/semibold_font"
-                android:textColor="@color/black"/>
+                android:textColor="@color/blue"/>
 
             <TextView
                 android:id="@+id/feed_time"
@@ -62,7 +63,7 @@
             android:fontFamily="@font/regular_font"/>
 
         <LinearLayout
-            android:id="@+id/feedActionLayout"
+            android:id="@+id/actionLayout"
             android:layout_alignParentStart="true"
             android:paddingVertical="@dimen/_5sdp"
             android:paddingHorizontal="@dimen/_10sdp"
@@ -87,7 +88,7 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:textSize="@dimen/_6sdp"
-                android:text="Remove"
+                android:text="Delete"
                 android:backgroundTint="@color/fadeRed"
                 android:textColor="@color/red"/>
 

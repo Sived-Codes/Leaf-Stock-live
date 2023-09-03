@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_14sdp"
+    android:layout_marginVertical="@dimen/_4sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:paddingVertical="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <TextView
+                android:id="@+id/notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/semibold_font"
+                android:maxWidth="@dimen/_250sdp"
+                android:textSize="@dimen/_10sdp"
+                android:text="This is title"
+                android:textColor="@color/blue"
+                />
+
+            <TextView
+                android:id="@+id/notification_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notification_title"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:text="Hi, you are invited for '+str(input['subject'])"
+                android:fontFamily="@font/regular_font"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/notification_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notification_detail"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:fontFamily="@font/regular_font"
+                android:maxWidth="@dimen/_150sdp"
+                android:text="7/2/2023"
+                android:textColor="@color/greyFont"
+                android:textSize="@dimen/_9sdp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/actionLayout"
+            android:paddingVertical="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="@dimen/_50sdp"
+                android:id="@+id/editBtn"
+                app:cornerRadius="@dimen/_14sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:textSize="@dimen/_6sdp"
+                android:text="EDIT"
+                android:backgroundTint="@color/fadeBlue"
+                android:textColor="@color/blue"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="@dimen/_60sdp"
+                app:cornerRadius="@dimen/_14sdp"
+                android:id="@+id/deleteBtn"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:textSize="@dimen/_6sdp"
+                android:text="Delete"
+                android:backgroundTint="@color/fadeRed"
+                android:textColor="@color/red"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

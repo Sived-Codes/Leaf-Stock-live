@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_centerInParent="true"
     tools:context=".ui.fragment.HomeFragment">
 
@@ -13,8 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/background_page"
-        app:tabMode="fixed"
         app:tabGravity="fill"
+        app:tabIndicatorColor="@color/background_page"
+        app:tabMode="fixed"
         app:tabTextAppearance="@style/CustomTabTextAppearance" />
 
     <androidx.viewpager2.widget.ViewPager2
@@ -22,19 +23,66 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tab_layout" />
-    <com.google.android.material.button.MaterialButton
+
+
+    <LinearLayout
+        android:id="@+id/chatBtn"
         android:layout_width="wrap_content"
-        android:id="@+id/adminGen"
-        android:visibility="gone"
-        android:textSize="@dimen/_7sdp"
-        android:textColor="@color/white"
-        android:fontFamily="@font/semibold_font"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        app:cornerRadius="@dimen/_11sdp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/_14sdp"
-        android:layout_marginBottom="@dimen/_10sdp"        android:layout_height="wrap_content"
-        android:text="Generate"/>
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/blue"
+            app:cardCornerRadius="@dimen/_11sdp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:src="@drawable/baseline_chat_white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_13sdp"
+                    android:gravity="center"
+                    android:text="Chat"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/adminGen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:fontFamily="@font/semibold_font"
+            android:text="Generate"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_7sdp"
+            android:visibility="gone"
+
+            app:cornerRadius="@dimen/_11sdp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

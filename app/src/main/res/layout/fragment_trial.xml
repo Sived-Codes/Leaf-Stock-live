@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.TrialFragment">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trial_scrip_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 
-        <include layout="@layout/cl_tips_layout"/>
-        <include layout="@layout/cl_tips_layout"/>
-        <include layout="@layout/cl_tips_layout"/>
-        <include layout="@layout/cl_tips_layout"/>
-        <include layout="@layout/cl_tips_layout"/>
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/custom_progress_bar"
+        android:visibility="gone" />
 
-    </LinearLayout>
+    <include
+        android:id="@+id/view"
+        layout="@layout/cl_empty_view"
+        android:visibility="gone" />
 
-</ScrollView>
+</RelativeLayout>

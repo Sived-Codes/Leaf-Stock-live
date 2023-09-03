@@ -3,7 +3,7 @@ package com.prashant.stockmarketadviser.ui.dashboard;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +17,7 @@ import com.prashant.stockmarketadviser.ui.fragment.FeedFragment;
 import com.prashant.stockmarketadviser.ui.fragment.HomeFragment;
 import com.prashant.stockmarketadviser.ui.fragment.NotificationFragment;
 import com.prashant.stockmarketadviser.ui.fragment.PastPerformanceFragment;
+import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
 
 public class DashboardActivity extends BaseActivity {
@@ -28,7 +29,6 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             Fragment selectedFragment = null;
@@ -69,15 +69,23 @@ public class DashboardActivity extends BaseActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
-        VUtil.showConfirmationDialog(DashboardActivity.this, "Are you sure want to exit !", view -> {
-            finish();
-            clearFromRecentTasks();
-        }, view -> {
+        binding.bottomNavigation.setVisibility(View.VISIBLE);
 
-        });
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        } else {
+            VUtil.showConfirmationDialog(DashboardActivity.this, "Are you sure want to exit !", view -> {
+                finish();
+                clearFromRecentTasks();
+            }, view -> {
+
+            });
+        }
+
     }
 
     private void clearFromRecentTasks() {
@@ -87,4 +95,9 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CProgressDialog.mDismiss();
+    }
 }

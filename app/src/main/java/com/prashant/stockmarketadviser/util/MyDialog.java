@@ -3,23 +3,32 @@ package com.prashant.stockmarketadviser.util;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+
 import androidx.annotation.LayoutRes;
-import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.prashant.stockmarketadviser.R;
-import com.prashant.stockmarketadviser.util.PopupMenuHelper;
+
+import java.lang.ref.WeakReference;
 
 public class MyDialog {
 
-    private Context context;
+    private final WeakReference<Context> contextRef;
     private View dialogView;
-    private MaterialAlertDialogBuilder builder;
+    private AlertDialog alertDialog;
 
-    public MyDialog(Context context, @LayoutRes int layoutResId) {
-        this.context = context;
-        dialogView = LayoutInflater.from(context).inflate(layoutResId, null);
-        builder = new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialog_Rounded);
-        builder.setView(dialogView);
+    public MyDialog(Context appContext, @LayoutRes int layoutResId) {
+        contextRef = new WeakReference<>(appContext);
+        Context context = contextRef.get();
+        if (context != null) {
+            dialogView = LayoutInflater.from(context).inflate(layoutResId, null);
+            MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(context, R.style.MaterialAlertDialog_Rounded);
+            alertDialogBuilder.setView(dialogView);
+            alertDialog = alertDialogBuilder.create();
+        }
     }
 
     public View getView() {
@@ -27,12 +36,22 @@ public class MyDialog {
     }
 
     public void setCancelable(boolean isCancelable) {
-        builder.setCancelable(isCancelable);
+        alertDialog.setCancelable(isCancelable);
     }
 
     public void show() {
-        builder.show();
+        Context context = contextRef.get();
+        if (context != null && !((AppCompatActivity) context).isFinishing()) {
+            // Apply fade-in animation when showing the dialog
+            AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+            alphaAnimation.setDuration(600);
+            dialogView.startAnimation(alphaAnimation);
+
+            alertDialog.show();
+        }
     }
 
-
+    public void dismiss() {
+        alertDialog.dismiss();
+    }
 }

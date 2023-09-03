@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/_10sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:id="@+id/updatePlanBtn"
+            app:cardElevation="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_14sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_bg_blue"
+                android:fontFamily="@font/semibold_font"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="Update Plan"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_10sdp" />
+        </com.google.android.material.card.MaterialCardView>
+        <View
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_width="@dimen/_2sdp"
+            android:layout_height="match_parent"
+            android:background="@color/blue" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/manageUserBtn"
+            android:layout_width="0dp"
+            app:cardElevation="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_14sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_bg_blue"
+                android:fontFamily="@font/semibold_font"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="Manage Users"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_10sdp" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            app:cardElevation="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_14sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_bg_blue"
+                android:fontFamily="@font/semibold_font"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="Previous Tips"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_10sdp" />
+        </com.google.android.material.card.MaterialCardView>
+        <View
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_width="@dimen/_2sdp"
+            android:layout_height="match_parent"
+            android:background="@color/blue" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            app:cardElevation="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_14sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_bg_blue"
+                android:fontFamily="@font/semibold_font"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="App Crashes"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_10sdp" />
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+
+</LinearLayout>

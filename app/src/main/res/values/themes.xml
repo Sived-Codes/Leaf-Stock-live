@@ -1,13 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.StockMarketAdviser" parent="Theme.MaterialComponents.Light.NoActionBar">
-         <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/blue</item>
         <item name="android:statusBarColor">@color/background_page</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:textCursorDrawable">@drawable/cursor_color</item>
-
     </style>
-
 
 
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
@@ -17,8 +15,19 @@
         <item name="android:textSize">@dimen/_10sdp</item>
         <item name="android:paddingStart">@dimen/_10sdp</item>
         <item name="android:paddingEnd">@dimen/_10sdp</item>
-        <item name="android:textColorHint"> @color/greyFont</item>
+        <item name="android:textColorHint">@color/greyFont</item>
     </style>
+
+    <style name="TextViewStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/edit_text_bg_blue</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/semibold_font</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:paddingStart">@dimen/_10sdp</item>
+        <item name="android:paddingEnd">@dimen/_10sdp</item>
+        <item name="android:textColorHint">@color/greyFont</item>
+    </style>
+
 
     <style name="EditTextStyleGrey" parent="Widget.AppCompat.EditText">
         <item name="android:background">@drawable/edit_text_bg_grey</item>
@@ -27,38 +36,40 @@
         <item name="android:textSize">@dimen/_10sdp</item>
         <item name="android:paddingStart">@dimen/_10sdp</item>
         <item name="android:paddingEnd">@dimen/_10sdp</item>
-        <item name="android:textColorHint"> @color/greyFont</item>
+        <item name="android:textColorHint">@color/greyFont</item>
     </style>
 
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:background">@drawable/button_bg_blue</item>
         <item name="android:height">@dimen/_38sdp</item>
-        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:textSize">@dimen/_9sdp</item>
     </style>
+
+    <style name="FadeBlueButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/fadeBlue</item>
+
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:height">@dimen/_38sdp</item>
+        <item name="android:textSize">@dimen/_9sdp</item>
+    </style>
+
+
+    <style name="SwitchCompatThemeOverlay" parent="">
+        <item name="colorControlActivated">@color/blue</item>
+        <item name="colorControlNormal">#808080</item>
+        <item name="colorSurface">@color/fadeBlue</item>
+        <item name="colorButtonNormal">@color/greyFont</item>
+    </style>
+
+
 
     <style name="BottomNavigationStyle" parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/semibold_font</item>
     </style>
 
     <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="shapeAppearanceOverlay"> @style/MaterialAlertDialog.Rounded</item>
+        <item name="shapeAppearanceOverlay">@style/MaterialAlertDialog.Rounded</item>
         <item name="cornerSize">@dimen/_19sdp</item>
-    </style>
-
-    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner">
-        <item name="android:background">@drawable/edit_text_bg_blue</item>
-        <item name="android:fontFamily">@font/semibold_font</item>
-        <item name="android:textSize">@dimen/_10sdp</item>
-        <item name="android:paddingStart">@dimen/_5sdp</item>
-        <item name="android:paddingEnd">@dimen/_10sdp</item>
-        <item name="android:popupBackground">@drawable/spinner_custom_background</item>
-        <item name="android:textColorHint"> @color/greyFont</item>
-
-        <item name="android:popupElevation">8dp</item>
-        <!-- Adjust horizontal padding -->
-
-
-         <!-- Customize dropdown background if needed -->
     </style>
 
     <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">

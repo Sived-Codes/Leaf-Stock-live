@@ -52,4 +52,22 @@
         android:layout_marginBottom="@dimen/_10sdp"        android:layout_height="wrap_content"
         android:text="Add Performance"/>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/PastPerformanceRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/actionBarLayout"
+        android:layout_centerInParent="true" />
+
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        layout="@layout/custom_progress_bar" />
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/view"
+        layout="@layout/cl_empty_view" />
+
 </RelativeLayout>

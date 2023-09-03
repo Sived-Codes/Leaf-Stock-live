@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.databinding.ActivityAddFeedBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
@@ -53,10 +54,10 @@ public class AddFeedActivity extends AppCompatActivity {
 
             if (feedDescription.isEmpty()) {
                 bind.feedDetail.requestFocus();
-                bind.feedDetail.setText("Write something");
+                bind.feedDetail.setText(getString(R.string.write_something));
                 CProgressDialog.mDismiss();
             } else {
-                String uid = new AuthManager().getCurrentUser().getUid();
+                String uid = AuthManager.getCurrentUser().getUid();
                 String feedId = Constant.feedDB.push().getKey();
                 FeedModel model = new FeedModel();
                 model.setFeedDescription(feedDescription);
@@ -65,21 +66,23 @@ public class AddFeedActivity extends AppCompatActivity {
                 model.setUserUid(uid);
                 model.setFeedId(feedId);
 
-                Constant.feedDB.child(feedId).setValue(model).addOnCompleteListener(task -> {
-                    CProgressDialog.mDismiss();
+                if (feedId != null) {
+                    Constant.feedDB.child(feedId).setValue(model).addOnCompleteListener(task -> {
+                        CProgressDialog.mDismiss();
 
-                    if (task.isSuccessful()) {
-                        NotificationSender.sendNotificationToTopic(AddFeedActivity.this, "allUsers", "New Feed", feedDescription);
-                        Toast.makeText(AddFeedActivity.this, "Feed Posted", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(AddFeedActivity.this, "Failed to Post. Please try again !", Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            NotificationSender.sendNotificationToTopic(AddFeedActivity.this, Constant.All_NOTIFICATION_TOPIC, getString(R.string.new_feed), feedDescription);
+                            Toast.makeText(AddFeedActivity.this, getString(R.string.feed_posted), Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(AddFeedActivity.this, getString(R.string.failed_to_post), Toast.LENGTH_SHORT).show();
 
-                    }
-                }).addOnFailureListener(e -> {
-                    CProgressDialog.mDismiss();
-                    Toast.makeText(AddFeedActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                });
+                        }
+                    }).addOnFailureListener(e -> {
+                        CProgressDialog.mDismiss();
+                        Toast.makeText(AddFeedActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    });
+                }
 
             }
         });
@@ -87,15 +90,15 @@ public class AddFeedActivity extends AppCompatActivity {
     }
 
     private void updateFeed() {
-        bind.actionBarTitle.setText("Update Feed");
-        bind.feedPostBtn.setText("Update Now");
+        bind.actionBarTitle.setText(getString(R.string.update_feed));
+        bind.feedPostBtn.setText(getString(R.string.update_now));
         bind.feedDetail.setText(uFeedDesc);
         bind.feedPostBtn.setOnClickListener(view -> {
             String updatedFeedDesc = bind.feedDetail.getText().toString();
 
             if (updatedFeedDesc.isEmpty()) {
                 bind.feedDetail.requestFocus();
-                bind.feedDetail.setText("Write something");
+                bind.feedDetail.setText(getString(R.string.write_something));
                 CProgressDialog.mDismiss();
             } else {
                 Map<String, Object> updates = new HashMap<>();
@@ -106,10 +109,10 @@ public class AddFeedActivity extends AppCompatActivity {
                             CProgressDialog.mDismiss();
 
                             if (task.isSuccessful()) {
-                                Toast.makeText(AddFeedActivity.this, "Feed Updated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddFeedActivity.this, getString(R.string.feed_updated), Toast.LENGTH_SHORT).show();
                                 finish();
                             } else {
-                                Toast.makeText(AddFeedActivity.this, "Failed to Update. Please try again!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddFeedActivity.this, getString(R.string.failed_to_update), Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(e -> {

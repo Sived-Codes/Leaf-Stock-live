@@ -4,29 +4,36 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.prashant.stockmarketadviser.ui.fragment.PrimeFragment;
-import com.prashant.stockmarketadviser.ui.fragment.TrialFragment;
+import java.util.List;
 
 public class FragmentAdapter extends FragmentStateAdapter {
+    private final List<Fragment> fragments;
+    private final List<String> tabNames;
 
-    public FragmentAdapter(Fragment fragment) {
+    public FragmentAdapter(Fragment fragment, List<Fragment> fragments, List<String> tabNames) {
         super(fragment);
+        this.fragments = fragments;
+        this.tabNames = tabNames;
     }
 
     @Override
     public int getItemCount() {
-        return 2; // Number of tabs
+        return fragments.size();
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if (position == 0) {
-            return new TrialFragment(); // Replace with your actual fragment class
-        } else if (position == 1) {
-            return new PrimeFragment(); // Replace with your actual fragment class
+        if (position >= 0 && position < fragments.size()) {
+            return fragments.get(position);
         }
-        // Add more conditions and fragments as needed
         return null;
+    }
+
+    public String getTabName(int position) {
+        if (position >= 0 && position < tabNames.size()) {
+            return tabNames.get(position);
+        }
+        return "";
     }
 }

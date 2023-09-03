@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_14sdp"
+    android:layout_marginVertical="@dimen/_4sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/performanceView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/cl_image_view"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_5sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/pf_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/semibold_font"
+                    android:gravity="center"
+                    android:text="Performance of the day"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/_10sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/greyLine" />
+
+                <TextView
+                    android:id="@+id/pf_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/semibold_font"
+                    android:gravity="center"
+                    android:text="Intraday Option Tips:  scrip name Bank Nifty 45000 Buy 1 lot or 400 Qty @ 130 TRG’S 149-162-183 SL 115"
+                    android:textColor="#EA867D"
+                    android:textSize="@dimen/_10sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/semibold_font"
+                        android:text="1st Profit"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/pf_first_profit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/regular_font"
+                        android:text="Intraday Option Tips:  scrip name Bank Nifty 45000 Buy 1 lot or 400 Qty @ 130 TRG’S 149-162-183 SL 115."
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/semibold_font"
+                        android:text="2nd Profit"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/pf_second_profit"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/regular_font"
+                        android:text="Intraday Option Tips:  scrip name Bank Nifty 45000 Buy 1 lot or 400 Qty @ 130 TRG’S 149-162-183 SL 115."
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/semibold_font"
+                        android:text="3rd Profit"
+                        android:textColor="@color/green"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/pf_third_profit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/regular_font"
+                        android:text="Intraday Option Tips:  scrip name Bank Nifty 45000 Buy 1 lot or 400 Qty @ 130 TRG’S 149-162-183 SL 115."
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10sdp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/pf_total_profit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/semibold_font"
+                    android:gravity="center"
+                    android:text="Our subscribers earned a total profit of 14500 ₹ in this Bank Nifty 45000 trade."
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_10sdp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@color/greyLine" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center"
+                    android:text="For safe trading, get our membership now. For more information, contact us at 8889818200"
+                    android:textColor="@color/greyFont"
+                    android:textSize="@dimen/_10sdp" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/performanceActionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/performanceView"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_10sdp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/deleteBtn"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:backgroundTint="@color/fadeRed"
+                android:text="Delete"
+                android:textColor="@color/red"
+                android:textSize="@dimen/_7sdp"
+                app:cornerRadius="@dimen/_14sdp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shareBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:backgroundTint="@color/fadeBlue"
+                android:text="share"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_7sdp"
+                app:cornerRadius="@dimen/_14sdp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/downloadBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:backgroundTint="@color/fadeBlue"
+                android:text="Download Only"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_7sdp"
+                app:cornerRadius="@dimen/_14sdp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

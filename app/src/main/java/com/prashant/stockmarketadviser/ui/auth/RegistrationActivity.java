@@ -1,235 +1,290 @@
 package com.prashant.stockmarketadviser.ui.auth;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.prashant.stockmarketadviser.util.CProgressDialog;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.prashant.stockmarketadviser.R;
+import com.prashant.stockmarketadviser.adapter.MyAdapter;
+import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
 import com.prashant.stockmarketadviser.databinding.ActivityRegistrationBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
+import com.prashant.stockmarketadviser.model.PlanModel;
 import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.ui.BaseActivity;
+import com.prashant.stockmarketadviser.ui.admin.PrivacyPolicyActivity;
+import com.prashant.stockmarketadviser.util.CProgressDialog;
+import com.prashant.stockmarketadviser.util.MyDialog;
+import com.prashant.stockmarketadviser.util.PopupMenuHelper;
+import com.prashant.stockmarketadviser.util.VUtil;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 public class RegistrationActivity extends BaseActivity {
 
-    ActivityRegistrationBinding binding;
-    String selectedGender, selectedPlan;
+    ActivityRegistrationBinding bind;
+    FirebaseRecyclerAdapter<PlanModel, MyAdapter.MyHolder> adapter;
+    MyDialog planDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityRegistrationBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        bind = ActivityRegistrationBinding.inflate(getLayoutInflater());
+        setContentView(bind.getRoot());
+
+        planDialog = new MyDialog(RegistrationActivity.this, R.layout.cl_membership_dialog);
 
 
-        setupViews();
+        getPlanList();
         setupListeners();
 
 
     }
 
-    private void setupListeners() {
-        binding.submitBtn.setOnClickListener(new View.OnClickListener() {
+    private void getPlanList() {
+        RecyclerView recyclerView = planDialog.getView().findViewById(R.id.memberShipRecyclerview);
+
+        VUtil.EmptyViewHandler(Constant.planDB, planDialog.getView().findViewById(R.id.view), planDialog.getView().findViewById(R.id.progressBar));
+
+        recyclerView.setLayoutManager(new ReverseLinearLayoutManager(RegistrationActivity.this));
+
+        FirebaseRecyclerOptions<PlanModel> options = new FirebaseRecyclerOptions.Builder<PlanModel>().setQuery(Constant.planDB, PlanModel.class).build();
+        adapter = new FirebaseRecyclerAdapter<PlanModel, MyAdapter.MyHolder>(options) {
             @Override
-            public void onClick(View view) {
-                CProgressDialog.mShow(RegistrationActivity.this);
-                String firstName = binding.firstNameEd.getText().toString().trim();
-                String lastName = binding.lastNameEd.getText().toString().trim();
-                String gender = selectedGender;
-                String dateOfBirth = binding.dobEd.getText().toString().trim();
-                String mobile = binding.mobileEd.getText().toString().trim();
-                String stockPlan = selectedPlan;
-                String address = binding.postalAddressEd.getText().toString().trim();
-                String email = binding.emailEd.getText().toString().trim();
-                String password = binding.passwordEd.getText().toString();
-                String confirmPassword = binding.confirmPasswordEd.getText().toString();
+            protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull PlanModel model) {
+
+                TextView plan = holder.itemView.findViewById(R.id.plan_name);
+                TextView price = holder.itemView.findViewById(R.id.plan_price_and_validity);
+
+                price.setText(model.getPrice());
+                plan.setText(model.getPlan());
+
+                holder.itemView.setOnClickListener(view -> {
+
+                    bind.stockPlanTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
+                    bind.stockPlanTextView.setText(model.getPlan() + " " + model.getPrice());
+                    planDialog.dismiss();
+                });
+            }
+
+            @NonNull
+            @Override
+            public MyAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cl_membership_item, parent, false);
+                return new MyAdapter.MyHolder(itemView);
+            }
+        };
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    private void setupListeners() {
 
 
-                if (firstName.isEmpty()) {
-                    binding.firstNameEd.setError("First name cannot be empty");
-                    binding.firstNameEd.requestFocus();
 
-                    return;
-                }
-
-                if (lastName.isEmpty()) {
-                    binding.lastNameEd.setError("Last name cannot be empty");
-                    binding.lastNameEd.requestFocus();
-                    return;
-                }
-
-                if (gender.equals("Select Gender")) {
-                    Toast.makeText(RegistrationActivity.this, "Please Select Gender", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (stockPlan.equals("Select Stock Plan")) {
-                    Toast.makeText(RegistrationActivity.this, "Please Select Gender", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (dateOfBirth.isEmpty()) {
-                    binding.dobEd.setError("Date of birth cannot be empty");
-                    binding.dobEd.requestFocus();
-                    return;
-                }
-
-                if (mobile.isEmpty()) {
-                    binding.mobileEd.setError("Mobile number cannot be empty");
-                    binding.mobileEd.requestFocus();
-                    return;
-                }
-
-                if (mobile.length() != 10) {
-                    binding.mobileEd.setError("Mobile number should be 10 digits");
-                    binding.mobileEd.requestFocus();
-                    return;
-                }
-
-                if (!email.endsWith("@gmail.com") && !email.endsWith("@yahoo.com") && !email.endsWith("@outlook.com") && !email.endsWith("@hotmail.com")) {
-                    binding.emailEd.setError("Invalid email domain");
-                    binding.emailEd.requestFocus();
-                    return;
-                }
-
-                if (email.isEmpty()) {
-                    binding.emailEd.setError("Email address cannot be empty");
-                    binding.emailEd.requestFocus();
-                    return;
-                }
-
-                if (password.isEmpty()) {
-                    binding.passwordEd.setError("Password cannot be empty");
-                    binding.passwordEd.requestFocus();
-                    return;
-                }
+        bind.submitBtn.setOnClickListener(view -> {
+            CProgressDialog.mShow(RegistrationActivity.this);
+            String firstName = bind.firstNameEd.getText().toString().trim();
+            String lastName = bind.lastNameEd.getText().toString().trim();
+            String dateOfBirth = bind.dobTextView.getText().toString().trim();
+            String gender = bind.genderTextView.getText().toString().trim();
+            String mobile = bind.mobileEd.getText().toString().trim();
+            String stockPlan = bind.stockPlanTextView.getText().toString();
+            String address = bind.postalAddressEd.getText().toString().trim();
+            String email = bind.emailEd.getText().toString().trim();
+            String password = bind.passwordEd.getText().toString();
+            String confirmPassword = bind.confirmPasswordEd.getText().toString();
 
 
-                if (address.isEmpty()) {
-                    binding.postalAddressEd.setError("Address cannot be empty");
-                    binding.postalAddressEd.requestFocus();
-                    return;
-                }
+            if (firstName.isEmpty()) {
+                CProgressDialog.mDismiss();
+                bind.firstNameEd.setError("First name cannot be empty");
+                bind.firstNameEd.requestFocus();
+                return;
+            }
 
-                if (confirmPassword.isEmpty()) {
-                    binding.confirmPasswordEd.setError("Confirm password cannot be empty");
-                    binding.confirmPasswordEd.requestFocus();
-                    return;
-                }
+            if (lastName.isEmpty()) {
+                CProgressDialog.mDismiss();
+                bind.lastNameEd.setError("Last name cannot be empty");
+                bind.lastNameEd.requestFocus();
+                return;
+            }
 
-                if (!password.equals(confirmPassword)) {
-                    binding.confirmPasswordEd.setError("Passwords do not match");
-                    binding.confirmPasswordEd.requestFocus();
-                    return;
-                }
+            if (gender.equals("Select Gender")) {
+                CProgressDialog.mDismiss();
+                VUtil.showWarning(RegistrationActivity.this, "Please select Gender");
+                return;
+            }
+
+            if (dateOfBirth.equals("Date of birth")) {
+                CProgressDialog.mDismiss();
+                bind.dobTextView.setError("Date of birth cannot be empty");
+                bind.dobTextView.requestFocus();
+                return;
+            }
+
+            if (mobile.isEmpty()) {
+                CProgressDialog.mDismiss();
+                bind.mobileEd.setError("Mobile number cannot be empty");
+                bind.mobileEd.requestFocus();
+                return;
+            }
+
+            if (mobile.length() != 10) {
+                CProgressDialog.mDismiss();
+                bind.mobileEd.setError("Mobile number should be 10 digits");
+                bind.mobileEd.requestFocus();
+                return;
+            }
+
+            if (stockPlan.equals("Select your plan")) {
+                CProgressDialog.mDismiss();
+                VUtil.showWarning(RegistrationActivity.this, "Please select any plan");
+                return;
+            }
+
+            if (address.isEmpty()) {
+                CProgressDialog.mDismiss();
+                bind.postalAddressEd.setError("Address cannot be empty");
+                bind.postalAddressEd.requestFocus();
+                return;
+            }
 
 
-                new AuthManager().registerUser(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                            String uid = task.getResult().getUser().getUid();
-                            UserModel model = new UserModel();
-                            model.setFullName(firstName + " " + lastName);
-                            model.setGender(gender);
-                            model.setMobile(mobile);
-                            model.setEmail(email);
-                            model.setDateOfBirth(dateOfBirth);
-                            model.setAddress(address);
-                            model.setUserPlan(stockPlan);
-                            model.setUserType("user");
-                            model.setUserImage("");
-                            model.setUserUid(uid);
-
-                            Constant.userDB.child(uid).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(RegistrationActivity.this, "Registration completed", Toast.LENGTH_SHORT).show();
-                                    CProgressDialog.mDismiss();
-                                    CProgressDialog.mDismiss();
+            if (email.isEmpty()) {
+                CProgressDialog.mDismiss();
+                bind.emailEd.setError("Email address cannot be empty");
+                bind.emailEd.requestFocus();
+                return;
+            }
 
 
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RegistrationActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                                    CProgressDialog.mDismiss();
-                                }
-                            });
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegistrationActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+            if (!email.endsWith("@gmail.com") && !email.endsWith("@yahoo.com") && !email.endsWith("@outlook.com") && !email.endsWith("@hotmail.com")) {
+                CProgressDialog.mDismiss();
+                bind.emailEd.setError("Invalid email domain");
+                bind.emailEd.requestFocus();
+                return;
+            }
+
+
+            if (password.isEmpty()) {
+                CProgressDialog.mDismiss();
+                bind.passwordEd.setError("Password cannot be empty");
+                bind.passwordEd.requestFocus();
+                return;
+            }
+
+
+            if (confirmPassword.isEmpty()) {
+                CProgressDialog.mDismiss();
+                bind.confirmPasswordEd.setError("Confirm password cannot be empty");
+                bind.confirmPasswordEd.requestFocus();
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                CProgressDialog.mDismiss();
+                bind.confirmPasswordEd.setError("Passwords do not match");
+                bind.confirmPasswordEd.requestFocus();
+                return;
+            }
+
+
+            new AuthManager().registerUser(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+
+                    String uid = Objects.requireNonNull(task.getResult().getUser()).getUid();
+                    UserModel model = new UserModel();
+                    model.setFullName(firstName + " " + lastName);
+                    model.setGender(gender);
+                    model.setMobile(mobile);
+                    model.setEmail(email);
+                    model.setDateOfBirth(dateOfBirth);
+                    model.setAddress(address);
+                    model.setUserPlan(stockPlan);
+                    model.setUserType("user");
+                    model.setMemberShip("no");
+                    model.setUserStatus("active");
+                    model.setUserImage(VUtil.getRandomDp());
+                    model.setDeviceName(VUtil.getDeviceName());
+                    model.setUserUid(uid);
+                    model.setDeviceId(VUtil.getDeviceId(RegistrationActivity.this));
+
+                    Constant.userDB.child(uid).setValue(model).addOnCompleteListener(task1 -> {
+                        VUtil.showSuccessToast(RegistrationActivity.this, "Registration done !");
                         CProgressDialog.mDismiss();
 
-                    }
-                });
+
+                    }).addOnFailureListener(e -> {
+                        VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
+                        CProgressDialog.mDismiss();
+                    });
+                }
+            }).addOnFailureListener(e -> {
+                VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
+                CProgressDialog.mDismiss();
+
+            });
 
 
-            }
         });
 
-
-        binding.back.setOnClickListener(new View.OnClickListener() {
+        bind.privacyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                startActivity(new Intent(RegistrationActivity.this, PrivacyPolicyActivity.class));
             }
         });
 
+        bind.back.setOnClickListener(view -> finish());
 
-        binding.genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            selectedGender = getResources().getStringArray(R.array.gender_options)[position];
-        }
+        bind.genderBtn.setOnClickListener(view -> {
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-    });
+            PopupMenuHelper popupMenuHelper = new PopupMenuHelper(RegistrationActivity.this, bind.genderTextView, R.layout.select_gender);
 
-        binding.stockPlanEd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            selectedPlan = getResources().getStringArray(R.array.plan_options)[position];
-        }
+            popupMenuHelper.getView().findViewById(R.id.select_male).setOnClickListener(view12 -> {
+                bind.genderTextView.setText("Male");
+                bind.genderTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
+                popupMenuHelper.dismiss();
+            });
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-    });
+            popupMenuHelper.getView().findViewById(R.id.select_female).setOnClickListener(view1 -> {
+                bind.genderTextView.setText("Female");
+                bind.genderTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
+                popupMenuHelper.dismiss();
 
-        binding.dobEd.setOnClickListener(v -> showDatePickerDialog());
-        binding.dobEd.setOnClickListener(v -> showDatePickerDialog());
+            });
+
+            popupMenuHelper.getView().findViewById(R.id.select_not_to_say).setOnClickListener(view1 -> {
+                bind.genderTextView.setText("Not to say");
+                bind.genderTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
+                popupMenuHelper.dismiss();
+
+            });
+
+            popupMenuHelper.show();
+        });
+
+        bind.dobBtn.setOnClickListener(v -> showDatePickerDialog());
+
+        bind.stockPlanBtn.setOnClickListener(view -> planDialog.show());
+
     }
 
-
-    private void setupViews() {
-        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.gender_options));
-        ArrayAdapter<String> planAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.plan_options));
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        planAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.genderSpinner.setAdapter(genderAdapter);
-        binding.stockPlanEd.setAdapter(planAdapter);
-    }
 
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
@@ -237,14 +292,32 @@ public class RegistrationActivity extends BaseActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    String selectedDate = String.format("%02d-%02d-%04d", selectedDay, selectedMonth + 1, selectedYear);
-                    binding.dobEd.setText(selectedDate);
-                },
-                year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
+            @SuppressLint("DefaultLocale") String selectedDate = String.format("%02d-%02d-%04d", selectedDay, selectedMonth + 1, selectedYear);
+            bind.dobTextView.setText(selectedDate);
+            bind.dobTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
+
+        }, year, month, day);
 
         datePickerDialog.show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (adapter != null) {
+            adapter.startListening();
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+
     }
 
 }

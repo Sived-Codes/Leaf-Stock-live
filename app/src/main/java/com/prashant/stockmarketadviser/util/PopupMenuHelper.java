@@ -9,16 +9,13 @@ import androidx.annotation.LayoutRes;
 
 public class PopupMenuHelper {
 
-    private Context context;
-    private View anchorView;
-    private PopupWindow popupWindow;
-    private View popupView;
+    private final View anchorView;
+    private final PopupWindow popupWindow;
+    private final View popupView;
 
     public PopupMenuHelper(Context context, View anchorView, @LayoutRes int layoutResId) {
-        this.context = context;
         this.anchorView = anchorView;
         popupView = LayoutInflater.from(context).inflate(layoutResId, null);
-
         popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);

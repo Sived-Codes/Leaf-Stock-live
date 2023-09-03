@@ -2,11 +2,26 @@ package com.prashant.stockmarketadviser.model;
 
 public class UserModel {
 
-    String fullName, mobile, email, gender, dateOfBirth, address, password, userImage, userType, userPlan, userUid, userStatus, firebaseToken, registrationDate, deviceName, deviceId;
+    String fullName, mobile, email, gender, dateOfBirth, address, password, userImage, userType,isAdmin, userPlan,memberShip, userUid, userStatus, firebaseToken, registrationDate, deviceName, deviceId;
 
     public UserModel() {
     }
 
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    public String getMemberShip() {
+        return memberShip;
+    }
+
+    public void setMemberShip(String memberShip) {
+        this.memberShip = memberShip;
+    }
 
     public String getUserStatus() {
         return userStatus;

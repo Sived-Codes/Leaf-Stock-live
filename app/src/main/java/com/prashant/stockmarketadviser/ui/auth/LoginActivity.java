@@ -1,29 +1,32 @@
 package com.prashant.stockmarketadviser.ui.auth;
 
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.databinding.ActivityLoginBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.ui.BaseActivity;
-import com.prashant.stockmarketadviser.ui.admin.AddFeedActivity;
+import com.prashant.stockmarketadviser.ui.admin.PrivacyPolicyActivity;
 import com.prashant.stockmarketadviser.ui.dashboard.DashboardActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.LocalPreference;
+import com.prashant.stockmarketadviser.util.VUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,99 +35,131 @@ public class LoginActivity extends BaseActivity {
 
     ActivityLoginBinding binding;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        boolean isLoggedIn = new AuthManager().isUserLoggedIn();
+        boolean isLoggedIn = AuthManager.isUserLoggedIn();
         if (isLoggedIn) {
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
+        binding.forgotBtn.setOnClickListener(view -> {
+            throw new RuntimeException("Test Crash"); // Force a crash
 
-        binding.createAccountBtn.setOnClickListener(new View.OnClickListener() {
+        });
+
+        binding.privacyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
+                startActivity(new Intent(LoginActivity.this, PrivacyPolicyActivity.class));
+            }
+        });
+
+        binding.loginPasswordEd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_red_eye_24, 0);
+
+        binding.loginPasswordEd.setOnTouchListener(new View.OnTouchListener() {
+            boolean isPasswordVisible = false;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    Drawable drawableEnd = binding.loginPasswordEd.getCompoundDrawables()[2];
+                    if (motionEvent.getRawX() >= (binding.loginPasswordEd.getRight() - drawableEnd.getBounds().width())) {
+                        // Drawable end has been clicked
+                        isPasswordVisible = !isPasswordVisible;
+
+                        if (isPasswordVisible) {
+                            // Show password
+                            binding.loginPasswordEd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                            drawableEnd = ContextCompat.getDrawable(view.getContext(), R.drawable.baseline_visibility_off_24);
+                        } else {
+                            // Hide password
+                            binding.loginPasswordEd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                            drawableEnd = ContextCompat.getDrawable(view.getContext(), R.drawable.baseline_remove_red_eye_24);
+                        }
+
+                        binding.loginPasswordEd.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableEnd, null);
+                        binding.loginEmailEd.clearFocus(); // Remove focus from email EditText
+
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 
 
-        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = binding.loginEmailEd.getText().toString().trim();
-                String password = binding.loginPasswordEd.getText().toString();
+        binding.createAccountBtn.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegistrationActivity.class)));
 
-                if (!email.endsWith("@gmail.com") && !email.endsWith("@yahoo.com") && !email.endsWith("@outlook.com") && !email.endsWith("@hotmail.com")) {
-                    binding.loginEmailEd.setError("Invalid email domain");
-                    binding.loginEmailEd.requestFocus();
-                    return;
-                }
+        binding.loginBtn.setOnClickListener(view -> {
+            String email = binding.loginEmailEd.getText().toString().trim();
+            String password = binding.loginPasswordEd.getText().toString();
 
-                if (email.isEmpty()) {
-                    binding.loginEmailEd.setError("Email address cannot be empty");
-                    binding.loginEmailEd.requestFocus();
-                    return;
-                }
+            if (email.isEmpty()) {
+                binding.loginEmailEd.setError("Please enter email !");
+                binding.loginEmailEd.requestFocus();
+                return;
+            }
 
-                if (password.isEmpty()) {
-                    binding.loginPasswordEd.setError("Password cannot be empty");
-                    binding.loginPasswordEd.requestFocus();
-                    return;
-                }
 
-                CProgressDialog.mShow(LoginActivity.this);
-                new AuthManager().signInUser(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+            if (!email.endsWith("@gmail.com") && !email.endsWith("@yahoo.com") && !email.endsWith("@outlook.com") && !email.endsWith("@hotmail.com")) {
+                binding.loginEmailEd.setError("Invalid email");
+                binding.loginEmailEd.requestFocus();
+                return;
+            }
 
-                            Constant.userDB.child(AuthManager.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            if (password.isEmpty()) {
+                binding.loginPasswordEd.setError("Password cannot be empty");
+                binding.loginPasswordEd.requestFocus();
+                return;
+            }
+
+            CProgressDialog.mShow(LoginActivity.this);
+            try {
+                new AuthManager().signInUser(email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        String uid = AuthManager.getUid();
+                        if (uid != null) {
+                            Constant.userDB.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
-
-                                        FirebaseMessaging.getInstance().subscribeToTopic("allUsers")
-                                                .addOnSuccessListener(aVoid -> {
-                                                    Toast.makeText(LoginActivity.this, "Topic Subscribed", Toast.LENGTH_SHORT).show();
-                                                })
-                                                .addOnFailureListener(e -> {
-                                                    Toast.makeText(LoginActivity.this, "Subscription failed", Toast.LENGTH_SHORT).show();
-
-                                                });
-
 
                                         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
                                             if (task.isSuccessful()) {
 
                                                 Map<String, Object> token = new HashMap<>();
-                                                token.put("firebaseToken",  task.getResult().toString());
+                                                token.put("firebaseToken", task.getResult());
 
-                                                Constant.userDB.child( AuthManager.getUid()).updateChildren(token).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                Constant.userDB.child(uid).updateChildren(token).addOnCompleteListener(task1 -> {
 
-                                                        if (task.isSuccessful()){
+                                                    if (task1.isSuccessful()) {
+
+                                                        Map<String, Object> map = new HashMap<>();
+
+                                                        map.put("deviceId", VUtil.getDeviceId(LoginActivity.this));
+                                                        map.put("deviceName", VUtil.getDeviceName());
+
+                                                        Constant.userDB.child(uid).updateChildren(map).addOnCompleteListener(task11 -> {
+                                                            CProgressDialog.mDismiss();
                                                             String userType = snapshot.child("userType").getValue(String.class);
                                                             LocalPreference.storeUserType(LoginActivity.this, userType);
-
-                                                            CProgressDialog.mDismiss();
                                                             Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                                                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                             startActivity(intent);
-                                                        }else{
-                                                            CProgressDialog.mDismiss();
-                                                            Toast.makeText(LoginActivity.this, "Please try again ! ", Toast.LENGTH_SHORT).show();
-                                                        }
+                                                        }).addOnFailureListener(e -> VUtil.showWarning(LoginActivity.this, e.getMessage()));
+
+
                                                     }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                                                    }
+                                                }).addOnFailureListener(e -> {
+                                                    CProgressDialog.mDismiss();
+                                                    VUtil.showErrorToast(LoginActivity.this, e.getMessage());
                                                 });
 
                                             } else {
@@ -139,28 +174,30 @@ public class LoginActivity extends BaseActivity {
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(LoginActivity.this, error + "", Toast.LENGTH_SHORT).show();
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showErrorToast(LoginActivity.this, error.getMessage());
                                 }
                             });
 
-
-                        } else {
-                            CProgressDialog.mDismiss();
-                            Toast.makeText(LoginActivity.this, "Failed to login please try again !", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+
+                    } else {
                         CProgressDialog.mDismiss();
-                        Toast.makeText(LoginActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
+                }).addOnFailureListener(e -> {
+                    CProgressDialog.mDismiss();
+                    VUtil.showErrorToast(LoginActivity.this, e.getMessage());
                 });
+            } catch (Exception e) {
+                Log.d("TAG", "onClick: ");
             }
+
         });
     }
 
-    private void addFirebaseToken(String uid) {
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CProgressDialog.mDismiss();
     }
 }

@@ -1,14 +1,14 @@
 package com.prashant.stockmarketadviser.firebase;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,18 +33,8 @@ public class NotificationSender {
             notificationData.put("to", "/topics/" + topic);
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, FCM_API_URL, notificationData,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Toast.makeText(context, "Notification sent successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(context, "Failed to send notification", Toast.LENGTH_SHORT).show();
-                        }
-                    }) {
+                    response -> Toast.makeText(context, "Notification sent successfully", Toast.LENGTH_SHORT).show(),
+                    error -> Toast.makeText(context, "Failed to send notification", Toast.LENGTH_SHORT).show()) {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> headers = new HashMap<>();
@@ -57,7 +47,7 @@ public class NotificationSender {
             requestQueue.add(request);
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d("TAG", "exception_leaf_Stock: " +e);
         }
     }
 }

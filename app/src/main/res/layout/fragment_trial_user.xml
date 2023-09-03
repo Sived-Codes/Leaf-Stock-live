@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.admin.fragment.TrialUserFragment">
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        layout="@layout/custom_progress_bar" />
+
+    <include
+        android:visibility="gone"
+        android:id="@+id/view"
+        layout="@layout/cl_empty_view" />
+
+    <RelativeLayout
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        android:id="@+id/searchBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/_10sdp"
+            android:fontFamily="@font/semibold_font"
+            android:id="@+id/searchBar"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:paddingStart="@dimen/_10sdp"
+            android:layout_toStartOf="@id/filterBtn"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:background="@drawable/edit_text_bg_white"
+            android:layout_width="match_parent"
+            android:textColorHint="@color/greyFont"
+            android:drawablePadding="@dimen/_10sdp"
+            android:layout_height="wrap_content"
+            android:hint="Search by name, mobile, email"/>
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/filterBtn"
+            android:background="@drawable/mid_round_white_bg"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/_4sdp"
+            android:layout_width="@dimen/_38sdp"
+            android:layout_height="@dimen/_38sdp"
+            android:src="@drawable/baseline_filter_list_24"/>
+    </RelativeLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_below="@id/searchBarLayout"
+        android:id="@+id/trialUserRecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+
+</RelativeLayout>

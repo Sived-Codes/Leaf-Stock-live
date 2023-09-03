@@ -9,10 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_11sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:src="@drawable/logo2"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Stock Market Advisor"
+            android:text="Leaf Stock Advisor"
             android:textColor="@color/black"
             android:fontFamily="@font/semibold_font"
             android:textSize="@dimen/_22sdp"/>
@@ -45,6 +50,7 @@
         <EditText
             android:id="@+id/loginEmailEd"
             style="@style/EditTextStyle"
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
@@ -64,7 +70,8 @@
         <EditText
             android:id="@+id/loginPasswordEd"
             style="@style/EditTextStyle"
-
+            android:singleLine="true"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
@@ -74,6 +81,7 @@
 
 
         <TextView
+            android:id="@+id/forgotBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_4sdp"
@@ -105,13 +113,14 @@
 
 
         <TextView
+            android:id="@+id/privacyBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginVertical="@dimen/_20sdp"
             android:fontFamily="@font/light_font"
             android:gravity="center"
-            android:text="Creating an account implies your acceptance of our Terms &amp; Conditions and Privacy Policy, outlining the rules and how we handle your data."
+            android:text="Creating an account implies your acceptance of our Terms &amp; Conditions and Privacy Policy, outlining the rules and how we handle your data. tap to see privacy &amp; policy."
             android:textColor="@color/black"
             android:textSize="@dimen/_9sdp" />
 

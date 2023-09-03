@@ -13,6 +13,6 @@
         />
     <size
         android:width="0dp"
-        android:height="@dimen/_40sdp"
+        android:height="@dimen/_38sdp"
         />
 </shape>

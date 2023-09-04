@@ -50,8 +50,7 @@ public class LoginActivity extends BaseActivity {
         }
 
         binding.forgotBtn.setOnClickListener(view -> {
-            throw new RuntimeException("Test Crash"); // Force a crash
-
+            VUtil.showWarning(LoginActivity.this, "Coming soon !");
         });
 
         binding.privacyBtn.setOnClickListener(new View.OnClickListener() {

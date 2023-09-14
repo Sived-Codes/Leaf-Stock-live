@@ -101,6 +101,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
             app:cardElevation="0dp"
+            android:id="@+id/appCrashBtn"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/_5sdp"
             android:layout_marginStart="@dimen/_10sdp"

@@ -30,6 +30,7 @@ import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.PlanModel;
 import com.prashant.stockmarketadviser.model.UserModel;
+import com.prashant.stockmarketadviser.ui.admin.AppCrashActivity;
 import com.prashant.stockmarketadviser.ui.admin.ManageUserActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.LocalPreference;
@@ -154,6 +155,7 @@ public class AccountFragment extends Fragment {
                         Constant.userDB.child(userModel.getUserUid()).updateChildren(updates);
                     });
 
+                    binding.mainAccountLayout.setVisibility(View.VISIBLE);
 
                 } else {
                     VUtil.showWarning(mContext, "Model is null");
@@ -188,13 +190,20 @@ public class AccountFragment extends Fragment {
 
                 MaterialCardView updatePlanBtn = moreDialog.getView().findViewById(R.id.updatePlanBtn);
                 MaterialCardView manageUserBtn = moreDialog.getView().findViewById(R.id.manageUserBtn);
+                MaterialCardView appCrashBtn = moreDialog.getView().findViewById(R.id.appCrashBtn);
 
                 updatePlanBtn.setOnClickListener(view1 -> updatePlanDialog());
                 manageUserBtn.setOnClickListener(view12 -> {
                     moreDialog.dismiss();
                     startActivity(new Intent(mContext, ManageUserActivity.class));
                 });
+
+                appCrashBtn.setOnClickListener(view12 -> {
+                    moreDialog.dismiss();
+                    startActivity(new Intent(mContext, AppCrashActivity.class));
+                });
                 moreDialog.show();
+
             }
 
             private void updatePlanDialog() {

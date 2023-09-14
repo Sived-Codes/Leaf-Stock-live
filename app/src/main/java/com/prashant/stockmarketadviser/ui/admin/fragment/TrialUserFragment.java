@@ -3,6 +3,8 @@ package com.prashant.stockmarketadviser.ui.admin.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
 import com.prashant.stockmarketadviser.databinding.FragmentTrialUserBinding;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.UserModel;
+import com.prashant.stockmarketadviser.ui.admin.ProfileViewActivity;
 import com.prashant.stockmarketadviser.ui.chat.SpecificChatActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
@@ -52,8 +55,28 @@ public class TrialUserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         bind = FragmentTrialUserBinding.inflate(inflater, container, false);
         getTrialUser();
+        onSearch();
+
         return bind.getRoot();
     }
+
+    private void onSearch() {
+        bind.searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Not used in this example
+            }
+        });
+    }
+
 
     private void getTrialUser() {
         bind.trialUserRecyclerview.setLayoutManager(new ReverseLinearLayoutManager(mContext));
@@ -95,8 +118,6 @@ public class TrialUserFragment extends Fragment {
 
                         private void handleUserStatusChange(boolean isChecked) {
                             CProgressDialog.mShow(mContext);
-
-                            // Create a map to update user status
                             Map<String, Object> updates = new HashMap<>();
                             String newStatus = isChecked ? "active" : "inactive";
                             updates.put("userStatus", newStatus);
@@ -110,6 +131,12 @@ public class TrialUserFragment extends Fragment {
                             });
 
                         }
+                    });
+
+                    holder.itemView.setOnClickListener(view -> {
+                        Intent intent = new Intent(mContext, ProfileViewActivity.class);
+                        intent.putExtra("uid", model.getUserUid());
+                        startActivity(intent);
                     });
 
 

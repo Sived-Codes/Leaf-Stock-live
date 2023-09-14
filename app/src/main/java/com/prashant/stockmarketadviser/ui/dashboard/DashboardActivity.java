@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.databinding.ActivityDashboardBinding;
-import com.prashant.stockmarketadviser.ui.BaseActivity;
+import com.prashant.stockmarketadviser.ui.admin.BaseActivity;
 import com.prashant.stockmarketadviser.ui.fragment.AccountFragment;
 import com.prashant.stockmarketadviser.ui.fragment.FeedFragment;
 import com.prashant.stockmarketadviser.ui.fragment.HomeFragment;

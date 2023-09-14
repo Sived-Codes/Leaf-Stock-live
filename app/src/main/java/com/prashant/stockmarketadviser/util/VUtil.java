@@ -161,7 +161,6 @@ public class VUtil {
         }
     }
 
-    // Get the app name from the PackageManager
     public static String getAppName(Context context) {
         PackageManager packageManager = context.getPackageManager();
         ApplicationInfo applicationInfo = context.getApplicationInfo();

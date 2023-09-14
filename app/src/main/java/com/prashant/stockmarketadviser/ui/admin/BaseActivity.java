@@ -1,4 +1,4 @@
-package com.prashant.stockmarketadviser.ui;
+package com.prashant.stockmarketadviser.ui.admin;
 
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -8,7 +8,6 @@ import android.os.PersistableBundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.prashant.stockmarketadviser.firebase.StockDatabase;
 import com.prashant.stockmarketadviser.util.NetworkReceiver;
 
 public class BaseActivity extends AppCompatActivity {
@@ -21,6 +20,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+
 
     @Override
     protected void onResume() {

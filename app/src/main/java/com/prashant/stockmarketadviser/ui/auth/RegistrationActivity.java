@@ -23,7 +23,7 @@ import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.PlanModel;
 import com.prashant.stockmarketadviser.model.UserModel;
-import com.prashant.stockmarketadviser.ui.BaseActivity;
+import com.prashant.stockmarketadviser.ui.admin.BaseActivity;
 import com.prashant.stockmarketadviser.ui.admin.PrivacyPolicyActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.MyDialog;

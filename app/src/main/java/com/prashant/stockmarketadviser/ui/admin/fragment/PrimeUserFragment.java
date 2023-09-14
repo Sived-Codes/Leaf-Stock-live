@@ -21,11 +21,9 @@ import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
 import com.prashant.stockmarketadviser.databinding.FragmentPrimeUserBinding;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.UserModel;
+import com.prashant.stockmarketadviser.ui.admin.ProfileViewActivity;
 import com.prashant.stockmarketadviser.ui.chat.SpecificChatActivity;
 import com.prashant.stockmarketadviser.util.VUtil;
-import com.squareup.picasso.Picasso;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class PrimeUserFragment extends Fragment {
@@ -69,8 +67,6 @@ public class PrimeUserFragment extends Fragment {
                     TextView mobile = holder.itemView.findViewById(R.id.userMobile);
                     TextView email = holder.itemView.findViewById(R.id.userEmail);
                     SwitchCompat userStatusChanger = holder.itemView.findViewById(R.id.block_user_btn);
-                    CircleImageView imageView = holder.itemView.findViewById(R.id.userImg);
-                    Picasso.get().load(model.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(imageView);
 
                     name.setText(model.getFullName());
                     mobile.setText(model.getMobile());
@@ -81,7 +77,14 @@ public class PrimeUserFragment extends Fragment {
                         userStatusChanger.setChecked(true);
                     }
 
-
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, ProfileViewActivity.class);
+                            intent.putExtra("uid", model.getUserUid());
+                            startActivity(intent);
+                        }
+                    });
                     chatBtn.setOnClickListener(view -> startActivity(new Intent(mContext, SpecificChatActivity.class)));
                 }
             }

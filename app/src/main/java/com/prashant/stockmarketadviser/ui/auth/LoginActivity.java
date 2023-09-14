@@ -21,7 +21,7 @@ import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.databinding.ActivityLoginBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
-import com.prashant.stockmarketadviser.ui.BaseActivity;
+import com.prashant.stockmarketadviser.ui.admin.BaseActivity;
 import com.prashant.stockmarketadviser.ui.admin.PrivacyPolicyActivity;
 import com.prashant.stockmarketadviser.ui.dashboard.DashboardActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;

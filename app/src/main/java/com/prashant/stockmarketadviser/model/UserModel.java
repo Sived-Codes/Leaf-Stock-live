@@ -2,33 +2,25 @@ package com.prashant.stockmarketadviser.model;
 
 public class UserModel {
 
-    String fullName, mobile, email, gender, dateOfBirth, address, password, userImage, userType,isAdmin, userPlan,memberShip, userUid, userStatus, firebaseToken, registrationDate, deviceName, deviceId;
+    String fullName, mobile, email, gender, dateOfBirth, password, userImage, userType, userPlan, userPlanType, memberShip, userUid, userStatus, firebaseToken, registrationDate,paymentStatus, deviceName, deviceId;
 
     public UserModel() {
     }
 
-    public String getIsAdmin() {
-        return isAdmin;
+    public String getUserPlanType() {
+        return userPlanType;
     }
 
-    public void setIsAdmin(String isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setUserPlanType(String userPlanType) {
+        this.userPlanType = userPlanType;
     }
 
-    public String getMemberShip() {
-        return memberShip;
+    public String getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setMemberShip(String memberShip) {
-        this.memberShip = memberShip;
-    }
-
-    public String getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(String userStatus) {
-        this.userStatus = userStatus;
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public String getFullName() {
@@ -71,14 +63,6 @@ public class UserModel {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -111,12 +95,28 @@ public class UserModel {
         this.userPlan = userPlan;
     }
 
+    public String getMemberShip() {
+        return memberShip;
+    }
+
+    public void setMemberShip(String memberShip) {
+        this.memberShip = memberShip;
+    }
+
     public String getUserUid() {
         return userUid;
     }
 
     public void setUserUid(String userUid) {
         this.userUid = userUid;
+    }
+
+    public String getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
     }
 
     public String getFirebaseToken() {

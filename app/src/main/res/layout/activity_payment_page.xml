@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/background_page"
+    android:layout_height="match_parent"
+    tools:context=".ui.admin.PaymentPageActivity">
+
+    <RelativeLayout
+        android:id="@+id/actionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/_10sdp">
+
+        <TextView
+            android:id="@+id/actionBarTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/_220sdp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:gravity="center"
+            android:fontFamily="@font/semibold_font"
+            android:text="Subscription"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp" />
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_below="@id/actionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/paymentLayout"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:visibility="visible"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/semibold_font"
+                android:textColor="@color/black"
+                android:text="To complete your purchase, kindly scan the QR code provided below for payment."
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/dummy_qr"/>
+
+
+            <TextView
+                android:id="@+id/selected_plan_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:fontFamily="@font/semibold_font"
+                android:text="Your selected plan "
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_10sdp" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:id="@+id/change_subscription_plan_btn"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:cardCornerRadius="@dimen/_14sdp">
+
+                <TextView
+                    style="@style/TextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:id="@+id/changePlanTxt"
+                    android:text="Want to change your plan"
+                    android:textColor="@color/greyFont"
+                    android:textSize="@dimen/_10sdp" />
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/_10sdp"
+                android:fontFamily="@font/regular_font"
+                android:textColor="@color/blue"
+                android:text="After payment confirmation, your account will be activated. This process may take 2 to 3 hours or even less."
+                android:layout_height="wrap_content"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/paymentDone"
+                style="@style/ButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_20sdp"
+                android:text="Submit" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/light_font"
+                android:layout_marginBottom="@dimen/_25sdp"
+                android:gravity="center"
+                android:text="After clicking the 'SUBMIT' button, we will verify your payment. Only once your payment is confirmed, you will gain access to the next dashboard."
+                android:textColor="@color/greyFont"
+                android:textSize="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

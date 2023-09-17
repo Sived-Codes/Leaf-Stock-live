@@ -296,25 +296,6 @@
             </LinearLayout>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_4sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:fontFamily="@font/regular_font"
-                android:text="Postal Address"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp" />
-
-            <EditText
-                android:id="@+id/postalAddressEd"
-                style="@style/EditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:hint="Village, City , Zip Code"
-                android:inputType="textEmailAddress"
-                android:singleLine="true" />
 
 
             <TextView

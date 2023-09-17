@@ -32,6 +32,7 @@ import com.prashant.stockmarketadviser.model.PlanModel;
 import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.ui.admin.AppCrashActivity;
 import com.prashant.stockmarketadviser.ui.admin.ManageUserActivity;
+import com.prashant.stockmarketadviser.ui.admin.PaymentPageActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.LocalPreference;
 import com.prashant.stockmarketadviser.util.MyDialog;
@@ -173,7 +174,10 @@ public class AccountFragment extends Fragment {
 
     private void setupListener() {
 
-        binding.subscriptionBtn.setOnClickListener(view -> planDialog.show());
+        binding.subscriptionBtn.setOnClickListener(view -> {
+
+            startActivity(new Intent(mContext, PaymentPageActivity.class));
+        });
 
         binding.logoutBtn.setOnClickListener(view -> VUtil.showConfirmationDialog(mContext, "Are you sure you want to logout ?", yes -> {
             CProgressDialog.mShow(mContext);

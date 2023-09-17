@@ -24,6 +24,7 @@ import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.PlanModel;
 import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.ui.admin.BaseActivity;
+import com.prashant.stockmarketadviser.ui.admin.PaymentPageActivity;
 import com.prashant.stockmarketadviser.ui.admin.PrivacyPolicyActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.MyDialog;
@@ -95,7 +96,6 @@ public class RegistrationActivity extends BaseActivity {
     private void setupListeners() {
 
 
-
         bind.submitBtn.setOnClickListener(view -> {
             CProgressDialog.mShow(RegistrationActivity.this);
             String firstName = bind.firstNameEd.getText().toString().trim();
@@ -104,7 +104,6 @@ public class RegistrationActivity extends BaseActivity {
             String gender = bind.genderTextView.getText().toString().trim();
             String mobile = bind.mobileEd.getText().toString().trim();
             String stockPlan = bind.stockPlanTextView.getText().toString();
-            String address = bind.postalAddressEd.getText().toString().trim();
             String email = bind.emailEd.getText().toString().trim();
             String password = bind.passwordEd.getText().toString();
             String confirmPassword = bind.confirmPasswordEd.getText().toString();
@@ -154,13 +153,6 @@ public class RegistrationActivity extends BaseActivity {
             if (stockPlan.equals("Select your plan")) {
                 CProgressDialog.mDismiss();
                 VUtil.showWarning(RegistrationActivity.this, "Please select any plan");
-                return;
-            }
-
-            if (address.isEmpty()) {
-                CProgressDialog.mDismiss();
-                bind.postalAddressEd.setError("Address cannot be empty");
-                bind.postalAddressEd.requestFocus();
                 return;
             }
 
@@ -214,19 +206,30 @@ public class RegistrationActivity extends BaseActivity {
                     model.setMobile(mobile);
                     model.setEmail(email);
                     model.setDateOfBirth(dateOfBirth);
-                    model.setAddress(address);
                     model.setUserPlan(stockPlan);
                     model.setUserType("user");
+
                     model.setMemberShip("no");
                     model.setUserStatus("active");
+
+                    if (stockPlan.startsWith("0")){
+                        model.setUserPlanType("free");
+                    }else{
+                        model.setUserPlanType("paid");
+                        model.setPaymentStatus("pending");
+                    }
+
                     model.setUserImage(VUtil.getRandomDp());
                     model.setDeviceName(VUtil.getDeviceName());
                     model.setUserUid(uid);
                     model.setDeviceId(VUtil.getDeviceId(RegistrationActivity.this));
 
                     Constant.userDB.child(uid).setValue(model).addOnCompleteListener(task1 -> {
-                        VUtil.showSuccessToast(RegistrationActivity.this, "Registration done !");
-                        CProgressDialog.mDismiss();
+
+                        if (task1.isSuccessful()){
+                            signInUserAuto(email, password);
+                        }
+
 
 
                     }).addOnFailureListener(e -> {
@@ -243,12 +246,7 @@ public class RegistrationActivity extends BaseActivity {
 
         });
 
-        bind.privacyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegistrationActivity.this, PrivacyPolicyActivity.class));
-            }
-        });
+        bind.privacyBtn.setOnClickListener(view -> startActivity(new Intent(RegistrationActivity.this, PrivacyPolicyActivity.class)));
 
         bind.back.setOnClickListener(view -> finish());
 
@@ -282,6 +280,14 @@ public class RegistrationActivity extends BaseActivity {
         bind.dobBtn.setOnClickListener(v -> showDatePickerDialog());
 
         bind.stockPlanBtn.setOnClickListener(view -> planDialog.show());
+
+    }
+
+    private void signInUserAuto(String email, String password) {
+
+
+        AuthManager.userLogin(email, password , RegistrationActivity.this);
+
 
     }
 

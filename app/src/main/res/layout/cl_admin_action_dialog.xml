@@ -89,7 +89,7 @@
                 android:fontFamily="@font/semibold_font"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="Previous Tips"
+                android:text="Payment QR"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/_10sdp" />
         </com.google.android.material.card.MaterialCardView>

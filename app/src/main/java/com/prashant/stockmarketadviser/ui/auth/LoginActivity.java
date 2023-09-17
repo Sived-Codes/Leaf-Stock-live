@@ -21,7 +21,9 @@ import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.databinding.ActivityLoginBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
+import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.ui.admin.BaseActivity;
+import com.prashant.stockmarketadviser.ui.admin.PaymentPageActivity;
 import com.prashant.stockmarketadviser.ui.admin.PrivacyPolicyActivity;
 import com.prashant.stockmarketadviser.ui.dashboard.DashboardActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
@@ -30,6 +32,7 @@ import com.prashant.stockmarketadviser.util.VUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class LoginActivity extends BaseActivity {
 
@@ -42,11 +45,12 @@ public class LoginActivity extends BaseActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        boolean isLoggedIn = AuthManager.isUserLoggedIn();
-        if (isLoggedIn) {
-            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+        if (AuthManager.isUserLoggedIn()) {
+
+            AuthManager.handleUserLogin(this);
+        }else{
+            CProgressDialog.mDismiss();
+            binding.loginLayout.setVisibility(View.VISIBLE);
         }
 
         binding.forgotBtn.setOnClickListener(view -> {
@@ -119,76 +123,11 @@ public class LoginActivity extends BaseActivity {
                 return;
             }
 
-            CProgressDialog.mShow(LoginActivity.this);
             try {
-                new AuthManager().signInUser(email, password).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String uid = AuthManager.getUid();
-                        if (uid != null) {
-                            Constant.userDB.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()) {
+                AuthManager.userLogin(email, password , LoginActivity.this);
 
-                                        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
-                                            if (task.isSuccessful()) {
-
-                                                Map<String, Object> token = new HashMap<>();
-                                                token.put("firebaseToken", task.getResult());
-
-                                                Constant.userDB.child(uid).updateChildren(token).addOnCompleteListener(task1 -> {
-
-                                                    if (task1.isSuccessful()) {
-
-                                                        Map<String, Object> map = new HashMap<>();
-
-                                                        map.put("deviceId", VUtil.getDeviceId(LoginActivity.this));
-                                                        map.put("deviceName", VUtil.getDeviceName());
-
-                                                        Constant.userDB.child(uid).updateChildren(map).addOnCompleteListener(task11 -> {
-                                                            CProgressDialog.mDismiss();
-                                                            String userType = snapshot.child("userType").getValue(String.class);
-                                                            LocalPreference.storeUserType(LoginActivity.this, userType);
-                                                            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                            startActivity(intent);
-                                                        }).addOnFailureListener(e -> VUtil.showWarning(LoginActivity.this, e.getMessage()));
-
-
-                                                    }
-                                                }).addOnFailureListener(e -> {
-                                                    CProgressDialog.mDismiss();
-                                                    VUtil.showErrorToast(LoginActivity.this, e.getMessage());
-                                                });
-
-                                            } else {
-                                                CProgressDialog.mDismiss();
-                                                Log.w("FCM TOKEN", "Fetching FCM registration token failed", task.getException());
-                                            }
-                                        });
-
-
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    CProgressDialog.mDismiss();
-                                    VUtil.showErrorToast(LoginActivity.this, error.getMessage());
-                                }
-                            });
-
-                        }
-
-                    } else {
-                        CProgressDialog.mDismiss();
-                    }
-                }).addOnFailureListener(e -> {
-                    CProgressDialog.mDismiss();
-                    VUtil.showErrorToast(LoginActivity.this, e.getMessage());
-                });
-            } catch (Exception e) {
-                Log.d("TAG", "onClick: ");
+            }catch (Exception e){
+                VUtil.showErrorToast(LoginActivity.this, e.getMessage());
             }
 
         });

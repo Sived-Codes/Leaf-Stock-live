@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_page"
     tools:context=".ui.auth.LoginActivity">
 
@@ -69,17 +70,28 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp" />
 
-        <EditText
-            android:id="@+id/loginPasswordEd"
-            style="@style/EditTextStyle"
-            android:singleLine="true"
-            android:inputType="textPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_4sdp"
-            android:drawableEnd="@drawable/baseline_remove_red_eye_24"
-            android:hint="*** *** ***"
-            android:paddingEnd="@dimen/_10sdp" />
+            app:boxBackgroundMode="none"
+            app:hintEnabled="false"
+            app:passwordToggleEnabled="true"
+            app:hintAnimationEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextStyle"
+                android:id="@+id/loginPasswordEd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:hint="* * *   * * * "
+                android:paddingTop="@dimen/_12sdp"
+                android:textColorHint="@color/greyFont" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
 
         <TextView

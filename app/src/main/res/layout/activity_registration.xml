@@ -375,17 +375,28 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/_10sdp" />
 
-                        <EditText
-                            android:id="@+id/confirmPasswordEd"
-                            style="@style/EditTextStyle"
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_4sdp"
-                            android:drawableEnd="@drawable/baseline_remove_red_eye_24"
-                            android:hint="Re-enter Password"
-                            android:inputType="textPassword"
-                            android:paddingEnd="@dimen/_10sdp"
-                            android:singleLine="true" />
+                            app:boxBackgroundMode="none"
+                            app:hintEnabled="false"
+                            app:passwordToggleEnabled="true"
+                            app:hintAnimationEnabled="false">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="top"
+                                android:hint="Re-enter Password"
+                                android:id="@+id/confirmPasswordEd"
+                                android:singleLine="true"
+                                android:inputType="textPassword"
+                                android:paddingTop="@dimen/_12sdp"
+                                android:textColorHint="@color/greyFont" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
 
                     </LinearLayout>
 

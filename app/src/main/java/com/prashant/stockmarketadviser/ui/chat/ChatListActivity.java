@@ -20,6 +20,13 @@ public class ChatListActivity extends AppCompatActivity {
         bind = ActivityChatListBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
 
+
+        bind.back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         bind.addChatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

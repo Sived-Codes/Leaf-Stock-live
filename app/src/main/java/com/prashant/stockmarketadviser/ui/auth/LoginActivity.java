@@ -46,7 +46,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(binding.getRoot());
 
         if (AuthManager.isUserLoggedIn()) {
-
             AuthManager.handleUserLogin(this);
         }else{
             CProgressDialog.mDismiss();
@@ -54,46 +53,15 @@ public class LoginActivity extends BaseActivity {
         }
 
         binding.forgotBtn.setOnClickListener(view -> {
-            VUtil.showWarning(LoginActivity.this, "Coming soon !");
+            Intent intent =new Intent(LoginActivity.this, PasswordManagerActivity.class);
+            intent.putExtra("actionType","forgot");
+            startActivity(intent);
         });
 
         binding.privacyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, PrivacyPolicyActivity.class));
-            }
-        });
-
-        binding.loginPasswordEd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_remove_red_eye_24, 0);
-
-        binding.loginPasswordEd.setOnTouchListener(new View.OnTouchListener() {
-            boolean isPasswordVisible = false;
-
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Drawable drawableEnd = binding.loginPasswordEd.getCompoundDrawables()[2];
-                    if (motionEvent.getRawX() >= (binding.loginPasswordEd.getRight() - drawableEnd.getBounds().width())) {
-                        // Drawable end has been clicked
-                        isPasswordVisible = !isPasswordVisible;
-
-                        if (isPasswordVisible) {
-                            // Show password
-                            binding.loginPasswordEd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                            drawableEnd = ContextCompat.getDrawable(view.getContext(), R.drawable.baseline_visibility_off_24);
-                        } else {
-                            // Hide password
-                            binding.loginPasswordEd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            drawableEnd = ContextCompat.getDrawable(view.getContext(), R.drawable.baseline_remove_red_eye_24);
-                        }
-
-                        binding.loginPasswordEd.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableEnd, null);
-                        binding.loginEmailEd.clearFocus(); // Remove focus from email EditText
-
-                        return true;
-                    }
-                }
-                return false;
             }
         });
 

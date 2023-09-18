@@ -18,6 +18,7 @@ import com.prashant.stockmarketadviser.databinding.FragmentHomeBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.ui.admin.TipGenActivity;
 import com.prashant.stockmarketadviser.ui.chat.ChatListActivity;
+import com.prashant.stockmarketadviser.ui.chat.SpecificChatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,14 @@ public class HomeFragment extends Fragment {
 
         bind.adminGen.setOnClickListener(view -> startActivity(new Intent(mContext, TipGenActivity.class)));
 
-        bind.chatBtn.setOnClickListener(view -> startActivity(new Intent(mContext, ChatListActivity.class)));
+        bind.chatBtn.setOnClickListener(view -> {
+            if (AuthManager.isAdmin()){
+                startActivity(new Intent(mContext, ChatListActivity.class));
+            }else{
+                startActivity(new Intent(mContext, SpecificChatActivity.class));
+
+            }
+        });
 
         ViewPager2 viewPager = bind.viewPager;
         TabLayout tabLayout = bind.tabLayout;

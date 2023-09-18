@@ -33,6 +33,7 @@ import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.ui.admin.AppCrashActivity;
 import com.prashant.stockmarketadviser.ui.admin.ManageUserActivity;
 import com.prashant.stockmarketadviser.ui.admin.PaymentPageActivity;
+import com.prashant.stockmarketadviser.ui.auth.PasswordManagerActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.LocalPreference;
 import com.prashant.stockmarketadviser.util.MyDialog;
@@ -185,6 +186,13 @@ public class AccountFragment extends Fragment {
         }, no -> {
 
         }));
+
+        binding.changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, PasswordManagerActivity.class));
+            }
+        });
 
 
         binding.moreBtn.setOnClickListener(new View.OnClickListener() {

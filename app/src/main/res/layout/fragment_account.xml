@@ -45,10 +45,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/mainAccountLayout"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:orientation="vertical"
+            android:visibility="gone"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -239,7 +240,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginHorizontal="@dimen/_4sdp"
                 app:cardCornerRadius="@dimen/_10sdp"
-
+                android:id="@+id/changePassword"
                 android:layout_height="wrap_content">
                 <RelativeLayout
                     android:padding="@dimen/_10sdp"
@@ -302,73 +303,7 @@
 
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginHorizontal="@dimen/_4sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:padding="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:background="@drawable/mid_round_blue_bg"
-                        android:padding="@dimen/_3sdp"
-                        android:id="@+id/img9"
-                        android:layout_width="@dimen/_22sdp"
-                        android:layout_height="@dimen/_22sdp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentStart="true"
-                        android:src="@drawable/baseline_notes_24"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/img9"
-                        android:layout_centerVertical="true"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:textColor="@color/black"
-                        android:text="Terms &amp; Condition"/>
-
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginHorizontal="@dimen/_4sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:padding="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:background="@drawable/mid_round_blue_bg"
-                        android:padding="@dimen/_3sdp"
-                        android:id="@+id/img7"
-                        android:layout_width="@dimen/_22sdp"
-                        android:layout_height="@dimen/_22sdp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentStart="true"
-                        android:src="@drawable/baseline_help_24"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/img7"
-                        android:layout_centerVertical="true"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:textColor="@color/black"
-                        android:text="Help &amp; Support"/>
-
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

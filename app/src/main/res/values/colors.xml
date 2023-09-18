@@ -21,6 +21,7 @@
 
     <color name="prime_member_color">#8BC34A</color>
     <color name="trial_member_color">#FF9800</color>
+    <color name="transparent">#80FFFFFF</color>
 
 
 </resources>

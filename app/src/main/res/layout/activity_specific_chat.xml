@@ -44,28 +44,42 @@
 
 
     </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/actionBarLayout"
+        android:layout_above="@id/msgBoxLayout"/>
     <RelativeLayout
-        android:layout_marginBottom="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:layout_alignParentBottom="true"
-        android:id="@+id/searchBarLayout"
+        android:id="@+id/msgBoxLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="@dimen/_7sdp">
 
-        <EditText
-            android:id="@+id/searchBar"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/_10sdp"
+            app:boxBackgroundMode="none"
+            app:hintEnabled="false"
             android:layout_toStartOf="@id/addChatBtn"
-            android:background="@drawable/edit_text_bg_blue"
-            android:fontFamily="@font/semibold_font"
-            android:hint="Write message here ..."
-            android:paddingStart="@dimen/_20sdp"
-            android:textColorHint="@color/greyFont"
-            android:textSize="@dimen/_10sdp" />
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:hintAnimationEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/EditTextStyle"
+                android:id="@+id/msgBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/semibold_font"
+                android:textSize="@dimen/_10sdp"
+                android:inputType="text"
+                android:hint="Write message here ..."
+                android:paddingTop="@dimen/_10sdp"
+                android:textColorHint="@color/greyFont" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <ImageView
             android:id="@+id/addChatBtn"

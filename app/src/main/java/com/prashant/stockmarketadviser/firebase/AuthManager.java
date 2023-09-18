@@ -163,7 +163,7 @@ public class AuthManager {
 
     public static void handleUserLogin(Context appContext) {
         if (mAuth.getCurrentUser() != null) {
-            if (CProgressDialog.isDialogShown) CProgressDialog.mDismiss();
+            if (!CProgressDialog.isDialogShown) CProgressDialog.mShow(appContext);
 
             String uid = getUid();
             if (uid != null) {
@@ -171,6 +171,7 @@ public class AuthManager {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         model = snapshot.getValue(UserModel.class);
+                        CProgressDialog.mDismiss();
                         if (model != null) {
                             Intent intent;
                             if (isPaymentPending(model)) {
@@ -182,12 +183,14 @@ public class AuthManager {
                             appContext.startActivity(intent);
 
                         } else {
+                            CProgressDialog.mDismiss();
                             VUtil.showErrorToast(appContext, "Model or Auth Null");
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        CProgressDialog.mDismiss();
                         VUtil.showErrorToast(appContext, error.getMessage());
                     }
                 });

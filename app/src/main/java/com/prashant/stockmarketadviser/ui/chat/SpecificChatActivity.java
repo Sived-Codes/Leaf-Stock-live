@@ -3,6 +3,7 @@ package com.prashant.stockmarketadviser.ui.chat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.databinding.ActivityAddFeedBinding;
@@ -15,5 +16,12 @@ public class SpecificChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bind = ActivitySpecificChatBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
+
+        bind.back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }

@@ -1,6 +1,8 @@
 package com.prashant.stockmarketadviser.model;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
 
     String fullName, mobile, email, gender, dateOfBirth, password, userImage, userType, userPlan, userPlanType, memberShip, userUid, userStatus, firebaseToken, registrationDate,paymentStatus, deviceName, deviceId;
 

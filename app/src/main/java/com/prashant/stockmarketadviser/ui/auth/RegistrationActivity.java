@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.adapter.MyAdapter;
 import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
@@ -24,7 +31,6 @@ import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.PlanModel;
 import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.ui.admin.BaseActivity;
-import com.prashant.stockmarketadviser.ui.admin.PaymentPageActivity;
 import com.prashant.stockmarketadviser.ui.admin.PrivacyPolicyActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.MyDialog;
@@ -33,19 +39,36 @@ import com.prashant.stockmarketadviser.util.VUtil;
 
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class RegistrationActivity extends BaseActivity {
 
     ActivityRegistrationBinding bind;
+
+    private CountDownTimer resendTimer;
+    private long timeLeftInMillis = 60000; // 60 seconds
+    private boolean timerRunning = false;
+
     FirebaseRecyclerAdapter<PlanModel, MyAdapter.MyHolder> adapter;
     MyDialog planDialog;
 
+    private String firstName, lastName, dateOfBirth, gender, mobile, stockPlan, email, password, confirmPassword;
+
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private String verificationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bind = ActivityRegistrationBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
+
+        // Initialize FirebaseAuth
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
 
         planDialog = new MyDialog(RegistrationActivity.this, R.layout.cl_membership_dialog);
 
@@ -96,18 +119,18 @@ public class RegistrationActivity extends BaseActivity {
     private void setupListeners() {
 
 
-        bind.submitBtn.setOnClickListener(view -> {
-            CProgressDialog.mShow(RegistrationActivity.this);
-            String firstName = bind.firstNameEd.getText().toString().trim();
-            String lastName = bind.lastNameEd.getText().toString().trim();
-            String dateOfBirth = bind.dobTextView.getText().toString().trim();
-            String gender = bind.genderTextView.getText().toString().trim();
-            String mobile = bind.mobileEd.getText().toString().trim();
-            String stockPlan = bind.stockPlanTextView.getText().toString();
-            String email = bind.emailEd.getText().toString().trim();
-            String password = bind.passwordEd.getText().toString();
-            String confirmPassword = bind.confirmPasswordEd.getText().toString();
+        bind.continueBtn.setOnClickListener(view -> {
 
+            CProgressDialog.mShow(RegistrationActivity.this);
+            firstName = bind.firstNameEd.getText().toString().trim();
+            lastName = bind.lastNameEd.getText().toString().trim();
+            dateOfBirth = bind.dobTextView.getText().toString().trim();
+            gender = bind.genderTextView.getText().toString().trim();
+            mobile = bind.mobileEd.getText().toString().trim();
+            stockPlan = bind.stockPlanTextView.getText().toString();
+            email = bind.emailEd.getText().toString().trim();
+            password = bind.passwordEd.getText().toString();
+            confirmPassword = bind.confirmPasswordEd.getText().toString();
 
             if (firstName.isEmpty()) {
                 CProgressDialog.mDismiss();
@@ -196,59 +219,43 @@ public class RegistrationActivity extends BaseActivity {
             }
 
 
-            new AuthManager().registerUser(email, password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-
-                    String uid = Objects.requireNonNull(task.getResult().getUser()).getUid();
-                    UserModel model = new UserModel();
-                    model.setFullName(firstName + " " + lastName);
-                    model.setGender(gender);
-                    model.setMobile(mobile);
-                    model.setEmail(email);
-                    model.setDateOfBirth(dateOfBirth);
-                    model.setUserPlan(stockPlan);
-                    model.setUserType("user");
-
-                    model.setMemberShip("no");
-                    model.setUserStatus("active");
-
-                    if (stockPlan.startsWith("0")){
-                        model.setUserPlanType("free");
-                    }else{
-                        model.setUserPlanType("paid");
-                        model.setPaymentStatus("pending");
-                    }
-
-                    model.setUserImage(VUtil.getRandomDp());
-                    model.setDeviceName(VUtil.getDeviceName());
-                    model.setUserUid(uid);
-                    model.setDeviceId(VUtil.getDeviceId(RegistrationActivity.this));
-
-                    Constant.userDB.child(uid).setValue(model).addOnCompleteListener(task1 -> {
-
-                        if (task1.isSuccessful()){
-                            signInUserAuto(email, password);
-                        }
-
-
-
-                    }).addOnFailureListener(e -> {
-                        VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
-                        CProgressDialog.mDismiss();
-                    });
-                }
-            }).addOnFailureListener(e -> {
-                VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
-                CProgressDialog.mDismiss();
-
-            });
+            mobileOtpVerification();
 
 
         });
 
+        bind.verificationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CProgressDialog.mShow(RegistrationActivity.this);
+                String otp = bind.otpEd.getText().toString().trim();
+
+                if (otp.isEmpty()) {
+                    CProgressDialog.mDismiss();
+                    VUtil.showWarning(RegistrationActivity.this, "Please enter OTP!");
+                } else if (otp.length() != 6) {
+                    CProgressDialog.mDismiss();
+                    VUtil.showWarning(RegistrationActivity.this, "OTP should be exactly 6 digits");
+                } else if (verificationId == null) {
+                    CProgressDialog.mDismiss();
+                    VUtil.showWarning(RegistrationActivity.this, "OTP verification failed. Please try again !");
+                } else {
+                    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
+                    signInWithPhoneAuthCredential(credential);
+                }
+            }
+        });
+
         bind.privacyBtn.setOnClickListener(view -> startActivity(new Intent(RegistrationActivity.this, PrivacyPolicyActivity.class)));
 
-        bind.back.setOnClickListener(view -> finish());
+        bind.back.setOnClickListener(view -> {
+            if (bind.verificationLayout.getVisibility() == View.VISIBLE) {
+                bind.verificationLayout.setVisibility(View.GONE);
+                bind.registrationLayout.setVisibility(View.VISIBLE);
+            } else {
+                finish();
+            }
+        });
 
         bind.genderBtn.setOnClickListener(view -> {
 
@@ -281,14 +288,135 @@ public class RegistrationActivity extends BaseActivity {
 
         bind.stockPlanBtn.setOnClickListener(view -> planDialog.show());
 
+        bind.resentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CProgressDialog.mShow(RegistrationActivity.this);
+                mobileOtpVerification();
+            }
+        });
+
     }
 
-    private void signInUserAuto(String email, String password) {
+    private void mobileOtpVerification() {
+        PhoneAuthProvider.getInstance().verifyPhoneNumber("+91" + mobile, 60, TimeUnit.SECONDS, this, new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+            @Override
+            public void onVerificationCompleted(PhoneAuthCredential credential) {
+                CProgressDialog.mDismiss();
+            }
+
+            @Override
+            public void onVerificationFailed(FirebaseException e) {
+
+                if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                    CProgressDialog.mDismiss();
+                    VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
+                }
+            }
+
+            @Override
+            public void onCodeSent(String verification, PhoneAuthProvider.ForceResendingToken token) {
+                startCountdownTimer();
 
 
-        AuthManager.userLogin(email, password , RegistrationActivity.this);
+                bind.registrationLayout.setVisibility(View.GONE);
+                bind.verificationLayout.setVisibility(View.VISIBLE);
+                CProgressDialog.mDismiss();
+                verificationId = verification;
+                VUtil.showSuccessToast(RegistrationActivity.this, "Otp Sent " + mobile);
+
+            }
+        });
+
+    }
+
+    private void startCountdownTimer() {
+        resendTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int seconds = (int) (millisUntilFinished / 1000);
+
+                String message = "We sent your code to " + mobile + ". Resend code in " + seconds + " seconds";
+                bind.codeSentTo.setText(message);
+            }
+
+            @Override
+            public void onFinish() {
+                timerRunning = false;
+                String message = "We sent your code to " + mobile + ". Now you can resend the OTP.";
+                bind.codeSentTo.setText(message);
+                bind.resentBtn.setVisibility(View.VISIBLE);
+            }
+        }.start();
+
+        timerRunning = true;
+        bind.resentBtn.setVisibility(View.GONE);
+
+    }
 
 
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                VUtil.showSuccessToast(RegistrationActivity.this, "Mobile number verified.");
+
+                createUserWithEmail();
+            } else {
+                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                    CProgressDialog.mDismiss();
+                    VUtil.showErrorToast(this, task.getException().getMessage());
+                }
+            }
+        });
+    }
+
+    private void createUserWithEmail() {
+        new AuthManager().registerUser(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                String uid = Objects.requireNonNull(task.getResult().getUser()).getUid();
+
+
+                UserModel model = new UserModel();
+                model.setFullName(firstName + " " + lastName);
+                model.setGender(gender);
+                model.setMobile(mobile);
+                model.setEmail(email);
+                model.setDateOfBirth(dateOfBirth);
+                model.setUserPlan(stockPlan);
+                model.setUserType("user");
+
+                model.setMemberShip("no");
+                model.setUserStatus("active");
+
+                if (stockPlan.startsWith("Free Trial")) {
+                    model.setUserPlanType("free");
+                } else {
+                    model.setUserPlanType("paid");
+                    model.setPaymentStatus("pending");
+                }
+
+                model.setUserImage(VUtil.getRandomDp());
+                model.setDeviceName(VUtil.getDeviceName());
+                model.setUserUid(uid);
+                model.setDeviceId(VUtil.getDeviceId(RegistrationActivity.this));
+
+                Constant.userDB.child(uid).setValue(model).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        AuthManager.userLogin(email, password, RegistrationActivity.this);
+                    }
+
+                }).addOnFailureListener(e -> {
+                    VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
+                    CProgressDialog.mDismiss();
+                });
+            }
+        }).addOnFailureListener(e -> {
+            VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
+            CProgressDialog.mDismiss();
+
+        });
     }
 
 
@@ -324,6 +452,18 @@ public class RegistrationActivity extends BaseActivity {
             adapter.stopListening();
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (bind.verificationLayout.getVisibility() == View.VISIBLE) {
+            bind.verificationLayout.setVisibility(View.GONE);
+            bind.registrationLayout.setVisibility(View.VISIBLE);
+            verificationId = null;
+
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

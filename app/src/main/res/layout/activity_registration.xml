@@ -58,355 +58,454 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/registrationLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_4sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:text="First Name"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
-
-                    <EditText
-                        android:id="@+id/firstNameEd"
-                        style="@style/EditTextStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:autofillHints=""
-                        android:hint="Jhon"
-                        android:inputType="textPersonName"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:text="Last Name"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
-
-                    <EditText
-                        android:id="@+id/lastNameEd"
-                        style="@style/EditTextStyle"
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:hint="Kelvin"
-                        android:inputType="textPersonName"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_4sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:text="Gender"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/genderBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        app:cardCornerRadius="@dimen/_14sdp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/genderTextView"
-                                style="@style/TextViewStyle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:text="Select Gender"
-                                android:textColor="@color/greyFont" />
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:text="Date Of Birth"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/dobBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        app:cardCornerRadius="@dimen/_14sdp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/dobTextView"
-                                style="@style/TextViewStyle"
-                                android:layout_width="match_parent"
-
-                                android:layout_height="wrap_content"
-
-                                android:gravity="center_vertical"
-                                android:text="Date of birth"
-                                android:textColor="@color/greyFont"
-                                android:textSize="@dimen/_10sdp" />
-                        </LinearLayout>
-
-                    </com.google.android.material.card.MaterialCardView>
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_4sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:text="Mobile No."
-
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
-
-                    <EditText
-                        android:id="@+id/mobileEd"
-                        style="@style/EditTextStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:hint="10 Digit Mobile No."
-                        android:inputType="phone"
-                        android:maxLength="10"
-                        android:singleLine="true" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:text="Stock Plan"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/stockPlanBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        app:cardCornerRadius="@dimen/_14sdp">
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/stockPlanTextView"
-                            style="@style/TextViewStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="First Name"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <EditText
+                            android:id="@+id/firstNameEd"
+                            style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="Select your plan"
-                            android:textColor="@color/greyFont"
-                            android:textSize="@dimen/_10sdp" />
-                    </com.google.android.material.card.MaterialCardView>
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:autofillHints=""
+                            android:hint="Jhon"
+                            android:inputType="textPersonName"
+                            android:singleLine="true" />
 
+                    </LinearLayout>
 
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_4sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:fontFamily="@font/regular_font"
-                android:text="Email Address"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_10sdp" />
-
-            <EditText
-                android:id="@+id/emailEd"
-                style="@style/EditTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:hint="Valid Email Address ex. jhonXXXX@mail.com"
-                android:inputType="textEmailAddress"
-                android:singleLine="true" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_4sdp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_4sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:text="New Password"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="Last Name"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
 
-                    <EditText
-                        android:id="@+id/passwordEd"
-                        style="@style/EditTextStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:hint="Six Character Password"
-                        android:inputType="textPassword"
-                        android:singleLine="true" />
+                        <EditText
+                            android:id="@+id/lastNameEd"
+                            style="@style/EditTextStyle"
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:hint="Kelvin"
+                            android:inputType="textPersonName"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="Gender"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/genderBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            app:cardCornerRadius="@dimen/_14sdp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/genderTextView"
+                                    style="@style/TextViewStyle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="Select Gender"
+                                    android:textColor="@color/greyFont" />
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="Date Of Birth"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/dobBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            app:cardCornerRadius="@dimen/_14sdp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/dobTextView"
+                                    style="@style/TextViewStyle"
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="wrap_content"
+
+                                    android:gravity="center_vertical"
+                                    android:text="Date of birth"
+                                    android:textColor="@color/greyFont"
+                                    android:textSize="@dimen/_10sdp" />
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="Mobile No."
+
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <EditText
+                            android:id="@+id/mobileEd"
+                            style="@style/EditTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:hint="10 Digit Mobile No."
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="Stock Plan"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/stockPlanBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            app:cardCornerRadius="@dimen/_14sdp">
+
+                            <TextView
+                                android:id="@+id/stockPlanTextView"
+                                style="@style/TextViewStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="Select your plan"
+                                android:textColor="@color/greyFont"
+                                android:textSize="@dimen/_10sdp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_4sdp"
-                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/regular_font"
+                    android:text="Email Address"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp" />
+
+                <EditText
+                    android:id="@+id/emailEd"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:hint="Valid Email Address ex. jhonXXXX@mail.com"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="New Password"
+
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <EditText
+                            android:id="@+id/passwordEd"
+                            style="@style/EditTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:hint="Six Character Password"
+                            android:inputType="textPassword"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_4sdp"
+                            android:fontFamily="@font/regular_font"
+                            android:text="Confirm Password"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <EditText
+                            android:id="@+id/confirmPasswordEd"
+                            style="@style/EditTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:drawableEnd="@drawable/baseline_remove_red_eye_24"
+                            android:hint="Re-enter Password"
+                            android:inputType="textPassword"
+                            android:paddingEnd="@dimen/_10sdp"
+                            android:singleLine="true" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/continueBtn"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_20sdp"
+                    android:text="Continue" />
+
+                <TextView
+                    android:id="@+id/privacyBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:fontFamily="@font/light_font"
+                    android:gravity="center"
+                    android:text="Creating an account implies your acceptance of our Terms &amp; Conditions and Privacy Policy, outlining the rules and how we handle your data. tap to see privacy &amp; policy."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/verificationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_180sdp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/otp_img" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/semibold_font"
+                    android:gravity="center"
+                    android:text="OTP Mobile Verification: Your Gateway to Secure Registration"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+                <TextView
+                    android:id="@+id/code_sent_to"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/regular_font"
+                    android:gravity="center"
+                    android:textColor="@color/greyFont"
+                    android:textSize="@dimen/_12sdp" />
+
+                <LinearLayout
+                    android:id="@+id/resentBtn"
+                    android:layout_marginVertical="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_4sdp"
                         android:fontFamily="@font/regular_font"
-                        android:text="Confirm Password"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_10sdp" />
+                        android:text="Resend OTP code"
+                        android:textColor="@color/blue"
+                        android:textSize="@dimen/_12sdp" />
 
-                    <EditText
-                        android:id="@+id/confirmPasswordEd"
-                        style="@style/EditTextStyle"
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_4sdp"
-                        android:drawableEnd="@drawable/baseline_remove_red_eye_24"
-                        android:hint="Re-enter Password"
-                        android:inputType="textPassword"
-                        android:paddingEnd="@dimen/_10sdp"
-                        android:singleLine="true" />
-
+                        android:layout_height="1dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@color/blue" />
                 </LinearLayout>
+
+                <com.chaos.view.PinView
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:id="@+id/otp_ed"
+                    style="@style/PinWidget.PinView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:inputType="number"
+                    android:itemBackground="@drawable/mid_round_blue_bg"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold"
+                    app:cursorColor="@color/blue"
+                    app:cursorWidth="@dimen/_1sdp"
+                    app:hideLineWhenFilled="true"
+                    app:itemCount="6"
+                    app:itemHeight="@dimen/_40sdp"
+                    app:itemRadius="@dimen/_10sdp"
+                    app:itemSpacing="@dimen/_5sdp"
+                    app:itemWidth="@dimen/_40sdp"
+                    app:lineColor="@color/fadeBlue"
+                    app:viewType="rectangle" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/verificationBtn"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_20sdp"
+                    android:text="Verified &amp; Register" />
+
+
 
 
             </LinearLayout>
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/submitBtn"
-                style="@style/ButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/_20sdp"
-                android:text="Submit" />
-
-            <TextView
-                android:id="@+id/privacyBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/light_font"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:gravity="center"
-                android:text="Creating an account implies your acceptance of our Terms &amp; Conditions and Privacy Policy, outlining the rules and how we handle your data. tap to see privacy &amp; policy."
-                android:textColor="@color/black"
-                android:textSize="@dimen/_9sdp" />
 
 
         </LinearLayout>

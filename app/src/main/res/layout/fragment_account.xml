@@ -187,7 +187,7 @@
                         android:layout_alignParentStart="true"
                         android:src="@drawable/baseline_calendar_month_24"/>
                     <TextView
-                        android:id="@+id/userDob"
+                        android:id="@+id/userRegDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/img3"
@@ -197,40 +197,6 @@
                         android:fontFamily="@font/regular_font"
                         android:textColor="@color/black"
                         android:text="27-o8-2023"/>
-
-                </RelativeLayout>
-            </com.google.android.material.card.MaterialCardView>
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginHorizontal="@dimen/_4sdp"
-                app:cardCornerRadius="@dimen/_10sdp"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:padding="@dimen/_10sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:background="@drawable/mid_round_blue_bg"
-                        android:padding="@dimen/_3sdp"
-                        android:id="@+id/img4"
-                        android:layout_width="@dimen/_22sdp"
-                        android:layout_height="@dimen/_22sdp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentStart="true"
-                        android:src="@drawable/gender"/>
-                    <TextView
-                        android:id="@+id/userGender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/img4"
-                        android:layout_centerVertical="true"
-                        android:textSize="@dimen/_10sdp"
-                        android:layout_marginStart="@dimen/_20sdp"
-                        android:fontFamily="@font/regular_font"
-                        android:textColor="@color/black"
-                        android:text="Male"/>
 
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>

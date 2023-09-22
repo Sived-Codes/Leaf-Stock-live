@@ -1,5 +1,6 @@
 package com.prashant.stockmarketadviser.ui.admin.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.adapter.MyAdapter;
 import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
 import com.prashant.stockmarketadviser.databinding.FragmentTrialUserBinding;
+import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.ui.admin.ProfileViewActivity;
@@ -88,8 +91,13 @@ public class TrialUserFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull UserModel model) {
 
+
                 if (holder.itemView != null) {
+
                     LinearLayout chatBtn = holder.itemView.findViewById(R.id.chatBtn);
+                    LinearLayout callBtn = holder.itemView.findViewById(R.id.callBtn);
+                    LinearLayout whatsappBtn = holder.itemView.findViewById(R.id.whatsAppBtn);
+
 
                     TextView name = holder.itemView.findViewById(R.id.userName);
                     TextView mobile = holder.itemView.findViewById(R.id.userMobile);
@@ -104,7 +112,22 @@ public class TrialUserFragment extends Fragment {
                     email.setText(model.getEmail());
 
 
-                    chatBtn.setOnClickListener(view -> startActivity(new Intent(mContext, SpecificChatActivity.class)));
+                    whatsappBtn.setOnClickListener(view -> {
+                        VUtil.openWhatsAppNumber(mContext, model.getMobile());
+                    });
+
+                    chatBtn.setOnClickListener(view -> {
+                        Intent intent = new Intent(mContext, SpecificChatActivity.class);
+                        intent.putExtra("userModel", model);
+                        startActivity(intent);
+                    });
+
+                    callBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            VUtil.openDialer(mContext, model.getMobile());
+                        }
+                    });
 
                     if (model.getUserStatus().equals("active")) {
                         userStatusChanger.setChecked(true);
@@ -161,6 +184,23 @@ public class TrialUserFragment extends Fragment {
             adapter.startListening();
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.startListening();
+        }
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        getTrialUser();
     }
 
     @Override

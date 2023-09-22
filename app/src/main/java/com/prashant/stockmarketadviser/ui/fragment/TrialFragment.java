@@ -111,10 +111,10 @@ public class TrialFragment extends Fragment {
                 String currentThirdTargetImg = model.getThirdTargetStatusImage();
                 String currentStopLossImg = model.getStopLossStatusImage();
 
-                Picasso.get().load(currentFirstTargetImg).into(t1_img);
-                Picasso.get().load(currentSecondTargetImg).into(t2_img);
-                Picasso.get().load(currentThirdTargetImg).into(t3_img);
-                Picasso.get().load(currentStopLossImg).into(sl_img);
+                Picasso.get().load(currentFirstTargetImg).placeholder(R.drawable.edit_text_bg_grey).into(t1_img);
+                Picasso.get().load(currentSecondTargetImg).placeholder(R.drawable.edit_text_bg_grey).into(t2_img);
+                Picasso.get().load(currentThirdTargetImg).placeholder(R.drawable.edit_text_bg_grey).into(t3_img);
+                Picasso.get().load(currentStopLossImg).placeholder(R.drawable.edit_text_bg_grey).into(sl_img);
 
 
                 String targetStatusText = "Waiting";

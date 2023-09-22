@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,10 +22,12 @@ import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
 import com.prashant.stockmarketadviser.databinding.FragmentFeedBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
+import com.prashant.stockmarketadviser.firebase.StockDatabase;
 import com.prashant.stockmarketadviser.model.FeedModel;
 import com.prashant.stockmarketadviser.ui.admin.AddFeedActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
+import com.squareup.picasso.Picasso;
 
 public class FeedFragment extends Fragment {
 
@@ -83,11 +86,16 @@ public class FeedFragment extends Fragment {
         TextView postedBy = holder.itemView.findViewById(R.id.feeder_name);
         TextView time = holder.itemView.findViewById(R.id.feed_time);
         TextView feedDescription = holder.itemView.findViewById(R.id.feed_detail);
+        ImageView imageView = holder.itemView.findViewById(R.id.feedImageView);
         LinearLayout action = holder.itemView.findViewById(R.id.actionLayout);
 
         MaterialButton editFeedBtn = holder.itemView.findViewById(R.id.feed_edit_btn);
         MaterialButton removeFeedBtn = holder.itemView.findViewById(R.id.feed_remove_btn);
 
+        if (model.getFeedImageUrl()!=null || !model.getFeedImageUrl().equals("")){
+            imageView.setVisibility(View.VISIBLE);
+            Picasso.get().load(model.getFeedImageUrl()).placeholder(R.drawable.image_placeholder_2).into(imageView);
+        }
 
         if (!AuthManager.isAdmin()) {
             action.setVisibility(View.GONE);
@@ -98,11 +106,7 @@ public class FeedFragment extends Fragment {
 
         editFeedBtn.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, AddFeedActivity.class);
-            intent.putExtra("userId", model.getUserUid());
-            intent.putExtra("feedId", model.getFeedId());
-            intent.putExtra("feedDesc", model.getFeedDescription());
-            intent.putExtra("feedTime", model.getTime());
-            intent.putExtra("feedPostedBy", model.getPostedBy());
+            intent.putExtra("model", model);
             startActivity(intent);
         });
 

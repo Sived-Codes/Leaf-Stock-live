@@ -2,13 +2,13 @@ package com.prashant.stockmarketadviser.firebase;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.ContentObservable;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
@@ -23,12 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.model.UserModel;
-import com.prashant.stockmarketadviser.ui.admin.PaymentPageActivity;
 import com.prashant.stockmarketadviser.ui.admin.PaymentPendingActivity;
 import com.prashant.stockmarketadviser.ui.auth.LoginActivity;
 import com.prashant.stockmarketadviser.ui.dashboard.DashboardActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
-import com.prashant.stockmarketadviser.util.LocalPreference;
 import com.prashant.stockmarketadviser.util.MyDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
 
@@ -105,9 +103,7 @@ public class AuthManager {
                                                         Constant.userDB.child(uid).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
-
                                                                 if (task.isSuccessful()){
-
                                                                     model = snapshot.getValue(UserModel.class);
                                                                     if (model != null) {
                                                                         setupUser(context, model);
@@ -115,8 +111,6 @@ public class AuthManager {
                                                                 }
                                                             }
                                                         });
-
-
                                                     }
                                                 }).addOnFailureListener(e -> {
                                                     CProgressDialog.mDismiss();
@@ -252,12 +246,28 @@ public class AuthManager {
 
     public static void signOut(Context context) {
         mAuth.signOut();
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-        CProgressDialog.mDismiss();
-        VUtil.showSuccessToast(context, "User logged out!");
+
+        // Remove the FCM token
+        FirebaseMessaging.getInstance().deleteToken()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // FCM token successfully removed
+                            Intent intent = new Intent(context, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            CProgressDialog.mDismiss();
+                            VUtil.showSuccessToast(context, "User logged out!");
+                        } else {
+                            // Handle the error if token removal fails
+                            CProgressDialog.mDismiss();
+                            VUtil.showErrorToast(context, "Failed to log out. Please try again.");
+                        }
+                    }
+                });
     }
+
 
     public static String getUid() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -273,19 +283,12 @@ public class AuthManager {
     }
 
 
-
-    //
     public static UserModel getUserModel() {
         return model;
     }
 
     public Task<AuthResult> registerUser(String email, String password) {
         return mAuth.createUserWithEmailAndPassword(email, password);
-    }
-
-
-    public Task<Void> sendPasswordResetEmail(String email) {
-        return mAuth.sendPasswordResetEmail(email);
     }
 
     public static boolean isUserLoggedIn() {
@@ -326,24 +329,7 @@ public class AuthManager {
 
 
 
-    private static void handleUserStatus(Context context, UserModel userModel, MyDialog dialog) {
-        if (!userModel.getUserStatus().equals("active")) {
-            showDisableDialog(context, dialog);
-            VUtil.showWarning(context, "You are disabled by admin!");
-        } else {
-            dialog.dismiss();
-        }
-    }
 
-
-
-    private static void handleUserProfileImageIfNeeded(String uid, UserModel userModel) {
-        if (userModel.getUserImage().isEmpty()) {
-            Map<String, Object> updates = new HashMap<>();
-            updates.put("userImage", VUtil.getRandomDp());
-            Constant.userDB.child(uid).updateChildren(updates);
-        }
-    }
 
 
     private static void handleDataConsistencyIfNeeded(Context context) {

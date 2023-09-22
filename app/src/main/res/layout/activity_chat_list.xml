@@ -91,7 +91,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ChatListRecyclerview"
+        android:id="@+id/chatListRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/searchBarLayout"

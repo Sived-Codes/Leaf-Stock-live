@@ -8,7 +8,6 @@
     tools:context=".ui.chat.SpecificChatActivity">
 
     <RelativeLayout
-        android:layout_alignParentTop="true"
         android:id="@+id/actionBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,29 +21,33 @@
             android:layout_centerVertical="true"
             android:src="@drawable/baseline_back" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_15sdp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImg"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_toEndOf="@id/back"
-            android:visibility="visible">
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
+            android:src="@drawable/baseline_account_circle_24" />
+        <TextView
+            android:id="@+id/actionBarTitle"
+            android:layout_toEndOf="@id/userImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/semibold_font"
+            android:gravity="center"
+            android:text="Prashant Deshmukh"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp" />
 
-            <TextView
-                android:id="@+id/userNameTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:fontFamily="@font/semibold_font"
-                android:gravity="center"
-                android:text="Prashant Deshmukh"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp" />
-
-        </RelativeLayout>
 
 
     </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/actionBarLayout"
@@ -58,31 +61,23 @@
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="@dimen/_7sdp">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            style="@style/EditTextStyle"
+            android:id="@+id/msgBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="none"
-            app:hintEnabled="false"
-            android:layout_toStartOf="@id/addChatBtn"
             android:layout_marginEnd="@dimen/_10sdp"
-            app:hintAnimationEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/EditTextStyle"
-                android:id="@+id/msgBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/semibold_font"
-                android:textSize="@dimen/_10sdp"
-                android:inputType="text"
-                android:hint="Write message here ..."
-                android:paddingTop="@dimen/_10sdp"
-                android:textColorHint="@color/greyFont" />
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/sendBtn"
+            android:fontFamily="@font/regular_font"
+            android:textSize="@dimen/_11sdp"
+            android:textColor="@color/black"
+            android:inputType="text"
+            android:hint="Write message here ..."
+            android:textColorHint="@color/greyFont" />
 
 
         <ImageView
-            android:id="@+id/addChatBtn"
+            android:id="@+id/sendBtn"
             android:layout_width="@dimen/_38sdp"
             android:layout_height="@dimen/_38sdp"
             android:layout_alignParentEnd="true"
@@ -91,6 +86,14 @@
             android:padding="@dimen/_6sdp"
             android:src="@drawable/baseline_send_24" />
     </RelativeLayout>
+    <include
+        android:id="@+id/progressBar"
+        layout="@layout/custom_progress_bar"
+        android:visibility="gone" />
 
+    <include
+        android:id="@+id/view"
+        layout="@layout/cl_empty_view"
+        android:visibility="gone" />
 
 </RelativeLayout>

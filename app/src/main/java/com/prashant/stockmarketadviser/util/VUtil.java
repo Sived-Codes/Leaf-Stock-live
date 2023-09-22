@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
@@ -80,8 +81,14 @@ public class VUtil {
 
     public static String getDateAndDay() {
         Date currentDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy (EEEE)", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
         return sdf.format(currentDate);
+    }
+
+    public static String timeStampToFormatTime(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a dd MMM yyyy", Locale.getDefault());
+        Date date = new Date(timestamp);
+        return sdf.format(date);
     }
 
     public static void EmptyViewHandler(DatabaseReference databaseReference, View emptyView, ProgressBar progressBar) {
@@ -235,6 +242,36 @@ public class VUtil {
             if (context instanceof Activity) {
                 ((Activity) context).finish();
             }
+        }
+    }
+
+    public static void openDialer(Context context, String phoneNumber) {
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            // Create an intent to open the dialer with the phone number
+            Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+            dialIntent.setData(Uri.parse("tel:" + phoneNumber));
+
+            // Start the dialer activity
+            context.startActivity(dialIntent);
+        }
+    }
+
+    public static void openWhatsAppNumber(Context context, String phoneNumber) {
+        try {
+            // Create a Uri with the "smsto" scheme and the WhatsApp phone number
+            Uri uri = Uri.parse("smsto:" +"91"+ phoneNumber);
+
+            // Create an Intent with ACTION_SENDTO to open the WhatsApp chat
+            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+
+            // Set the package to "com.whatsapp" to ensure it opens in WhatsApp
+            intent.setPackage("com.whatsapp");
+
+            // Start the activity
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle any exceptions that may occur when trying to open WhatsApp
         }
     }
 }

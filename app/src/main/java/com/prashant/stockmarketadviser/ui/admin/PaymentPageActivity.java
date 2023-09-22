@@ -21,11 +21,13 @@ import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
 import com.prashant.stockmarketadviser.databinding.ActivityPaymentPageBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
+import com.prashant.stockmarketadviser.firebase.StockDatabase;
 import com.prashant.stockmarketadviser.model.PlanModel;
 import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.MyDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class PaymentPageActivity extends BaseActivity {
         bind = ActivityPaymentPageBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
 
+        Picasso.get().load(StockDatabase.getQrUrl(this)).placeholder(R.drawable.image_placeholder_2).into(bind.paymentQrImage);
 
         planDialog = new MyDialog(PaymentPageActivity.this, R.layout.cl_membership_dialog);
 
@@ -50,6 +53,15 @@ public class PaymentPageActivity extends BaseActivity {
 
         bind.changeSubscriptionPlanBtn.setOnClickListener(view -> planDialog.show());
 
+
+        bind.paymentQrImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Picasso.get().load(StockDatabase.getQrUrl(PaymentPageActivity.this)).placeholder(R.drawable.image_placeholder_2).into(bind.paymentQrImage);
+                VUtil.showSuccessToast(PaymentPageActivity.this, "Refreshed");
+
+            }
+        });
 
         bind.paymentDone.setOnClickListener(new View.OnClickListener() {
             @Override

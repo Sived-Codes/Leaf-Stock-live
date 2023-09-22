@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+
+    android:padding="2dp">
+
+    <TextView
+        android:singleLine="true"
+        android:maxWidth="@dimen/_40sdp"
+        android:id="@+id/timeofmessage"
+        android:layout_width="wrap_content"
+        android:gravity="start"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/regular_font"
+        android:text="20:09"
+        android:textColor="@color/greyFont"
+        android:textSize="@dimen/_8sdp" />
+
+
+    <RelativeLayout
+        android:id="@+id/layoutformessage"
+        android:layout_below="@id/timeofmessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/mid_receiver_chat_blue_bg">
+
+        <TextView
+            android:id="@+id/sendermessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/regular_font"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_30sdp"
+            android:paddingVertical="@dimen/_5sdp"
+            android:text="Sender Message Display Here "
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11sdp">
+
+        </TextView>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

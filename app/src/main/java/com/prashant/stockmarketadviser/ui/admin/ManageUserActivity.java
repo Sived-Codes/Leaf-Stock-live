@@ -1,6 +1,7 @@
 package com.prashant.stockmarketadviser.ui.admin;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +29,12 @@ public class ManageUserActivity extends AppCompatActivity {
         TabLayout tabLayout = bind.tabLayout;
 
 
+        bind.back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Lifecycle lifecycle = getLifecycle();

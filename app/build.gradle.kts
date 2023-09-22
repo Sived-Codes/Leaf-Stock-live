@@ -61,6 +61,8 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-ktx:18.4.1")
     implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
+    implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.3.5")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

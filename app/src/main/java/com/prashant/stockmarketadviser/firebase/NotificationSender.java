@@ -29,6 +29,7 @@ public class NotificationSender {
         try {
             notificationBody.put("title", title);
             notificationBody.put("body", message);
+            notificationBody.put("type", "stock");
             notificationData.put("notification", notificationBody);
             notificationData.put("to", "/topics/" + topic);
 
@@ -50,4 +51,43 @@ public class NotificationSender {
             Log.d("TAG", "exception_leaf_Stock: " +e);
         }
     }
+
+    public static void sendChatNotificationToUser(Context context, String userFirebaseToken, String senderName, String message, String activityName) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        JSONObject notificationBody = new JSONObject();
+        JSONObject notificationData = new JSONObject();
+
+        try {
+            notificationBody.put("title", senderName);
+            notificationBody.put("body", message);
+            notificationData.put("notification", notificationBody);
+            notificationData.put("to", userFirebaseToken);
+            notificationData.put("type", "chat");
+            notificationData.put("click_action", activityName);
+
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, FCM_API_URL, notificationData,
+                    response -> {
+                        Log.d("TAG", "sendChatNotificationToUser: done ");
+                    },
+                    error -> {
+                        Log.d("TAG", "sendChatNotificationToUser: failed ");
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "key=" + FCM_SERVER_KEY);
+                    headers.put("Content-Type", "application/json");
+                    return headers;
+                }
+            };
+
+            requestQueue.add(request);
+
+        } catch (JSONException e) {
+            Log.d("TAG", "exception_leaf_Stock: " + e);
+        }
+    }
+
 }

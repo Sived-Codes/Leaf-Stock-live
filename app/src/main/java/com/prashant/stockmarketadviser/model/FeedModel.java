@@ -1,8 +1,18 @@
 package com.prashant.stockmarketadviser.model;
 
-public class FeedModel {
+import java.io.Serializable;
 
-    String postedBy, feedDescription, time, userUid,feedId;
+public class FeedModel implements Serializable {
+
+    String postedBy, feedDescription, time, userUid,feedId,feedImageUrl;
+
+    public String getFeedImageUrl() {
+        return feedImageUrl;
+    }
+
+    public void setFeedImageUrl(String feedImageUrl) {
+        this.feedImageUrl = feedImageUrl;
+    }
 
     public String getFeedId() {
         return feedId;

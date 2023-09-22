@@ -20,6 +20,7 @@ import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    String action ;
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -28,10 +29,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (notification != null) {
             String title = notification.getTitle();
             String body = notification.getBody();
+            String type = remoteMessage.getData().get("type");
+
+            action = notification.getClickAction();
+
             if (title != null && body != null) {
                 showNotification(title, body);
-                StockDatabase.storeNotification(title, body);
+                if (type != null && type.equals("chat")) { // Check if type is not null before using equals
+                    StockDatabase.storeNotification(title, body);
+                }
             }
+
         }
     }
 
@@ -42,7 +50,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         updates.put("firebaseToken", token);
         if (AuthManager.getUid()!=null){
             Constant.userDB.child(AuthManager.getUid()).updateChildren(updates);
-
         }
     }
 
@@ -55,6 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
         }
+
 
         Intent intent = new Intent(this, DashboardActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);

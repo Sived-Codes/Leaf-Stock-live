@@ -52,7 +52,7 @@ public class RegistrationActivity extends BaseActivity {
     FirebaseRecyclerAdapter<PlanModel, MyAdapter.MyHolder> adapter;
     MyDialog planDialog;
 
-    private String firstName, lastName, dateOfBirth, gender, mobile, stockPlan, email, password, confirmPassword;
+    private String firstName, lastName, mobile, stockPlan, email, password, confirmPassword;
 
 
     private FirebaseAuth mAuth;
@@ -124,8 +124,7 @@ public class RegistrationActivity extends BaseActivity {
             CProgressDialog.mShow(RegistrationActivity.this);
             firstName = bind.firstNameEd.getText().toString().trim();
             lastName = bind.lastNameEd.getText().toString().trim();
-            dateOfBirth = bind.dobTextView.getText().toString().trim();
-            gender = bind.genderTextView.getText().toString().trim();
+
             mobile = bind.mobileEd.getText().toString().trim();
             stockPlan = bind.stockPlanTextView.getText().toString();
             email = bind.emailEd.getText().toString().trim();
@@ -143,19 +142,6 @@ public class RegistrationActivity extends BaseActivity {
                 CProgressDialog.mDismiss();
                 bind.lastNameEd.setError("Last name cannot be empty");
                 bind.lastNameEd.requestFocus();
-                return;
-            }
-
-            if (gender.equals("Select Gender")) {
-                CProgressDialog.mDismiss();
-                VUtil.showWarning(RegistrationActivity.this, "Please select Gender");
-                return;
-            }
-
-            if (dateOfBirth.equals("Date of birth")) {
-                CProgressDialog.mDismiss();
-                bind.dobTextView.setError("Date of birth cannot be empty");
-                bind.dobTextView.requestFocus();
                 return;
             }
 
@@ -257,34 +243,6 @@ public class RegistrationActivity extends BaseActivity {
             }
         });
 
-        bind.genderBtn.setOnClickListener(view -> {
-
-            PopupMenuHelper popupMenuHelper = new PopupMenuHelper(RegistrationActivity.this, bind.genderTextView, R.layout.select_gender);
-
-            popupMenuHelper.getView().findViewById(R.id.select_male).setOnClickListener(view12 -> {
-                bind.genderTextView.setText("Male");
-                bind.genderTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
-                popupMenuHelper.dismiss();
-            });
-
-            popupMenuHelper.getView().findViewById(R.id.select_female).setOnClickListener(view1 -> {
-                bind.genderTextView.setText("Female");
-                bind.genderTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
-                popupMenuHelper.dismiss();
-
-            });
-
-            popupMenuHelper.getView().findViewById(R.id.select_not_to_say).setOnClickListener(view1 -> {
-                bind.genderTextView.setText("Not to say");
-                bind.genderTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
-                popupMenuHelper.dismiss();
-
-            });
-
-            popupMenuHelper.show();
-        });
-
-        bind.dobBtn.setOnClickListener(v -> showDatePickerDialog());
 
         bind.stockPlanBtn.setOnClickListener(view -> planDialog.show());
 
@@ -380,10 +338,8 @@ public class RegistrationActivity extends BaseActivity {
 
                 UserModel model = new UserModel();
                 model.setFullName(firstName + " " + lastName);
-                model.setGender(gender);
                 model.setMobile(mobile);
                 model.setEmail(email);
-                model.setDateOfBirth(dateOfBirth);
                 model.setUserPlan(stockPlan);
                 model.setUserType("user");
 
@@ -400,6 +356,7 @@ public class RegistrationActivity extends BaseActivity {
                 model.setUserImage(VUtil.getRandomDp());
                 model.setDeviceName(VUtil.getDeviceName());
                 model.setUserUid(uid);
+                model.setRegistrationDate(VUtil.getCurrentDateTimeFormatted());
                 model.setDeviceId(VUtil.getDeviceId(RegistrationActivity.this));
 
                 Constant.userDB.child(uid).setValue(model).addOnCompleteListener(task1 -> {
@@ -420,21 +377,7 @@ public class RegistrationActivity extends BaseActivity {
     }
 
 
-    private void showDatePickerDialog() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, selectedYear, selectedMonth, selectedDay) -> {
-            @SuppressLint("DefaultLocale") String selectedDate = String.format("%02d-%02d-%04d", selectedDay, selectedMonth + 1, selectedYear);
-            bind.dobTextView.setText(selectedDate);
-            bind.dobTextView.setTextColor(ContextCompat.getColor(RegistrationActivity.this, R.color.black));
-
-        }, year, month, day);
-
-        datePickerDialog.show();
-    }
 
     @Override
     public void onStart() {

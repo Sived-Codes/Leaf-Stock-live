@@ -28,4 +28,6 @@ public class Constant {
     public static DatabaseReference scripDB = FirebaseDatabase.getInstance().getReference().child("Scrips");
 
     public static DatabaseReference tipGenDB = FirebaseDatabase.getInstance().getReference().child("TipGenerator");
+    public static DatabaseReference chatDB = FirebaseDatabase.getInstance().getReference().child("Chats");
+    public static DatabaseReference adminDB = FirebaseDatabase.getInstance().getReference().child("Admin");
 }

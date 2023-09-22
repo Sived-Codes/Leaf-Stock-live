@@ -76,7 +76,7 @@
 
             <LinearLayout
                 android:id="@+id/chatBtn"
-                android:layout_width="@dimen/_60sdp"
+                android:layout_width="@dimen/_58sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:background="@drawable/mid_round_blue_bg"
                 android:gravity="center_vertical">
@@ -99,7 +99,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="@dimen/_60sdp"
+                android:id="@+id/callBtn"
+                android:layout_width="@dimen/_55sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_marginStart="@dimen/_6sdp"
                 android:background="@drawable/mid_round_blue_bg"
@@ -123,7 +124,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="@dimen/_90sdp"
+                android:id="@+id/whatsAppBtn"
+                android:layout_width="@dimen/_83sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_marginStart="@dimen/_6sdp"
                 android:background="@drawable/mid_round_green_bg"

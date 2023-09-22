@@ -65,6 +65,9 @@ public class PrimeUserFragment extends Fragment {
 
                 if (holder.itemView != null) {
                     LinearLayout chatBtn = holder.itemView.findViewById(R.id.chatBtn);
+                    LinearLayout callBtn = holder.itemView.findViewById(R.id.callBtn);
+                    LinearLayout whatsappBtn = holder.itemView.findViewById(R.id.whatsAppBtn);
+
 
                     TextView name = holder.itemView.findViewById(R.id.userName);
                     TextView mobile = holder.itemView.findViewById(R.id.userMobile);
@@ -83,6 +86,22 @@ public class PrimeUserFragment extends Fragment {
                         userStatusChanger.setChecked(true);
                     }
 
+                    chatBtn.setOnClickListener(view -> {
+                        Intent intent = new Intent(mContext, SpecificChatActivity.class);
+                        intent.putExtra("userModel", model);
+                        startActivity(intent);
+                    });
+
+                    whatsappBtn.setOnClickListener(view -> {
+                     VUtil.openWhatsAppNumber(mContext, model.getMobile());
+                    });
+
+                    callBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            VUtil.openDialer(mContext, model.getMobile());
+                        }
+                    });
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

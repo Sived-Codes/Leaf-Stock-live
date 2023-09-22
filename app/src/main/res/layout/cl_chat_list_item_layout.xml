@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_14sdp"
+    android:layout_marginVertical="@dimen/_4sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImg"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:src="@drawable/baseline_account_circle_24" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_toEndOf="@id/userImg"
+            android:fontFamily="@font/semibold_font"
+            android:text="Support Care 1"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/userMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userName"
+            android:layout_marginStart="@dimen/_11sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_toEndOf="@id/userImg"
+            android:fontFamily="@font/regular_font"
+            android:text="Leaf Stock Support Channel"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
+        <TextView
+            android:id="@+id/userMsgTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userMsg"
+            android:layout_marginStart="@dimen/_11sdp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_toEndOf="@id/userImg"
+            android:fontFamily="@font/regular_font"
+            android:text="Tap to chat"
+            android:textColor="@color/greyFont"
+            android:textSize="@dimen/_10sdp" />
+
+    </RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

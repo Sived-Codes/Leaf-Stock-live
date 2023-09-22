@@ -58,9 +58,10 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
+                android:id="@+id/payment_qr_image"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="@dimen/_250sdp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_250sdp"
                 android:src="@drawable/dummy_qr"/>
 
 

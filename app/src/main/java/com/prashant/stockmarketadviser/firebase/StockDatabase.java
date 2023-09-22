@@ -9,13 +9,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.prashant.stockmarketadviser.model.NotificationModel;
 import com.prashant.stockmarketadviser.model.TipGenValueModel;
-import com.prashant.stockmarketadviser.model.UserModel;
-import com.prashant.stockmarketadviser.util.LocalPreference;
 import com.prashant.stockmarketadviser.util.VUtil;
 
 public class StockDatabase {
 
     static String memberShip;
+    static String qrCodeImgUrl;
 
     public static void getTipGenBuyValue(String type, TipGenValueCallback callback) {
         Constant.tipGenDB.child(type).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -46,7 +45,23 @@ public class StockDatabase {
         Constant.notificationDB.child(uid).setValue(model);
     }
 
+    public static String getQrUrl(Context context) {
 
+        Constant.adminDB.child("QrCode").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                qrCodeImgUrl = snapshot.child("qr_img_url").getValue(String.class);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                VUtil.showErrorToast(context, error.getMessage());
+            }
+        });
+
+        return qrCodeImgUrl;
+    }
 
 
 }

@@ -74,11 +74,19 @@ public class ProfileViewActivity extends AppCompatActivity {
                     bind.userPlan.setText(userModel.getUserPlan());
                     bind.userMail.setText(userModel.getEmail());
                     bind.userDevice.setText(userModel.getDeviceName());
+                    bind.userRegistrationDate.setText(userModel.getRegistrationDate());
 
 
                     if (userModel.getMemberShip().equals("yes")) {
                         bind.subscriptionChanger.setChecked(true);
                     }
+
+                    bind.callBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            VUtil.openDialer(ProfileViewActivity.this, userModel.getMobile());
+                        }
+                    });
 
                     bind.subscriptionChanger.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override

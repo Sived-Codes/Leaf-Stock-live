@@ -3,6 +3,7 @@ package com.prashant.stockmarketadviser.ui.fragment;
 import static com.prashant.stockmarketadviser.firebase.Constant.ACHIEVED_IMG_URL;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.prashant.stockmarketadviser.databinding.FragmentPrimeBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.ScripModel;
+import com.prashant.stockmarketadviser.ui.admin.PaymentPageActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.LocalPreference;
 import com.prashant.stockmarketadviser.util.MyDialog;
@@ -62,6 +64,13 @@ public class PrimeFragment extends Fragment {
         } else {
             bind.primeScripRecyclerview.setVisibility(View.GONE);
             bind.notPrime.notPrimeView.setVisibility(View.VISIBLE);
+            bind.notPrime.getPrimeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(mContext, PaymentPageActivity.class));
+
+                }
+            });
         }
 
         return bind.getRoot();
@@ -116,10 +125,10 @@ public class PrimeFragment extends Fragment {
                 String currentThirdTargetImg = model.getThirdTargetStatusImage();
                 String currentStopLossImg = model.getStopLossStatusImage();
 
-                Picasso.get().load(currentFirstTargetImg).placeholder(R.drawable.loading).into(t1_img);
-                Picasso.get().load(currentSecondTargetImg).placeholder(R.drawable.loading).into(t2_img);
-                Picasso.get().load(currentThirdTargetImg).placeholder(R.drawable.loading).into(t3_img);
-                Picasso.get().load(currentStopLossImg).placeholder(R.drawable.loading).into(sl_img);
+                Picasso.get().load(currentFirstTargetImg).placeholder(R.drawable.edit_text_bg_grey).into(t1_img);
+                Picasso.get().load(currentSecondTargetImg).placeholder(R.drawable.edit_text_bg_grey).into(t2_img);
+                Picasso.get().load(currentThirdTargetImg).placeholder(R.drawable.edit_text_bg_grey).into(t3_img);
+                Picasso.get().load(currentStopLossImg).placeholder(R.drawable.edit_text_bg_grey).into(sl_img);
 
 
 

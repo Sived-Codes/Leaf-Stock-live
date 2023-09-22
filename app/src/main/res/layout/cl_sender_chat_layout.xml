@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_marginStart="50dp"
+    android:layout_margin="@dimen/_5sdp"
+    android:padding="2dp">
+
+    <RelativeLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/mid_sender_chat_blue_bg"
+        android:id="@+id/layoutformessage">
+
+        <TextView
+            android:maxWidth="@dimen/_250sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sender Message Display Here "
+            android:textSize="@dimen/_11sdp"
+            android:fontFamily="@font/regular_font"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:paddingVertical="@dimen/_6sdp"
+            android:id="@+id/sendermessage">
+
+        </TextView>
+
+
+
+
+
+
+
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/timeofmessage"
+        android:singleLine="true"
+        android:maxWidth="@dimen/_40sdp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="05:41 PM"
+        android:textSize="@dimen/_8sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/layoutformessage"/>
+
+
+</RelativeLayout>

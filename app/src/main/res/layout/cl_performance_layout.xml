@@ -15,7 +15,6 @@
             android:id="@+id/performanceView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/cl_image_view"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp">
 
@@ -146,15 +145,6 @@
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@color/greyLine" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/regular_font"
-                    android:gravity="center"
-                    android:text="For safe trading, get our membership now. For more information, contact us at 8889818200"
-                    android:textColor="@color/greyFont"
-                    android:textSize="@dimen/_10sdp" />
 
 
             </LinearLayout>
@@ -169,7 +159,7 @@
             android:layout_alignParentStart="true"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/_10sdp"
-            android:paddingVertical="@dimen/_10sdp">
+            android:paddingVertical="@dimen/_5sdp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/deleteBtn"
@@ -199,7 +189,7 @@
                 android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:backgroundTint="@color/fadeBlue"
-                android:text="Download Only"
+                android:text="Download"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/_7sdp"
                 app:cornerRadius="@dimen/_14sdp" />

@@ -8,22 +8,22 @@ plugins {
 
 sonarqube {
     properties {
-        property("sonar.token", "sqp_62154e5de021eab8e5d9a4fbba81711c41845f1c")
+        property("sonar.token", "sqp_003c74d02819dcbfc52b3e7f36ca7225e54ca585")
         property("sonar.projectKey", "LeafStock")
         property("sonar.organization", "LeafStock")
-        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.host.url", "http://localhost:7000")
     }
 }
 android {
     namespace = "com.prashant.stockmarketadviser"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.prashant.stockmarketadviser"
         minSdk = 21
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        targetSdk = 34
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,12 +53,12 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.firebase:firebase-auth:22.1.1")
+    implementation("com.google.firebase:firebase-auth:22.1.2")
     implementation("com.google.firebase:firebase-database-ktx:20.2.2")
-    implementation("com.google.firebase:firebase-inappmessaging-display:20.3.3")
+    implementation("com.google.firebase:firebase-inappmessaging-display:20.3.5")
     implementation("com.google.firebase:firebase-messaging:23.2.1")
     implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
-    implementation("com.google.firebase:firebase-crashlytics-ktx:18.4.1")
+    implementation("com.google.firebase:firebase-crashlytics-ktx:18.4.3")
     implementation("com.google.firebase:firebase-analytics-ktx:21.3.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
     implementation("com.google.firebase:firebase-inappmessaging-display-ktx:20.3.5")
@@ -77,7 +77,12 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-database:7.1.1")
     implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.github.GrenderG:Toasty:1.5.2")
+
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("io.github.chaosleung:pinview:1.4.4")
 
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.firebase:firebase-appcheck-ktx")
 }

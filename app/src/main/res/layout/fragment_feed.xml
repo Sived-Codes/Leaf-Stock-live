@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_page"
-    tools:context=".ui.fragment.FeedFragment">
+    tools:context=".activity.fragment.FeedFragment">
 
     <RelativeLayout
         android:id="@+id/actionBarLayout"

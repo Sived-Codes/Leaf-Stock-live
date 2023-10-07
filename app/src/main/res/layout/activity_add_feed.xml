@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_page"
-    tools:context=".ui.admin.AddFeedActivity">
+    tools:context=".activity.admin.AddFeedActivity">
 
     <RelativeLayout
         android:id="@+id/actionBarLayout"
@@ -62,7 +62,8 @@
             android:gravity="start|center"
             android:fontFamily="@font/regular_font"
             android:paddingHorizontal="@dimen/_11sdp"
-            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11sdp"
             android:background="@drawable/edit_text_bg_color"
             android:hint="What's on your mind ?"
             />

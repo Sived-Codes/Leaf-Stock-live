@@ -1,6 +1,5 @@
 package com.prashant.stockmarketadviser.adapter;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
@@ -21,14 +20,15 @@ public class FragmentAdapter extends FragmentStateAdapter {
         return fragments.size();
     }
 
-    @NonNull
     @Override
     public Fragment createFragment(int position) {
         if (position >= 0 && position < fragments.size()) {
             return fragments.get(position);
+        } else {
+            return fragments.get(0);
         }
-        return null;
     }
+
 
     public String getTabName(int position) {
         if (position >= 0 && position < tabNames.size()) {

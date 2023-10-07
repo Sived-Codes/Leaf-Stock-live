@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_page"
-    tools:context=".ui.chat.ChatListActivity">
+    tools:context=".activity.chat.ChatListActivity">
 
     <RelativeLayout
         android:id="@+id/actionBarLayout"
@@ -54,6 +54,7 @@
 
         <EditText
             android:id="@+id/searchBar"
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -63,7 +64,7 @@
             android:drawableStart="@drawable/baseline_search_24"
             android:drawablePadding="@dimen/_10sdp"
             android:fontFamily="@font/semibold_font"
-            android:hint="Search by name, mobile, email"
+            android:hint="Search by only name..."
             android:paddingStart="@dimen/_10sdp"
             android:textColorHint="@color/greyFont"
             android:textSize="@dimen/_10sdp" />

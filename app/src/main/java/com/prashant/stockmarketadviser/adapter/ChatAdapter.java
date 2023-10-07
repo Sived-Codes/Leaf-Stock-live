@@ -18,6 +18,7 @@ import com.prashant.stockmarketadviser.model.ChatModel;
 import com.prashant.stockmarketadviser.util.VUtil;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ChatAdapter extends RecyclerView.Adapter {
     Context context;
@@ -68,7 +69,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         ChatModel messages = messagesArrayList.get(position);
-        if (AuthManager.getUid().equals(messages.getSenderUid())) {
+        if (Objects.requireNonNull(AuthManager.getUid()).equals(messages.getSenderUid())) {
             return ITEM_SEND;
         } else {
             return ITEM_RECEIVE;
@@ -81,7 +82,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     }
 
 
-    class SenderViewHolder extends RecyclerView.ViewHolder {
+    static class SenderViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewmessaage;
         TextView timeofmessage;
@@ -96,7 +97,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class RecieverViewHolder extends RecyclerView.ViewHolder {
+    static class RecieverViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewmessaage;
         TextView timeofmessage;

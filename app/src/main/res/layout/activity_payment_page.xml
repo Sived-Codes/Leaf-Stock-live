@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/background_page"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.PaymentPageActivity">
+    tools:context=".activity.admin.PaymentPageActivity">
 
     <RelativeLayout
         android:id="@+id/actionBarLayout"

@@ -68,12 +68,8 @@ public class NotificationSender {
 
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, FCM_API_URL, notificationData,
-                    response -> {
-                        Log.d("TAG", "sendChatNotificationToUser: done ");
-                    },
-                    error -> {
-                        Log.d("TAG", "sendChatNotificationToUser: failed ");
-                    }) {
+                    response -> Log.d("TAG", "sendChatNotificationToUser: done "),
+                    error -> Log.d("TAG", "sendChatNotificationToUser: failed ")) {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> headers = new HashMap<>();

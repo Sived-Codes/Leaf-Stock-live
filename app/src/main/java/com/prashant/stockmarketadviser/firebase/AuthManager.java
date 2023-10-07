@@ -7,8 +7,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
@@ -23,14 +21,21 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.model.UserModel;
-import com.prashant.stockmarketadviser.ui.admin.PaymentPendingActivity;
-import com.prashant.stockmarketadviser.ui.auth.LoginActivity;
-import com.prashant.stockmarketadviser.ui.dashboard.DashboardActivity;
+import com.prashant.stockmarketadviser.activity.admin.PaymentPendingActivity;
+import com.prashant.stockmarketadviser.activity.auth.LoginActivity;
+import com.prashant.stockmarketadviser.activity.dashboard.DashboardActivity;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.MyDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AuthManager {
@@ -53,6 +58,7 @@ public class AuthManager {
                         model = snapshot.getValue(UserModel.class);
                         if (model != null) {
                             setupUser(appContext, model);
+
                         } else {
                             handleDataConsistencyIfNeeded(appContext);
                         }
@@ -85,38 +91,32 @@ public class AuthManager {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
 
-                                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<String> task) {
-                                            if (task.isSuccessful()){
-                                                Map<String, Object> token = new HashMap<>();
-                                                token.put("firebaseToken", task.getResult());
+                                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task12 -> {
+                                        if (task12.isSuccessful()){
+                                            Map<String, Object> token = new HashMap<>();
+                                            token.put("firebaseToken", task12.getResult());
 
-                                                Constant.userDB.child(uid).updateChildren(token).addOnCompleteListener(task1 -> {
+                                            Constant.userDB.child(uid).updateChildren(token).addOnCompleteListener(task1 -> {
 
-                                                    if (task1.isSuccessful()) {
-                                                        handleUserLogin(context);
-                                                        Map<String, Object> map = new HashMap<>();
+                                                if (task1.isSuccessful()) {
+                                                    handleUserLogin(context);
+                                                    Map<String, Object> map = new HashMap<>();
 
-                                                        map.put("deviceId", VUtil.getDeviceId(context));
-                                                        map.put("deviceName", VUtil.getDeviceName());
-                                                        Constant.userDB.child(uid).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                if (task.isSuccessful()){
-                                                                    model = snapshot.getValue(UserModel.class);
-                                                                    if (model != null) {
-                                                                        setupUser(context, model);
-                                                                    }
-                                                                }
+                                                    map.put("deviceId", VUtil.getDeviceId(context));
+                                                    map.put("deviceName", VUtil.getDeviceName());
+                                                    Constant.userDB.child(uid).updateChildren(map).addOnCompleteListener(task2 -> {
+                                                        if (task2.isSuccessful()){
+                                                            model = snapshot.getValue(UserModel.class);
+                                                            if (model != null) {
+                                                                setupUser(context, model);
                                                             }
-                                                        });
-                                                    }
-                                                }).addOnFailureListener(e -> {
-                                                    CProgressDialog.mDismiss();
-                                                    VUtil.showErrorToast(context, e.getMessage());
-                                                });
-                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }).addOnFailureListener(e -> {
+                                                CProgressDialog.mDismiss();
+                                                VUtil.showErrorToast(context, e.getMessage());
+                                            });
                                         }
                                     });
 
@@ -173,6 +173,7 @@ public class AuthManager {
                             } else {
                                 intent = new Intent(appContext, DashboardActivity.class);
                             }
+
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             appContext.startActivity(intent);
 
@@ -191,6 +192,56 @@ public class AuthManager {
             }
         }
     }
+
+    public static void getFreeTrialExpireUser(Context context) {
+        CProgressDialog.mShow(context);
+        Constant.userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Date currentDate = new Date();
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a - dd MMM yyyy", Locale.ENGLISH);
+
+                List<UserModel> expiredUsers = new ArrayList<>();
+
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    UserModel userModel = userSnapshot.getValue(UserModel.class);
+
+                    if (userModel != null && userModel.getRegistrationDate() != null && userModel.getUserPlanType().equals("free")) {
+                        try {
+                            Date registrationDate = sdf.parse(userModel.getRegistrationDate());
+
+                            Calendar calendar = Calendar.getInstance();
+                            if (registrationDate != null) {
+                                calendar.setTime(registrationDate);
+                            }
+                            calendar.add(Calendar.DAY_OF_MONTH, 14);
+                            Date expireDate = calendar.getTime();
+
+                            if (currentDate.after(expireDate)) {
+                                userModel.setUserStatus("inactive");
+                                DatabaseReference userRef = Constant.userDB.child(userModel.getUserUid());
+                                userRef.child("userStatus").setValue("inactive");
+
+                                // Add the user to the list of expired users
+                                expiredUsers.add(userModel);
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                VUtil.showSuccessToast(context, "Scanned Successful");
+                CProgressDialog.mDismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                CProgressDialog.mDismiss();
+            }
+        });
+    }
+
 
     private static boolean isPaymentPending(UserModel userModel) {
         return userModel.getUserPlanType().equals("paid") && userModel.getPaymentStatus().equals("pending");
@@ -249,21 +300,18 @@ public class AuthManager {
 
         // Remove the FCM token
         FirebaseMessaging.getInstance().deleteToken()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // FCM token successfully removed
-                            Intent intent = new Intent(context, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                            CProgressDialog.mDismiss();
-                            VUtil.showSuccessToast(context, "User logged out!");
-                        } else {
-                            // Handle the error if token removal fails
-                            CProgressDialog.mDismiss();
-                            VUtil.showErrorToast(context, "Failed to log out. Please try again.");
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // FCM token successfully removed
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                        CProgressDialog.mDismiss();
+                        VUtil.showSuccessToast(context, "User logged out!");
+                    } else {
+                        // Handle the error if token removal fails
+                        CProgressDialog.mDismiss();
+                        VUtil.showErrorToast(context, "Failed to log out. Please try again.");
                     }
                 });
     }

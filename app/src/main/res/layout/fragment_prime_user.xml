@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.fragment.PrimeUserFragment">
+    tools:context=".activity.admin.fragment.PrimeUserFragment">
 
     <include
         android:id="@+id/progressBar"
@@ -34,7 +34,8 @@
             android:drawableStart="@drawable/baseline_search_24"
             android:drawablePadding="@dimen/_10sdp"
             android:fontFamily="@font/semibold_font"
-            android:hint="Search by name, mobile, email"
+            android:hint="Search by only name..."
+            android:singleLine="true"
             android:paddingStart="@dimen/_10sdp"
             android:textColorHint="@color/greyFont"
             android:textSize="@dimen/_10sdp" />

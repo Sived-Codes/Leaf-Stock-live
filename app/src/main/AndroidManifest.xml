@@ -11,7 +11,6 @@
         android:maxSdkVersion="32" />
 
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,7 +21,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
-        android:name=".ui.admin.MyApplication"
+        android:name=".activity.admin.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -35,36 +34,34 @@
 
 
         <activity
-            android:name=".ui.auth.PasswordManagerActivity"
+            android:name=".activity.auth.PasswordManagerActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.admin.PaymentPendingActivity"
+            android:name=".activity.admin.PaymentPendingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.PaymentPageActivity"
+            android:name=".activity.admin.PaymentPageActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.admin.ProfileViewActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.AppCrashActivity"
+            android:name=".activity.admin.PrivacyPolicyActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.ProfileViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.admin.PrivacyPolicyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.chat.SpecificChatActivity"
+            android:name=".activity.chat.SpecificChatActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
-            android:name=".ui.chat.ChatListActivity"
+            android:name=".activity.chat.ChatListActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.ManageUserActivity"
+            android:name=".activity.admin.ManageUserActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.admin.TipGenActivity"
+            android:name=".activity.admin.TipGenActivity"
             android:exported="false" /> <!-- Firebase configuration -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
@@ -78,13 +75,13 @@
         </service>
 
         <activity
-            android:name=".ui.admin.AddFeedActivity"
+            android:name=".activity.admin.AddFeedActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.dashboard.DashboardActivity"
+            android:name=".activity.dashboard.DashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.LoginActivity"
+            android:name=".activity.auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -102,7 +99,7 @@
         </receiver>
 
         <activity
-            android:name=".ui.auth.RegistrationActivity"
+            android:name=".activity.auth.RegistrationActivity"
             android:exported="false" />
     </application>
 

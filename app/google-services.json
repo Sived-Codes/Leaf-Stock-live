@@ -13,12 +13,7 @@
           "package_name": "com.prashant.stockmarketadviser"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "1067836003955-01ug9n01ffqm78q53d74uvrqsba3j5i8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyCRlkW8Zw0RBnTttbqf6UPsWbS46WVOHkc"
@@ -26,12 +21,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1067836003955-01ug9n01ffqm78q53d74uvrqsba3j5i8.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

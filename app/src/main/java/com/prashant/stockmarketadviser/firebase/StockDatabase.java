@@ -13,7 +13,6 @@ import com.prashant.stockmarketadviser.util.VUtil;
 
 public class StockDatabase {
 
-    static String memberShip;
     static String qrCodeImgUrl;
 
     public static void getTipGenBuyValue(String type, TipGenValueCallback callback) {
@@ -42,7 +41,9 @@ public class StockDatabase {
         model.setTime(VUtil.getCurrentDateTimeFormatted());
         model.setTitle(title);
         model.setUid(uid);
-        Constant.notificationDB.child(uid).setValue(model);
+        if (uid != null) {
+            Constant.notificationDB.child(uid).setValue(model);
+        }
     }
 
     public static String getQrUrl(Context context) {
@@ -62,6 +63,5 @@ public class StockDatabase {
 
         return qrCodeImgUrl;
     }
-
 
 }

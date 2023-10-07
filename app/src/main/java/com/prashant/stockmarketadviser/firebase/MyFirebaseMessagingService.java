@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.prashant.stockmarketadviser.R;
-import com.prashant.stockmarketadviser.ui.dashboard.DashboardActivity;
+import com.prashant.stockmarketadviser.activity.dashboard.DashboardActivity;
 
 import java.util.HashMap;
 import java.util.Map;

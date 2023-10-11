@@ -159,7 +159,7 @@ public class PrimeFragment extends Fragment {
 
                     targetStatus.setText(targetStatusText);
 
-                    if (LocalPreference.getUserType(mContext).equals("admin")) {
+                    if (AuthManager.userChecker(mContext).getUserType().equals("admin")) {
                         String[] ImageUrls = {Constant.WAITING_IMG_URL, ACHIEVED_IMG_URL};
 
                         setupImageCycler(sl_img, ImageUrls, model, "stopLossStatusImage");

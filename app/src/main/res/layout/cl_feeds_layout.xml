@@ -1,97 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginVertical="@dimen/_4sdp"
     app:cardCornerRadius="0dp"
-    app:cardElevation="@dimen/_4sdp"
-    android:layout_height="wrap_content">
+    app:cardElevation="@dimen/_4sdp">
 
 
     <RelativeLayout
-        android:padding="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/rrl1"
+            android:paddingVertical="@dimen/_5sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/feed_time"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time"
-                android:textSize="@dimen/_9sdp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:fontFamily="@font/regular_font"
-                android:textColor="@color/greyFont"/>
+                android:text="Time"
+                android:textColor="@color/greyFont"
+                android:textSize="@dimen/_9sdp" />
 
 
         </RelativeLayout>
 
         <View
             android:id="@+id/view"
-            android:layout_below="@id/rrl1"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_below="@id/rrl1"
             android:background="@color/greyLine" />
 
         <LinearLayout
-            android:layout_below="@id/view"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view"
+            android:orientation="vertical">
+
             <TextView
+                android:paddingHorizontal="@dimen/_10sdp"
                 android:id="@+id/feed_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hii how are you"
                 android:layout_marginVertical="@dimen/_2sdp"
-                android:textColor="@color/black"
                 android:autoLink="all"
-                android:textColorLink="@color/blue"
+                android:fontFamily="@font/regular_font"
                 android:linksClickable="true"
-                android:textSize="@dimen/_10sdp"
-                android:fontFamily="@font/regular_font"/>
+                android:text="Hii how are you"
+                android:textColor="@color/black"
+                android:textColorLink="@color/blue"
+                android:textSize="@dimen/_10sdp" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/feedImageView"
-                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/image_placeholder_2"/>
+                android:src="@drawable/image_placeholder_2"
+                android:visibility="gone" />
 
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_below="@id/feed_detail"
+                android:paddingHorizontal="@dimen/_10sdp"
                 android:id="@+id/actionLayout"
+                android:layout_marginBottom="@dimen/_4sdp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp">
+
+
+
+
                 <ImageView
                     android:layout_width="@dimen/_22sdp"
                     android:layout_height="@dimen/_22sdp"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/mid_round_blue_bg"
                     android:padding="@dimen/_3sdp"
                     android:src="@drawable/baseline_favorite_border_24" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:gravity="end"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="@dimen/_10sdp"
-                    >
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/feed_remove_btn"
@@ -110,9 +117,6 @@
                         android:background="@drawable/mid_round_blue_bg"
                         android:padding="@dimen/_3sdp"
                         android:src="@drawable/baseline_edit_24" />
-
-
-
 
 
                 </LinearLayout>

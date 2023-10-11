@@ -10,6 +10,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.prashant.stockmarketadviser.R;
 
 import java.security.SecureRandom;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -85,6 +88,26 @@ public class VUtil {
         return sdf.format(currentDate);
     }
 
+
+    public static String extractDate(String inputDate) {
+        try {
+            // Define the input and output date formats
+            SimpleDateFormat inputDateFormat = new SimpleDateFormat("hh:mm a - dd MMM yyyy");
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMM yyyy");
+
+            // Parse the input date string
+            Date date = inputDateFormat.parse(inputDate);
+
+            // Format the date as "dd MMM yyyy"
+            String formattedDate = outputDateFormat.format(date);
+
+            return formattedDate;
+        } catch (ParseException e) {
+            // Handle the parsing exception if the input format is incorrect
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static String timeStampToFormatTime(long timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a dd MMM yyyy", Locale.getDefault());
         Date date = new Date(timestamp);
@@ -120,8 +143,6 @@ public class VUtil {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                progressBar.setVisibility(View.GONE);
-
                 boolean hasMembershipYes = false; // Flag to track if any user has "membership" as "yes"
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
@@ -133,11 +154,20 @@ public class VUtil {
                     }
                 }
 
-                if (!hasMembershipYes) {
-                    emptyView.setVisibility(View.VISIBLE);
-                } else {
-                    emptyView.setVisibility(View.GONE);
-                }
+                // Perform UI updates on the main UI thread
+                boolean finalHasMembershipYes = hasMembershipYes;
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+
+                        if (!finalHasMembershipYes) {
+                            emptyView.setVisibility(View.VISIBLE);
+                        } else {
+                            emptyView.setVisibility(View.GONE);
+                        }
+                    }
+                });
             }
 
             @Override

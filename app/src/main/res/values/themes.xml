@@ -62,10 +62,12 @@
     </style>
 
 
-
     <style name="BottomNavigationStyle" parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/semibold_font</item>
+        <item name="android:textSize">@dimen/_8sdp</item> <!-- Adjust the text size as needed -->
+        <item name="itemIconSize">@dimen/_20sdp</item> <!-- Adjust the icon size as needed -->
     </style>
+
 
     <style name="MaterialAlertDialog.Rounded" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="shapeAppearanceOverlay">@style/MaterialAlertDialog.Rounded</item>

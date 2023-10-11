@@ -3,6 +3,7 @@ package com.prashant.stockmarketadviser.activity.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.auth.AuthCredential;
@@ -69,7 +70,7 @@ public class PasswordManagerActivity extends BaseActivity {
         bind.changePassword.setOnClickListener(view -> {
             CProgressDialog.mShow(PasswordManagerActivity.this);
 
-            String password =String.valueOf(bind.updateNpassword.getText());
+            String password = String.valueOf(bind.updateNpassword.getText());
 
             String cPassword = String.valueOf(bind.updateCpassword.getText());
             String currentPassword = String.valueOf(bind.currentPassword.getText());
@@ -91,36 +92,37 @@ public class PasswordManagerActivity extends BaseActivity {
                 VUtil.showWarning(PasswordManagerActivity.this, "Password not matched !");
             } else {
 
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                try {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                if (user != null && user.getEmail() != null) {
+                    if (user != null && user.getEmail() != null) {
 
-                    AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword);
+                        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), currentPassword);
 
-                    user.reauthenticate(credential).addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            user.updatePassword(password).addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
+                        user.reauthenticate(credential).addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                user.updatePassword(password).addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        CProgressDialog.mDismiss();
+                                        VUtil.showSuccessToast(PasswordManagerActivity.this, "Password has been changed");
+                                        finish();
+                                    }
+                                }).addOnFailureListener(e -> {
                                     CProgressDialog.mDismiss();
-                                    VUtil.showSuccessToast(PasswordManagerActivity.this, "Password has been changed");
-                                    finish();
-                                }
-                            }).addOnFailureListener(e -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showErrorToast(PasswordManagerActivity.this, "Current password is invalid !");
-                            });
-                        }
-                    }).addOnFailureListener(e -> {
-                        CProgressDialog.mDismiss();
-                        VUtil.showErrorToast(PasswordManagerActivity.this, e.getMessage());
-                    });
+                                    VUtil.showErrorToast(PasswordManagerActivity.this, "Current password is invalid !");
+                                });
+                            }
+                        }).addOnFailureListener(e -> {
+                            CProgressDialog.mDismiss();
+                            VUtil.showErrorToast(PasswordManagerActivity.this, e.getMessage());
+                        });
+                    }
+                }catch (Exception e){
+                    Log.e("YourTag", "An error occurred", e);
 
                 }
 
-
             }
-
-
         });
     }
 }

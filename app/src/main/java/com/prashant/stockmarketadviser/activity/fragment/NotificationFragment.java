@@ -3,6 +3,7 @@ package com.prashant.stockmarketadviser.activity.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,6 @@ public class NotificationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         bind = FragmentNotificationBinding.inflate(inflater, container, false);
-
-        AuthManager.adminChecker(bind.adminNotification);
         AuthManager.userChecker(mContext);
         getNotification();
         return bind.getRoot();
@@ -63,51 +62,55 @@ public class NotificationFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull NotificationModel model) {
+                try {
+                    if (holder.itemView != null) {
+                        TextView title = holder.itemView.findViewById(R.id.notification_title);
+                        TextView detail = holder.itemView.findViewById(R.id.notification_detail);
+                        TextView time = holder.itemView.findViewById(R.id.notification_time);
+                        MaterialButton delete = holder.itemView.findViewById(R.id.deleteBtn);
 
-                if (holder.itemView != null) {
-                    TextView title = holder.itemView.findViewById(R.id.notification_title);
-                    TextView detail = holder.itemView.findViewById(R.id.notification_detail);
-                    TextView time = holder.itemView.findViewById(R.id.notification_time);
-                    MaterialButton delete = holder.itemView.findViewById(R.id.deleteBtn);
+                        LinearLayout action = holder.itemView.findViewById(R.id.actionLayout);
 
-                    LinearLayout action = holder.itemView.findViewById(R.id.actionLayout);
+                        if (!AuthManager.isAdmin()) {
+                            action.setVisibility(View.GONE);
+                        }
 
-                    if (!AuthManager.isAdmin()) {
-                        action.setVisibility(View.GONE);
-                    }
+                        title.setText(model.getTitle());
+                        detail.setText(model.getDescription());
+                        time.setText(model.getTime());
 
-                    title.setText(model.getTitle());
-                    detail.setText(model.getDescription());
-                    time.setText(model.getTime());
+                        delete.setOnClickListener(view -> {
 
-                    delete.setOnClickListener(view -> {
-
-                        MyDialog dialog = new MyDialog(view.getContext(), R.layout.cl_alert);
-                        TextView alert = dialog.getView().findViewById(R.id.alert_text);
-                        MaterialButton yes = dialog.getView().findViewById(R.id.yes_btn);
-                        MaterialButton no = dialog.getView().findViewById(R.id.no_btn);
-
-
-                        alert.setText("Are you sure want to delete this Notification !");
-                        yes.setOnClickListener(view1 -> {
-                            CProgressDialog.mShow(view1.getContext());
-                            dialog.dismiss();
-                            Constant.notificationDB.child(model.getUid()).removeValue().addOnCompleteListener(task -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showSuccessToast(view1.getContext(), "Notification Deleted");
-
-                            }).addOnFailureListener(e -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showErrorToast(view1.getContext(), e.getMessage());                                        });
+                            MyDialog dialog = new MyDialog(view.getContext(), R.layout.cl_alert);
+                            TextView alert = dialog.getView().findViewById(R.id.alert_text);
+                            MaterialButton yes = dialog.getView().findViewById(R.id.yes_btn);
+                            MaterialButton no = dialog.getView().findViewById(R.id.no_btn);
 
 
+                            alert.setText("Are you sure want to delete this Notification !");
+                            yes.setOnClickListener(view1 -> {
+                                CProgressDialog.mShow(view1.getContext());
+                                dialog.dismiss();
+                                Constant.notificationDB.child(model.getUid()).removeValue().addOnCompleteListener(task -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showSuccessToast(view1.getContext(), "Notification Deleted");
+
+                                }).addOnFailureListener(e -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showErrorToast(view1.getContext(), e.getMessage());
+                                });
+
+
+                            });
+
+                            no.setOnClickListener(view12 -> dialog.dismiss());
+
+                            dialog.show();
                         });
 
-                        no.setOnClickListener(view12 -> dialog.dismiss());
-
-                        dialog.show();
-                    });
-
+                    }
+                } catch (Exception e) {
+                    Log.e("YourTag", "An error occurred", e);
                 }
             }
 

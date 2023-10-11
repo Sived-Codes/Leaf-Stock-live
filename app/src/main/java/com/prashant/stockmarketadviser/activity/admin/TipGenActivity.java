@@ -534,11 +534,10 @@ public class TipGenActivity extends BaseActivity implements PerformanceGenerator
         TextView performanceText = performanceGenDialog.getView().findViewById(R.id.pf_day);
         TextView tip = performanceGenDialog.getView().findViewById(R.id.pf_tip);
 
-        MaterialButton downloadBtn = performanceGenDialog.getView().findViewById(R.id.downloadBtn);
-        MaterialButton postBtn = performanceGenDialog.getView().findViewById(R.id.shareBtn);
+        ImageView downloadBtn = performanceGenDialog.getView().findViewById(R.id.downloadBtn);
+        ImageView postBtn = performanceGenDialog.getView().findViewById(R.id.shareBtn);
         RelativeLayout performanceView = performanceGenDialog.getView().findViewById(R.id.performanceView);
 
-        postBtn.setText("Send Past Performance");
 
         PerformanceModel model = new PerformanceModel();
         model.setPerformanceOfTheDay("Performance of the day " + VUtil.getDateAndDay());

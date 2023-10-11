@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.prashant.stockmarketadviser.databinding.ActivityLoginBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.activity.admin.BaseActivity;
@@ -23,6 +28,8 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
 
         if (AuthManager.isUserLoggedIn()) {
             AuthManager.handleUserLogin(this);

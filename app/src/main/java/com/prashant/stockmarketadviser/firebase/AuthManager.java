@@ -24,6 +24,7 @@ import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.activity.admin.PaymentPendingActivity;
 import com.prashant.stockmarketadviser.activity.auth.LoginActivity;
 import com.prashant.stockmarketadviser.activity.dashboard.DashboardActivity;
+import com.prashant.stockmarketadviser.util.AsyncTaskHelper;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.MyDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
@@ -47,40 +48,47 @@ public class AuthManager {
     private static boolean isAdmin = false;
 
     public static UserModel userChecker(Context appContext) {
-        try {
-            String uid = getUid();
-            if (uid != null) {
-                DatabaseReference userRef = Constant.userDB.child(uid);
+        AsyncTaskHelper.runInBackground(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String uid = getUid();
+                    if (uid != null) {
+                        DatabaseReference userRef = Constant.userDB.child(uid);
 
-                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        model = snapshot.getValue(UserModel.class);
-                        if (model != null) {
-                            setupUser(appContext, model);
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                model = snapshot.getValue(UserModel.class);
+                                if (model != null) {
+                                    setupUser(appContext, model);
 
-                        } else {
-                            handleDataConsistencyIfNeeded(appContext);
-                        }
-                    }
+                                } else {
+                                    handleDataConsistencyIfNeeded(appContext);
+                                }
+                            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                handleDataConsistencyIfNeeded(appContext);
+                            }
+                        });
+                    } else {
                         handleDataConsistencyIfNeeded(appContext);
                     }
-                });
-            } else {
-                handleDataConsistencyIfNeeded(appContext);
+                } catch (Exception e) {
+                    Log.e("AuthManager", "userChecker: " + e.getMessage(), e);
+                }
+
             }
-        } catch (Exception e) {
-            Log.e("AuthManager", "userChecker: " + e.getMessage(), e);
-        }
+        });
 
         return model;
     }
 
     public static void userLogin(String email, String password, Context context) {
-        try {
+
+        try{
             if (!CProgressDialog.isDialogShown)CProgressDialog.mShow(context);
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -148,7 +156,6 @@ public class AuthManager {
         handleUserStatus(appContext, userModel);
         handleSubscriptionStatus(userModel);
         isAdmin = userModel.getUserType().equals("admin");
-        handleDeviceChange(appContext, userModel);
         handleUserProfileImageIfNeeded(userModel);
         handleDataConsistencyIfNeeded(appContext, userModel);
         if (CProgressDialog.isDialogShown)CProgressDialog.mDismiss();
@@ -156,6 +163,7 @@ public class AuthManager {
     }
 
     public static void handleUserLogin(Context appContext) {
+
         if (mAuth.getCurrentUser() != null) {
             if (!CProgressDialog.isDialogShown) CProgressDialog.mShow(appContext);
 
@@ -191,55 +199,64 @@ public class AuthManager {
                 });
             }
         }
+
     }
 
     public static void getFreeTrialExpireUser(Context context) {
-        CProgressDialog.mShow(context);
-        Constant.userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        AsyncTaskHelper.runInBackground(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Date currentDate = new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a - dd MMM yyyy", Locale.ENGLISH);
+            public void run() {
+                CProgressDialog.mShow(context);
+                Constant.userDB.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Date currentDate = new Date();
+                        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a - dd MMM yyyy", Locale.ENGLISH);
 
-                List<UserModel> expiredUsers = new ArrayList<>();
+                        List<UserModel> expiredUsers = new ArrayList<>();
 
-                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    UserModel userModel = userSnapshot.getValue(UserModel.class);
+                        for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                            UserModel userModel = userSnapshot.getValue(UserModel.class);
 
-                    if (userModel != null && userModel.getRegistrationDate() != null && userModel.getUserPlanType().equals("free")) {
-                        try {
-                            Date registrationDate = sdf.parse(userModel.getRegistrationDate());
+                            if (userModel != null && userModel.getRegistrationDate() != null && userModel.getUserPlanType().equals("free")) {
+                                try {
+                                    Date registrationDate = sdf.parse(userModel.getRegistrationDate());
 
-                            Calendar calendar = Calendar.getInstance();
-                            if (registrationDate != null) {
-                                calendar.setTime(registrationDate);
+                                    Calendar calendar = Calendar.getInstance();
+                                    if (registrationDate != null) {
+                                        calendar.setTime(registrationDate);
+                                    }
+                                    calendar.add(Calendar.DAY_OF_MONTH, 14);
+                                    Date expireDate = calendar.getTime();
+
+                                    if (currentDate.after(expireDate)) {
+                                        userModel.setUserStatus("inactive");
+                                        DatabaseReference userRef = Constant.userDB.child(userModel.getUserUid());
+                                        userRef.child("userStatus").setValue("inactive");
+
+                                        // Add the user to the list of expired users
+                                        expiredUsers.add(userModel);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
-                            calendar.add(Calendar.DAY_OF_MONTH, 14);
-                            Date expireDate = calendar.getTime();
-
-                            if (currentDate.after(expireDate)) {
-                                userModel.setUserStatus("inactive");
-                                DatabaseReference userRef = Constant.userDB.child(userModel.getUserUid());
-                                userRef.child("userStatus").setValue("inactive");
-
-                                // Add the user to the list of expired users
-                                expiredUsers.add(userModel);
-                            }
-                        } catch (ParseException e) {
-                            e.printStackTrace();
                         }
+
+                        VUtil.showSuccessToast(context, "Scanned Successful");
+                        CProgressDialog.mDismiss();
                     }
-                }
 
-                VUtil.showSuccessToast(context, "Scanned Successful");
-                CProgressDialog.mDismiss();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                CProgressDialog.mDismiss();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        CProgressDialog.mDismiss();
+                    }
+                });
             }
         });
+
+
     }
 
 
@@ -264,11 +281,7 @@ public class AuthManager {
         }
     }
 
-    private static void handleDeviceChange(Context context, UserModel userModel) {
-        if (!userModel.getDeviceId().equals(VUtil.getDeviceId(context))) {
-            signOut(context);
-        }
-    }
+
 
     private static void handleUserProfileImageIfNeeded(UserModel userModel) {
         if (userModel.getUserImage().isEmpty()) {
@@ -296,24 +309,34 @@ public class AuthManager {
     }
 
     public static void signOut(Context context) {
-        mAuth.signOut();
 
-        // Remove the FCM token
-        FirebaseMessaging.getInstance().deleteToken()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // FCM token successfully removed
-                        Intent intent = new Intent(context, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                        CProgressDialog.mDismiss();
-                        VUtil.showSuccessToast(context, "User logged out!");
-                    } else {
-                        // Handle the error if token removal fails
-                        CProgressDialog.mDismiss();
-                        VUtil.showErrorToast(context, "Failed to log out. Please try again.");
-                    }
-                });
+        AsyncTaskHelper.runInBackground(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    mAuth.signOut();
+                    FirebaseMessaging.getInstance().deleteToken()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Intent intent = new Intent(context, LoginActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    context.startActivity(intent);
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showSuccessToast(context, "User logged out!");
+                                } else {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showErrorToast(context, "Failed to log out. Please try again.");
+                                }
+                            });
+                }catch (Exception e){
+                    VUtil.showErrorToast(context, e.getMessage());
+
+                }
+            }
+        });
+
+
+
     }
 
 
@@ -366,17 +389,6 @@ public class AuthManager {
         }
         return null;
     }
-
-
-
-    public static void adminChecker(MaterialButton button) {
-        if (isAdmin()) {
-            button.setVisibility(View.VISIBLE);
-        }
-    }
-
-
-
 
 
 

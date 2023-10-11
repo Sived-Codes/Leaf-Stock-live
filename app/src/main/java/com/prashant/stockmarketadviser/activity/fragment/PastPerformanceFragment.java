@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,7 +46,6 @@ public class PastPerformanceFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         bind = FragmentPastPerformanceBinding.inflate(inflater, container, false);
 
-        AuthManager.adminChecker(bind.adminPastPerformance);
         AuthManager.userChecker(mContext);
         getPerformance();
         return bind.getRoot();
@@ -61,56 +61,60 @@ public class PastPerformanceFragment extends Fragment {
         adapter = new FirebaseRecyclerAdapter<PerformanceModel, MyAdapter.MyHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull PerformanceModel model) {
+                try {
+                    if (holder.itemView != null) {
+                        TextView firstProfit = holder.itemView.findViewById(R.id.pf_first_profit);
+                        TextView secondProfit = holder.itemView.findViewById(R.id.pf_second_profit);
+                        TextView thirdProfit = holder.itemView.findViewById(R.id.pf_third_profit);
+                        TextView performanceOfTheDay = holder.itemView.findViewById(R.id.pf_day);
+                        TextView tip = holder.itemView.findViewById(R.id.pf_tip);
+                        ImageView delete = holder.itemView.findViewById(R.id.deleteBtn);
+                        ImageView download = holder.itemView.findViewById(R.id.downloadBtn);
+                        RelativeLayout performanceView = holder.itemView.findViewById(R.id.performanceView);
 
-                if (holder.itemView != null) {
-                    TextView firstProfit = holder.itemView.findViewById(R.id.pf_first_profit);
-                    TextView secondProfit = holder.itemView.findViewById(R.id.pf_second_profit);
-                    TextView thirdProfit = holder.itemView.findViewById(R.id.pf_third_profit);
-                    TextView performanceOfTheDay = holder.itemView.findViewById(R.id.pf_day);
-                    TextView tip = holder.itemView.findViewById(R.id.pf_tip);
-                    MaterialButton delete = holder.itemView.findViewById(R.id.deleteBtn);
-                    MaterialButton download = holder.itemView.findViewById(R.id.downloadBtn);
-                    RelativeLayout performanceView = holder.itemView.findViewById(R.id.performanceView);
-
-                    if (AuthManager.isAdmin()) {
-                        delete.setVisibility(View.VISIBLE);
-                    }
+                        if (AuthManager.isAdmin()) {
+                            delete.setVisibility(View.VISIBLE);
+                        }
 
 
-                    performanceOfTheDay.setText(model.getPerformanceOfTheDay());
-                    firstProfit.setText(model.getFirstProfit());
-                    secondProfit.setText(model.getSecondProfit());
-                    thirdProfit.setText(model.getThirdProfit());
-                    tip.setText(model.getTip());
+                        performanceOfTheDay.setText(model.getPerformanceOfTheDay());
+                        firstProfit.setText(model.getFirstProfit());
+                        secondProfit.setText(model.getSecondProfit());
+                        thirdProfit.setText(model.getThirdProfit());
+                        tip.setText(model.getTip());
 
-                    delete.setOnClickListener(view -> {
-                        MyDialog dialog = new MyDialog(view.getContext(), R.layout.cl_alert);
-                        TextView alert = dialog.getView().findViewById(R.id.alert_text);
-                        MaterialButton yes = dialog.getView().findViewById(R.id.yes_btn);
-                        MaterialButton no = dialog.getView().findViewById(R.id.no_btn);
-                        alert.setText("Are you sure want to delete this performance !");
+                        delete.setOnClickListener(view -> {
+                            MyDialog dialog = new MyDialog(view.getContext(), R.layout.cl_alert);
+                            TextView alert = dialog.getView().findViewById(R.id.alert_text);
+                            MaterialButton yes = dialog.getView().findViewById(R.id.yes_btn);
+                            MaterialButton no = dialog.getView().findViewById(R.id.no_btn);
+                            alert.setText("Are you sure want to delete this performance !");
 
-                        yes.setOnClickListener(view1 -> {
-                            CProgressDialog.mShow(view1.getContext());
-                            dialog.dismiss();
-                            Constant.performanceDB.child(model.getUid()).removeValue().addOnCompleteListener(task -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showSuccessToast(view1.getContext(), "Performance Deleted");
+                            yes.setOnClickListener(view1 -> {
+                                CProgressDialog.mShow(view1.getContext());
+                                dialog.dismiss();
+                                Constant.performanceDB.child(model.getUid()).removeValue().addOnCompleteListener(task -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showSuccessToast(view1.getContext(), "Performance Deleted");
 
-                            }).addOnFailureListener(e -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showErrorToast(view1.getContext(), e.getMessage());
+                                }).addOnFailureListener(e -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showErrorToast(view1.getContext(), e.getMessage());
+                                });
+
+
                             });
 
+                            no.setOnClickListener(view12 -> dialog.dismiss());
 
+                            dialog.show();
                         });
 
-                        no.setOnClickListener(view12 -> dialog.dismiss());
+                        download.setOnClickListener(view -> PerformanceGenerator.generatePerformance(view.getContext(), performanceView));
 
-                        dialog.show();
-                    });
+                    }
 
-                    download.setOnClickListener(view -> PerformanceGenerator.generatePerformance(view.getContext(), performanceView));
+                }catch (Exception e){
 
                 }
             }

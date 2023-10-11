@@ -254,7 +254,7 @@ public class RegistrationActivity extends BaseActivity {
             @Override
             public void onVerificationFailed(FirebaseException e) {
                 CProgressDialog.mDismiss();
-
+                VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
                     VUtil.showErrorToast(RegistrationActivity.this, e.getMessage());
                 }

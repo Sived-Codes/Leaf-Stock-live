@@ -1,5 +1,7 @@
 package com.prashant.stockmarketadviser.activity.admin;
 
+import static com.prashant.stockmarketadviser.firebase.AuthManager.signOut;
+
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -16,6 +18,7 @@ import com.prashant.stockmarketadviser.firebase.AuthManager;
 import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.activity.dashboard.DashboardActivity;
 import com.prashant.stockmarketadviser.util.NetworkReceiver;
+import com.prashant.stockmarketadviser.util.VUtil;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class BaseActivity extends AppCompatActivity {
                 PlayIntegrityAppCheckProviderFactory.getInstance());
 
         UserModel model = AuthManager.userChecker(this);
+
+
 
         if (model!=null){
             if (model.getUserPlanType().equals("free")){

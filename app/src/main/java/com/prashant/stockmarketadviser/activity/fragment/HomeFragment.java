@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -28,6 +30,8 @@ import com.prashant.stockmarketadviser.activity.admin.TipGenActivity;
 import com.prashant.stockmarketadviser.activity.chat.ChatListActivity;
 import com.prashant.stockmarketadviser.activity.chat.SpecificChatActivity;
 import com.prashant.stockmarketadviser.util.MyDialog;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,12 +99,15 @@ public class HomeFragment extends Fragment {
     private void getAdminList() {
         RecyclerView recyclerView = adminListDialog.getView().findViewById(R.id.adminListRecyclerview);
         
-        recyclerView.setLayoutManager(new ReverseLinearLayoutManager(mContext));
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         FirebaseRecyclerOptions<UserModel> options = new FirebaseRecyclerOptions.Builder<UserModel>().setQuery(Constant.userDB.orderByChild("userType").equalTo("admin"), UserModel.class).build();
         adapter = new FirebaseRecyclerAdapter<UserModel, MyAdapter.MyHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull UserModel model) {
+
+               TextView channelName=  holder.itemView.findViewById(R.id.userName);
+                channelName.setText(generateChannelName(position));
 
                 holder.itemView.setOnClickListener(view -> {
 
@@ -121,6 +128,11 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
+
+    private String generateChannelName(int position) {
+        return "Support Care " + (position + 1);
+    }
+
 
     public void onStart() {
         super.onStart();

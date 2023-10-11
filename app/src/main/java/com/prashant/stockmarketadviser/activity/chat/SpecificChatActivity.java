@@ -3,6 +3,7 @@ package com.prashant.stockmarketadviser.activity.chat;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.prashant.stockmarketadviser.R;
+import com.prashant.stockmarketadviser.activity.admin.BaseActivity;
+import com.prashant.stockmarketadviser.activity.admin.ProfileViewActivity;
 import com.prashant.stockmarketadviser.adapter.ChatAdapter;
 import com.prashant.stockmarketadviser.databinding.ActivitySpecificChatBinding;
 import com.prashant.stockmarketadviser.firebase.AuthManager;
@@ -19,8 +22,6 @@ import com.prashant.stockmarketadviser.firebase.NotificationSender;
 import com.prashant.stockmarketadviser.model.ChatListModel;
 import com.prashant.stockmarketadviser.model.ChatModel;
 import com.prashant.stockmarketadviser.model.UserModel;
-import com.prashant.stockmarketadviser.activity.admin.BaseActivity;
-import com.prashant.stockmarketadviser.activity.admin.ProfileViewActivity;
 import com.prashant.stockmarketadviser.util.VUtil;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +31,7 @@ public class SpecificChatActivity extends BaseActivity {
     ActivitySpecificChatBinding bind;
 
     ChatAdapter chatAdapter;
-    ArrayList<ChatModel> chatList =new ArrayList<>();
+    ArrayList<ChatModel> chatList = new ArrayList<>();
 
     String senderRoom, receiverRoom;
     UserModel userModel, senderModel;
@@ -76,9 +77,9 @@ public class SpecificChatActivity extends BaseActivity {
         bind.sendBtn.setOnClickListener(view -> {
             String msg = String.valueOf(bind.msgBox.getText());
 
-            if (msg.equals("")){
+            if (msg.equals("")) {
                 VUtil.showWarning(SpecificChatActivity.this, "Write some think !");
-            }else {
+            } else {
                 bind.msgBox.setText("");
                 ChatModel chatModel = new ChatModel();
                 chatModel.setMessage(msg);
@@ -87,23 +88,23 @@ public class SpecificChatActivity extends BaseActivity {
                 chatModel.setTimestamp(System.currentTimeMillis());
                 chatModel.setSenderUid(senderModel.getUserUid());
 
-                ChatListModel chatListModel =new ChatListModel();
+                ChatListModel chatListModel = new ChatListModel();
 
                 Constant.chatDB.child(senderRoom).child("message").push().setValue(chatModel).addOnCompleteListener(task -> {
 
                     if (task.isSuccessful()) {
                         Constant.chatDB.child(receiverRoom).child("message").push().setValue(chatModel).addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()){
+                            if (task1.isSuccessful()) {
 
                                 NotificationSender.sendChatNotificationToUser(SpecificChatActivity.this, userModel.getFirebaseToken(), senderModel.getFullName(), msg, "ChatActivity");
-                                if (senderModel.getUserType().equals("admin")){
+                                if (senderModel.getUserType().equals("admin")) {
                                     chatListModel.setUserMsg(msg);
                                     chatListModel.setUserName(userModel.getFullName());
                                     chatListModel.setUserMsgTime(System.currentTimeMillis());
                                     chatListModel.setUserUid(userModel.getUserUid());
 
                                     Constant.adminDB.child("ChatList").child(userModel.getUserUid()).setValue(chatListModel);
-                                }else{
+                                } else {
                                     chatListModel.setUserMsg(msg);
                                     chatListModel.setUserName(senderModel.getFullName());
                                     chatListModel.setUserMsgTime(System.currentTimeMillis());
@@ -124,13 +125,21 @@ public class SpecificChatActivity extends BaseActivity {
     }
 
     private void getChats() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setStackFromEnd(true);
 
-        bind.chatRecyclerview.setLayoutManager(linearLayoutManager);
-        chatAdapter = new ChatAdapter(SpecificChatActivity.this, chatList);
-        bind.chatRecyclerview.setAdapter(chatAdapter);
-        VUtil.EmptyViewHandler(Constant.chatDB.child(senderRoom).child("message"), bind.view.empty, bind.progressBar.show);
+        try {
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            linearLayoutManager.setStackFromEnd(true);
+
+            bind.chatRecyclerview.setLayoutManager(linearLayoutManager);
+            chatAdapter = new ChatAdapter(SpecificChatActivity.this, chatList);
+            bind.chatRecyclerview.setAdapter(chatAdapter);
+            VUtil.EmptyViewHandler(Constant.chatDB.child(senderRoom).child("message"), bind.view.empty, bind.progressBar.show);
+
+        } catch (Exception e) {
+            Log.e("YourTag", "An error occurred", e);
+
+        }
+
 
         Constant.chatDB.child(senderRoom).child("message").addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -145,7 +154,6 @@ public class SpecificChatActivity extends BaseActivity {
                     }
                 }
 
-                // Notify the adapter that the data has changed
                 chatAdapter.notifyDataSetChanged();
 
                 // Scroll to the last item (latest message)

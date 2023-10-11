@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/_14sdp"
+    app:cardElevation="@dimen/_4sdp"
     android:layout_marginVertical="@dimen/_4sdp"
-    app:cardCornerRadius="@dimen/_10sdp">
+    app:cardCornerRadius="0dp">
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -15,6 +16,7 @@
             android:id="@+id/performanceView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp">
 
@@ -146,55 +148,70 @@
                     android:background="@color/greyLine" />
 
 
-
             </LinearLayout>
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/performanceActionLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/performanceView"
+    <RelativeLayout
+        android:id="@+id/performanceActionLayout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/performanceView"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/mid_round_blue_bg"
+            android:padding="@dimen/_3sdp"
+            android:src="@drawable/baseline_favorite_24" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
             android:orientation="horizontal"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_5sdp">
 
-            <com.google.android.material.button.MaterialButton
+            <ImageView
                 android:id="@+id/deleteBtn"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_30sdp"
-                android:backgroundTint="@color/fadeRed"
-                android:text="Delete"
-                android:textColor="@color/red"
-                android:textSize="@dimen/_7sdp"
-                app:cornerRadius="@dimen/_14sdp" />
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:background="@drawable/mid_round_blue_bg"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/baseline_delete_blue"
+                android:visibility="gone" />
 
-            <com.google.android.material.button.MaterialButton
+            <ImageView
                 android:id="@+id/shareBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_30sdp"
-                android:backgroundTint="@color/fadeBlue"
-                android:text="share"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/_7sdp"
-                app:cornerRadius="@dimen/_14sdp" />
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:background="@drawable/mid_round_blue_bg"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/baseline_share_24" />
 
-            <com.google.android.material.button.MaterialButton
+            <ImageView
                 android:id="@+id/downloadBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:backgroundTint="@color/fadeBlue"
-                android:text="Download"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/_7sdp"
-                app:cornerRadius="@dimen/_14sdp" />
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:background="@drawable/mid_round_blue_bg"
+                android:padding="@dimen/_3sdp"
+                android:src="@drawable/baseline_file_download_24" />
+
+
+
 
         </LinearLayout>
+
+    </RelativeLayout>
+
 
     </RelativeLayout>
 

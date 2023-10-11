@@ -26,12 +26,29 @@
                 android:id="@+id/actionBarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
                 android:fontFamily="@font/semibold_font"
                 android:gravity="center"
                 android:text="Feed"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_13sdp" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/addFeedBtn"
+                android:background="@drawable/mid_round_blue_bg"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/semibold_font"
+                android:gravity="center"
+                android:text="Add Feed"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_10sdp" />
+
+
 
         </RelativeLayout>
 
@@ -46,20 +63,6 @@
         android:layout_centerInParent="true" />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addFeedBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/_14sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:fontFamily="@font/semibold_font"
-        android:text="Add Feed"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_7sdp"
-        android:visibility="gone"
-        app:cornerRadius="@dimen/_11sdp" />
 
 
     <include

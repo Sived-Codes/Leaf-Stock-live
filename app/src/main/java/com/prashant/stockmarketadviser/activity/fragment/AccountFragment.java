@@ -21,6 +21,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +44,7 @@ import com.prashant.stockmarketadviser.model.UserModel;
 import com.prashant.stockmarketadviser.activity.admin.ManageUserActivity;
 import com.prashant.stockmarketadviser.activity.admin.PaymentPageActivity;
 import com.prashant.stockmarketadviser.activity.auth.PasswordManagerActivity;
+import com.prashant.stockmarketadviser.util.AsyncTaskHelper;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.LocalPreference;
 import com.prashant.stockmarketadviser.util.MyDialog;
@@ -70,6 +75,12 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAccountBinding.inflate(inflater, container, false);
+
+
+
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adView.loadAd(adRequest);
 
         planDialog = new MyDialog(mContext, R.layout.cl_membership_dialog);
         getPlanList();
@@ -131,53 +142,57 @@ public class AccountFragment extends Fragment {
 
     private void getUserDetail() {
 
-        Constant.userDB.child(Objects.requireNonNull(AuthManager.getUid())).addValueEventListener(new ValueEventListener() {
+// Load user details from Firebase Database using AsyncTaskHelper
+        AsyncTaskHelper.runInBackground(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserModel userModel = snapshot.getValue(UserModel.class);
+            public void run() {
+                Constant.userDB.child(Objects.requireNonNull(AuthManager.getUid()))
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                UserModel userModel = snapshot.getValue(UserModel.class);
 
+                                if (userModel != null) {
+                                    AsyncTaskHelper.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (binding != null) {
+                                                // Update UI components with user data
+                                                if (userModel.getUserType().equals("user")) {
+                                                    binding.userPlan.setText(userModel.getUserPlan());
+                                                } else {
+                                                    binding.userPlan.setText(R.string.administrator);
+                                                }
+                                                binding.userName.setText(userModel.getFullName());
+                                                Picasso.get().load(userModel.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(binding.userImg);
+                                                binding.userMobile.setText(userModel.getMobile());
+                                                binding.userMail.setText(userModel.getEmail());
+                                                binding.userRegDate.setText("Reg : " + userModel.getRegistrationDate());
+                                                binding.mainAccountLayout.setVisibility(View.VISIBLE);
+                                                binding.progressBar.show.setVisibility(View.GONE);
+                                            }
+                                        }
+                                    });
 
-                if (userModel != null) {
+                                    binding.userImg.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Map<String, Object> updates = new HashMap<>();
+                                            updates.put("userImage", VUtil.getRandomDp());
+                                            Constant.userDB.child(userModel.getUserUid()).updateChildren(updates);
+                                        }
+                                    });
 
-                    if (binding == null) {
-                        return;
-                    }
+                                } else {
+                                    VUtil.showWarning(mContext, "Model is null");
+                                }
+                            }
 
-                    LocalPreference.storeUserType(mContext, userModel.getUserType());
-
-                    if (userModel.getUserType().equals("user")) {
-                        binding.userPlan.setText(userModel.getUserPlan());
-                    } else {
-                        binding.userPlan.setText(R.string.administrator);
-                    }
-
-                    binding.userName.setText(userModel.getFullName());
-                    Picasso.get().load(userModel.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(binding.userImg);
-
-                    binding.userMobile.setText(userModel.getMobile());
-                    binding.userMail.setText(userModel.getEmail());
-                    binding.userRegDate.setText("Reg : " + userModel.getRegistrationDate());
-
-                    binding.mainAccountLayout.setVisibility(View.VISIBLE);
-                    binding.progressBar.show.setVisibility(View.GONE);
-
-                    binding.userImg.setOnClickListener(view -> {
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("userImage", VUtil.getRandomDp());
-                        Constant.userDB.child(userModel.getUserUid()).updateChildren(updates);
-                    });
-
-                    binding.mainAccountLayout.setVisibility(View.VISIBLE);
-
-                } else {
-                    VUtil.showWarning(mContext, "Model is null");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                VUtil.showErrorToast(mContext, error.getMessage());
-
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                VUtil.showErrorToast(mContext, error.getMessage());
+                            }
+                        });
             }
         });
 

@@ -56,20 +56,6 @@
         android:layout_below="@id/actionBarLayout"
         android:layout_centerInParent="true" />
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:textSize="@dimen/_7sdp"
-        android:id="@+id/adminNotification"
-        android:visibility="gone"
-        android:textColor="@color/white"
-        android:fontFamily="@font/semibold_font"
-        android:layout_alignParentBottom="true"
-        android:drawableStart="@drawable/baseline_add_24"
-        android:layout_alignParentEnd="true"
-        app:cornerRadius="@dimen/_11sdp"
-        android:layout_marginEnd="@dimen/_14sdp"
-        android:layout_marginBottom="@dimen/_10sdp"        android:layout_height="wrap_content"
-        android:text="Add Notification"/>
 
 
 

@@ -45,7 +45,7 @@ public class AddFeedActivity extends BaseActivity {
         FeedModel model = (FeedModel) getIntent().getSerializableExtra("model");
         if (model != null) {
             updateFeed(model);
-        }else{
+        } else {
             newFeed();
         }
 
@@ -62,7 +62,7 @@ public class AddFeedActivity extends BaseActivity {
                 CProgressDialog.mDismiss();
             } else {
 
-               uploadImageToFirebaseStorage(selectedImageUri);
+                uploadImageToFirebaseStorage(selectedImageUri);
 
             }
         });
@@ -79,7 +79,7 @@ public class AddFeedActivity extends BaseActivity {
         bind.feedPostBtn.setText(getString(R.string.update_now));
         bind.feedDetail.setText(model.getFeedDescription());
 
-        if (model.getFeedImageUrl()!=null && !model.getFeedImageUrl().isEmpty()){
+        if (model.getFeedImageUrl() != null && !model.getFeedImageUrl().isEmpty()) {
             bind.feedImageView.setVisibility(View.VISIBLE);
             Picasso.get().load(model.getFeedImageUrl()).placeholder(R.drawable.image_placeholder_2).into(bind.feedImageView);
         }
@@ -94,21 +94,19 @@ public class AddFeedActivity extends BaseActivity {
                 Map<String, Object> updates = new HashMap<>();
                 updates.put("feedDescription", updatedFeedDesc);
 
-                Constant.feedDB.child(uFeedId).updateChildren(updates)
-                        .addOnCompleteListener(task -> {
-                            CProgressDialog.mDismiss();
+                Constant.feedDB.child(uFeedId).updateChildren(updates).addOnCompleteListener(task -> {
+                    CProgressDialog.mDismiss();
 
-                            if (task.isSuccessful()) {
-                                Toast.makeText(AddFeedActivity.this, getString(R.string.feed_updated), Toast.LENGTH_SHORT).show();
-                                finish();
-                            } else {
-                                Toast.makeText(AddFeedActivity.this, getString(R.string.failed_to_update), Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            CProgressDialog.mDismiss();
-                            Toast.makeText(AddFeedActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                        });
+                    if (task.isSuccessful()) {
+                        Toast.makeText(AddFeedActivity.this, getString(R.string.feed_updated), Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(AddFeedActivity.this, getString(R.string.failed_to_update), Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(e -> {
+                    CProgressDialog.mDismiss();
+                    Toast.makeText(AddFeedActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                });
             }
         });
     }
@@ -121,7 +119,7 @@ public class AddFeedActivity extends BaseActivity {
             if (selectedImageUri != null) {
                 bind.feedImageView.setVisibility(View.VISIBLE);
                 bind.feedImageView.setImageURI(selectedImageUri);
-            }else {
+            } else {
                 bind.feedImageView.setVisibility(View.GONE);
             }
         }
@@ -140,7 +138,7 @@ public class AddFeedActivity extends BaseActivity {
 
         if (imageUri == null) {
             uploadData(model, feedId);
-        }else{
+        } else {
             uploadDataToWithImage(model, feedId, imageUri);
 
         }

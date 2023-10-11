@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,14 @@ import androidx.fragment.app.Fragment;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.prashant.stockmarketadviser.R;
+import com.prashant.stockmarketadviser.activity.admin.ProfileViewActivity;
+import com.prashant.stockmarketadviser.activity.chat.SpecificChatActivity;
 import com.prashant.stockmarketadviser.adapter.MyAdapter;
 import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
 import com.prashant.stockmarketadviser.databinding.FragmentPrimeUserBinding;
 import com.prashant.stockmarketadviser.firebase.Constant;
 import com.prashant.stockmarketadviser.model.UserModel;
-import com.prashant.stockmarketadviser.activity.admin.ProfileViewActivity;
-import com.prashant.stockmarketadviser.activity.chat.SpecificChatActivity;
+import com.prashant.stockmarketadviser.util.AsyncTaskHelper;
 import com.prashant.stockmarketadviser.util.CProgressDialog;
 import com.prashant.stockmarketadviser.util.VUtil;
 import com.squareup.picasso.Picasso;
@@ -73,13 +75,11 @@ public class PrimeUserFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String searchText = charSequence.toString().toLowerCase();
 
-                if (!searchText.equals("")){
-                    FirebaseRecyclerOptions<UserModel> filteredOptions = new FirebaseRecyclerOptions.Builder<UserModel>()
-                            .setQuery(Constant.userDB.orderByChild("fullName").startAt(searchText).endAt(searchText + "\uf8ff"), UserModel.class)
-                            .build();
+                if (!searchText.equals("")) {
+                    FirebaseRecyclerOptions<UserModel> filteredOptions = new FirebaseRecyclerOptions.Builder<UserModel>().setQuery(Constant.userDB.orderByChild("fullName").startAt(searchText).endAt(searchText + "\uf8ff"), UserModel.class).build();
 
                     adapter.updateOptions(filteredOptions);
-                }else{
+                } else {
                     adapter.updateOptions(options);
                 }
 
@@ -94,80 +94,99 @@ public class PrimeUserFragment extends Fragment {
 
 
     private void getPrimeUser() {
-        bind.primeUserRecyclerview.setLayoutManager(new ReverseLinearLayoutManager(mContext));
-        VUtil.EmptyViewUserChecker(Constant.userDB, bind.view.empty, bind.progressBar.show, "yes");
 
-         options = new FirebaseRecyclerOptions.Builder<UserModel>().setQuery(Constant.userDB.orderByChild("memberShip").equalTo("yes"), UserModel.class).build();
+        try {
+            bind.primeUserRecyclerview.setLayoutManager(new ReverseLinearLayoutManager(mContext));
+            VUtil.EmptyViewUserChecker(Constant.userDB, bind.view.empty, bind.progressBar.show, "yes");
+        }catch (Exception e){
+            Log.e("YourTag", "An error occurred", e);
+
+        }
+
+
+        options = new FirebaseRecyclerOptions.Builder<UserModel>().setQuery(Constant.userDB.orderByChild("memberShip").equalTo("yes"), UserModel.class).build();
 
         adapter = new FirebaseRecyclerAdapter<UserModel, MyAdapter.MyHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull UserModel model) {
 
-                if (holder.itemView != null) {
-                    LinearLayout chatBtn = holder.itemView.findViewById(R.id.chatBtn);
-                    LinearLayout callBtn = holder.itemView.findViewById(R.id.callBtn);
-                    LinearLayout whatsappBtn = holder.itemView.findViewById(R.id.whatsAppBtn);
+                try {
+                    if (holder.itemView != null) {
+                        LinearLayout chatBtn = holder.itemView.findViewById(R.id.chatBtn);
+                        LinearLayout callBtn = holder.itemView.findViewById(R.id.callBtn);
+                        LinearLayout whatsappBtn = holder.itemView.findViewById(R.id.whatsAppBtn);
 
 
-                    TextView name = holder.itemView.findViewById(R.id.userName);
-                    TextView mobile = holder.itemView.findViewById(R.id.userMobile);
-                    TextView email = holder.itemView.findViewById(R.id.userEmail);
-                    SwitchCompat userStatusChanger = holder.itemView.findViewById(R.id.block_user_btn);
-                    CircleImageView imageView = holder.itemView.findViewById(R.id.userImg);
-                    Picasso.get().load(model.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(imageView);
+                        TextView name = holder.itemView.findViewById(R.id.userName);
+                        TextView mobile = holder.itemView.findViewById(R.id.userMobile);
+                        TextView email = holder.itemView.findViewById(R.id.userEmail);
+                        SwitchCompat userStatusChanger = holder.itemView.findViewById(R.id.block_user_btn);
+                        CircleImageView imageView = holder.itemView.findViewById(R.id.userImg);
+                        Picasso.get().load(model.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(imageView);
 
 
-                    name.setText(model.getFullName());
-                    mobile.setText(model.getMobile());
-                    email.setText(model.getEmail());
+                        name.setText(model.getFullName());
+                        mobile.setText(model.getMobile());
+                        email.setText(model.getEmail());
 
 
-                    if (model.getUserStatus().equals("active")) {
-                        userStatusChanger.setChecked(true);
-                    }
-
-                    chatBtn.setOnClickListener(view -> {
-                        Intent intent = new Intent(mContext, SpecificChatActivity.class);
-                        intent.putExtra("userModel", model);
-                        startActivity(intent);
-                    });
-
-                    whatsappBtn.setOnClickListener(view -> VUtil.openWhatsAppNumber(mContext, model.getMobile()));
-
-                    callBtn.setOnClickListener(view -> VUtil.openDialer(mContext, model.getMobile()));
-
-                    if (model.getUserStatus().equals("active")) {
-                        userStatusChanger.setChecked(true);
-                    }
-
-                    userStatusChanger.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            handleUserStatusChange(isChecked);
+                        if (model.getUserStatus().equals("active")) {
+                            userStatusChanger.setChecked(true);
                         }
 
-                        private void handleUserStatusChange(boolean isChecked) {
-                            CProgressDialog.mShow(mContext);
-                            Map<String, Object> updates = new HashMap<>();
-                            String newStatus = isChecked ? "active" : "inactive";
-                            updates.put("userStatus", newStatus);
+                        chatBtn.setOnClickListener(view -> {
+                            Intent intent = new Intent(mContext, SpecificChatActivity.class);
+                            intent.putExtra("userModel", model);
+                            startActivity(intent);
+                        });
 
-                            Constant.userDB.child(model.getUserUid()).updateChildren(updates).addOnCompleteListener(task -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showSuccessToast(mContext, "Status Updated");
-                            }).addOnFailureListener(e -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showErrorToast(mContext, e.getMessage());
-                            });
+                        whatsappBtn.setOnClickListener(view -> VUtil.openWhatsAppNumber(mContext, model.getMobile()));
 
+                        callBtn.setOnClickListener(view -> VUtil.openDialer(mContext, model.getMobile()));
+
+                        if (model.getUserStatus().equals("active")) {
+                            userStatusChanger.setChecked(true);
                         }
-                    });
-                    holder.itemView.setOnClickListener(view -> {
-                        Intent intent = new Intent(mContext, ProfileViewActivity.class);
-                        intent.putExtra("uid", model.getUserUid());
-                        startActivity(intent);
-                    });
-                    chatBtn.setOnClickListener(view -> startActivity(new Intent(mContext, SpecificChatActivity.class)));
+
+                        userStatusChanger.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                handleUserStatusChange(isChecked);
+                            }
+
+                            private void handleUserStatusChange(boolean isChecked) {
+                                CProgressDialog.mShow(mContext);
+                                Map<String, Object> updates = new HashMap<>();
+                                String newStatus = isChecked ? "active" : "inactive";
+                                updates.put("userStatus", newStatus);
+
+                                AsyncTaskHelper.runInBackground(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Constant.userDB.child(model.getUserUid()).updateChildren(updates).addOnCompleteListener(task -> {
+                                            CProgressDialog.mDismiss();
+                                            VUtil.showSuccessToast(mContext, "Status Updated");
+                                        }).addOnFailureListener(e -> {
+                                            CProgressDialog.mDismiss();
+                                            VUtil.showErrorToast(mContext, e.getMessage());
+                                        });
+                                    }
+                                });
+
+
+                            }
+                        });
+                        holder.itemView.setOnClickListener(view -> {
+                            Intent intent = new Intent(mContext, ProfileViewActivity.class);
+                            intent.putExtra("uid", model.getUserUid());
+                            startActivity(intent);
+                        });
+                        chatBtn.setOnClickListener(view -> startActivity(new Intent(mContext, SpecificChatActivity.class)));
+                    }
+
+                }catch (Exception e){
+                    Log.e("YourTag", "An error occurred", e);
+
                 }
             }
 

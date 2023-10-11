@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +96,16 @@ public class TrialUserFragment extends Fragment {
 
 
     private void getTrialUser() {
-        bind.trialUserRecyclerview.setLayoutManager(new ReverseLinearLayoutManager(mContext));
-        VUtil.EmptyViewUserChecker(Constant.userDB, bind.view.empty, bind.progressBar.show, "no");
+
+        try {
+            bind.trialUserRecyclerview.setLayoutManager(new ReverseLinearLayoutManager(mContext));
+            VUtil.EmptyViewUserChecker(Constant.userDB, bind.view.empty, bind.progressBar.show, "no");
+
+        }catch (Exception e){
+            Log.e("YourTag", "An error occurred", e);
+
+        }
+
 
         options = new FirebaseRecyclerOptions.Builder<UserModel>().setQuery(Constant.userDB.orderByChild("memberShip").equalTo("no"), UserModel.class).build();
 
@@ -105,69 +114,75 @@ public class TrialUserFragment extends Fragment {
             protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull UserModel model) {
 
 
-                if (holder.itemView != null) {
+                try {
+                    if (holder.itemView != null) {
 
-                    LinearLayout chatBtn = holder.itemView.findViewById(R.id.chatBtn);
-                    LinearLayout callBtn = holder.itemView.findViewById(R.id.callBtn);
-                    LinearLayout whatsappBtn = holder.itemView.findViewById(R.id.whatsAppBtn);
-
-
-                    TextView name = holder.itemView.findViewById(R.id.userName);
-                    TextView mobile = holder.itemView.findViewById(R.id.userMobile);
-                    TextView email = holder.itemView.findViewById(R.id.userEmail);
-                    SwitchCompat userStatusChanger = holder.itemView.findViewById(R.id.block_user_btn);
-                    CircleImageView imageView = holder.itemView.findViewById(R.id.userImg);
-                    Picasso.get().load(model.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(imageView);
+                        LinearLayout chatBtn = holder.itemView.findViewById(R.id.chatBtn);
+                        LinearLayout callBtn = holder.itemView.findViewById(R.id.callBtn);
+                        LinearLayout whatsappBtn = holder.itemView.findViewById(R.id.whatsAppBtn);
 
 
-                    name.setText(model.getFullName());
-                    mobile.setText(model.getMobile());
-                    email.setText(model.getEmail());
+                        TextView name = holder.itemView.findViewById(R.id.userName);
+                        TextView mobile = holder.itemView.findViewById(R.id.userMobile);
+                        TextView email = holder.itemView.findViewById(R.id.userEmail);
+                        SwitchCompat userStatusChanger = holder.itemView.findViewById(R.id.block_user_btn);
+                        CircleImageView imageView = holder.itemView.findViewById(R.id.userImg);
+                        Picasso.get().load(model.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(imageView);
 
 
-                    whatsappBtn.setOnClickListener(view -> VUtil.openWhatsAppNumber(mContext, model.getMobile()));
+                        name.setText(model.getFullName());
+                        mobile.setText(model.getMobile());
+                        email.setText(model.getEmail());
 
-                    chatBtn.setOnClickListener(view -> {
-                        Intent intent = new Intent(mContext, SpecificChatActivity.class);
-                        intent.putExtra("userModel", model);
-                        startActivity(intent);
-                    });
 
-                    callBtn.setOnClickListener(view -> VUtil.openDialer(mContext, model.getMobile()));
+                        whatsappBtn.setOnClickListener(view -> VUtil.openWhatsAppNumber(mContext, model.getMobile()));
 
-                    if (model.getUserStatus().equals("active")) {
-                        userStatusChanger.setChecked(true);
+                        chatBtn.setOnClickListener(view -> {
+                            Intent intent = new Intent(mContext, SpecificChatActivity.class);
+                            intent.putExtra("userModel", model);
+                            startActivity(intent);
+                        });
+
+                        callBtn.setOnClickListener(view -> VUtil.openDialer(mContext, model.getMobile()));
+
+                        if (model.getUserStatus().equals("active")) {
+                            userStatusChanger.setChecked(true);
+                        }
+
+                        userStatusChanger.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                handleUserStatusChange(isChecked);
+                            }
+
+                            private void handleUserStatusChange(boolean isChecked) {
+                                CProgressDialog.mShow(mContext);
+                                Map<String, Object> updates = new HashMap<>();
+                                String newStatus = isChecked ? "active" : "inactive";
+                                updates.put("userStatus", newStatus);
+
+                                Constant.userDB.child(model.getUserUid()).updateChildren(updates).addOnCompleteListener(task -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showSuccessToast(mContext, "Status Updated");
+                                }).addOnFailureListener(e -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showErrorToast(mContext, e.getMessage());
+                                });
+
+                            }
+                        });
+
+                        holder.itemView.setOnClickListener(view -> {
+                            Intent intent = new Intent(mContext, ProfileViewActivity.class);
+                            intent.putExtra("uid", model.getUserUid());
+                            startActivity(intent);
+                        });
+
+
                     }
 
-                    userStatusChanger.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            handleUserStatusChange(isChecked);
-                        }
-
-                        private void handleUserStatusChange(boolean isChecked) {
-                            CProgressDialog.mShow(mContext);
-                            Map<String, Object> updates = new HashMap<>();
-                            String newStatus = isChecked ? "active" : "inactive";
-                            updates.put("userStatus", newStatus);
-
-                            Constant.userDB.child(model.getUserUid()).updateChildren(updates).addOnCompleteListener(task -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showSuccessToast(mContext, "Status Updated");
-                            }).addOnFailureListener(e -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showErrorToast(mContext, e.getMessage());
-                            });
-
-                        }
-                    });
-
-                    holder.itemView.setOnClickListener(view -> {
-                        Intent intent = new Intent(mContext, ProfileViewActivity.class);
-                        intent.putExtra("uid", model.getUserUid());
-                        startActivity(intent);
-                    });
-
+                }catch (Exception e){
+                    Log.e("YourTag", "An error occurred", e);
 
                 }
             }

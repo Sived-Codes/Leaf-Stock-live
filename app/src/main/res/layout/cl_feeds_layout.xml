@@ -2,33 +2,26 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginHorizontal="@dimen/_14sdp"
     android:layout_marginVertical="@dimen/_4sdp"
-    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="@dimen/_4sdp"
     android:layout_height="wrap_content">
 
 
     <RelativeLayout
+        android:padding="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
             android:id="@+id/rrl1"
-            android:paddingVertical="@dimen/_5sdp"
-            android:paddingHorizontal="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/feeder_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Posted By"
-                android:textSize="@dimen/_10sdp"
-                android:fontFamily="@font/semibold_font"
-                android:textColor="@color/blue"/>
 
             <TextView
                 android:id="@+id/feed_time"
-                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Time"
@@ -48,18 +41,15 @@
 
         <LinearLayout
             android:layout_below="@id/view"
-            android:paddingVertical="@dimen/_5sdp"
-            android:paddingHorizontal="@dimen/_10sdp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-
                 android:id="@+id/feed_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hii how are you"
-                android:layout_marginVertical="@dimen/_5sdp"
+                android:layout_marginVertical="@dimen/_2sdp"
                 android:textColor="@color/black"
                 android:autoLink="all"
                 android:textColorLink="@color/blue"
@@ -70,42 +60,65 @@
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/feedImageView"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/image_placeholder_2"/>
 
-            <LinearLayout
-                android:id="@+id/actionLayout"
-                android:layout_alignParentStart="true"
-                android:paddingVertical="@dimen/_5sdp"
-                android:paddingHorizontal="@dimen/_10sdp"
+
+            <RelativeLayout
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_below="@id/feed_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="@dimen/_50sdp"
-                    android:id="@+id/feed_edit_btn"
-                    app:cornerRadius="@dimen/_14sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:textSize="@dimen/_6sdp"
-                    android:text="EDIT"
-                    android:backgroundTint="@color/fadeBlue"
-                    android:textColor="@color/blue"/>
+                android:id="@+id/actionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/mid_round_blue_bg"
+                    android:padding="@dimen/_3sdp"
+                    android:src="@drawable/baseline_favorite_border_24" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:layout_width="@dimen/_60sdp"
-                    app:cornerRadius="@dimen/_14sdp"
-                    android:id="@+id/feed_remove_btn"
-                    android:layout_marginStart="@dimen/_5sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:textSize="@dimen/_6sdp"
-                    android:text="Delete"
-                    android:backgroundTint="@color/fadeRed"
-                    android:textColor="@color/red"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    >
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/feed_remove_btn"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:background="@drawable/mid_round_blue_bg"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/baseline_delete_blue" />
+
+                    <ImageView
+                        android:id="@+id/feed_edit_btn"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:background="@drawable/mid_round_blue_bg"
+                        android:padding="@dimen/_3sdp"
+                        android:src="@drawable/baseline_edit_24" />
+
+
+
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
 
         </LinearLayout>
 

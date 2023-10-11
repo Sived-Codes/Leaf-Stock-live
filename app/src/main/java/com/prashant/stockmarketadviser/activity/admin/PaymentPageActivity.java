@@ -1,6 +1,7 @@
 package com.prashant.stockmarketadviser.activity.admin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.prashant.stockmarketadviser.R;
 import com.prashant.stockmarketadviser.adapter.MyAdapter;
 import com.prashant.stockmarketadviser.adapter.ReverseLinearLayoutManager;
@@ -42,9 +46,8 @@ public class PaymentPageActivity extends BaseActivity {
         bind = ActivityPaymentPageBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
 
-        String imageUrl = StockDatabase.getQrUrl(PaymentPageActivity.this);
 
-        Picasso.get().load(imageUrl).placeholder(R.drawable.image_placeholder_2).into(bind.paymentQrImage);
+        showQrCode();
 
         planDialog = new MyDialog(PaymentPageActivity.this, R.layout.cl_membership_dialog);
 
@@ -54,7 +57,7 @@ public class PaymentPageActivity extends BaseActivity {
 
 
         bind.paymentQrImage.setOnClickListener(view -> {
-            Picasso.get().load(StockDatabase.getQrUrl(PaymentPageActivity.this)).placeholder(R.drawable.image_placeholder_2).into(bind.paymentQrImage);
+            showQrCode();
             VUtil.showSuccessToast(PaymentPageActivity.this, "Refreshed");
 
         });
@@ -101,6 +104,27 @@ public class PaymentPageActivity extends BaseActivity {
 
     }
 
+    private void showQrCode() {
+
+        Constant.adminDB.child("QrCode").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String qrCodeImgUrl = snapshot.child("qr_img_url").getValue(String.class);
+                Picasso.get().load(qrCodeImgUrl).into(bind.paymentQrImage);
+                bind.pd.show.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                VUtil.showErrorToast(PaymentPageActivity.this, error.getMessage());
+                bind.pd.show.setVisibility(View.GONE);
+            }
+        });
+
+
+
+    }
+
     private void updatePlan() {
         UserModel model = AuthManager.userChecker(PaymentPageActivity.this);
 
@@ -112,28 +136,43 @@ public class PaymentPageActivity extends BaseActivity {
     private void getPlanList() {
         RecyclerView recyclerView = planDialog.getView().findViewById(R.id.memberShipRecyclerview);
 
-        VUtil.EmptyViewHandler(Constant.planDB, planDialog.getView().findViewById(R.id.view), planDialog.getView().findViewById(R.id.progressBar));
+        try {
 
-        recyclerView.setLayoutManager(new ReverseLinearLayoutManager(PaymentPageActivity.this));
+            VUtil.EmptyViewHandler(Constant.planDB, planDialog.getView().findViewById(R.id.view), planDialog.getView().findViewById(R.id.progressBar));
+
+            recyclerView.setLayoutManager(new ReverseLinearLayoutManager(PaymentPageActivity.this));
+
+        } catch (Exception e) {
+            Log.e("YourTag", "An error occurred", e);
+
+        }
+
 
         FirebaseRecyclerOptions<PlanModel> options = new FirebaseRecyclerOptions.Builder<PlanModel>().setQuery(Constant.planDB, PlanModel.class).build();
         adapter = new FirebaseRecyclerAdapter<PlanModel, MyAdapter.MyHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MyAdapter.MyHolder holder, int position, @NonNull PlanModel model) {
 
-                TextView planName = holder.itemView.findViewById(R.id.plan_name);
-                TextView planPrice = holder.itemView.findViewById(R.id.plan_price_and_validity);
+                try {
+                    TextView planName = holder.itemView.findViewById(R.id.plan_name);
+                    TextView planPrice = holder.itemView.findViewById(R.id.plan_price_and_validity);
 
-                planPrice.setText(model.getPrice());
-                planName.setText(model.getPlan());
+                    planPrice.setText(model.getPrice());
+                    planName.setText(model.getPlan());
 
-                String plan = model.getPlan() + " " + model.getPrice();
+                    String plan = model.getPlan() + " " + model.getPrice();
 
-                holder.itemView.setOnClickListener(view -> {
-                    bind.changePlanTxt.setTextColor(ContextCompat.getColor(PaymentPageActivity.this, R.color.black));
-                    bind.changePlanTxt.setText(plan);
-                    planDialog.dismiss();
-                });
+                    holder.itemView.setOnClickListener(view -> {
+                        bind.changePlanTxt.setTextColor(ContextCompat.getColor(PaymentPageActivity.this, R.color.black));
+                        bind.changePlanTxt.setText(plan);
+                        planDialog.dismiss();
+                    });
+                } catch (Exception e) {
+                    Log.e("YourTag", "An error occurred", e);
+
+                }
+
+
             }
 
             @NonNull

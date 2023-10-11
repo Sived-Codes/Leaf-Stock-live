@@ -13,7 +13,16 @@
           "package_name": "com.prashant.stockmarketadviser"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1067836003955-ce3iq3ds2nql2um7q193kqrasgaf17m3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prashant.stockmarketadviser",
+            "certificate_hash": "0e05220a929c8dab6d1f0e79bc5d7ac98f3b285a"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCRlkW8Zw0RBnTttbqf6UPsWbS46WVOHkc"

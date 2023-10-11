@@ -1,6 +1,7 @@
 package com.prashant.stockmarketadviser.activity.admin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -43,78 +44,86 @@ public class ProfileViewActivity extends BaseActivity {
     }
 
     private void getUserDetail(String uid) {
-        Constant.userDB.child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserModel userModel = snapshot.getValue(UserModel.class);
+
+        try {
+            Constant.userDB.child(uid).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    UserModel userModel = snapshot.getValue(UserModel.class);
 
 
-                if (userModel != null) {
+                    if (userModel != null) {
 
-                    if (bind == null) {
-                        return;
-                    }
-                    bind.mainAccountLayout.setVisibility(View.VISIBLE);
-                    bind.progressBar.show.setVisibility(View.GONE);
-
-
-                    bind.disableFromServer.setChecked(true);
+                        if (bind == null) {
+                            return;
+                        }
+                        bind.mainAccountLayout.setVisibility(View.VISIBLE);
+                        bind.progressBar.show.setVisibility(View.GONE);
 
 
-                    bind.userName.setText(userModel.getFullName());
-                    Picasso.get().load(userModel.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(bind.userImg);
-                    bind.userMobile.setText(userModel.getMobile());
-                    bind.userPlan.setText(userModel.getUserPlan());
-                    bind.userMail.setText(userModel.getEmail());
-                    bind.userDevice.setText(userModel.getDeviceName());
-                    bind.userRegistrationDate.setText(userModel.getRegistrationDate());
+                        bind.disableFromServer.setChecked(true);
 
 
-                    if (userModel.getMemberShip().equals("yes")) {
-                        bind.subscriptionChanger.setChecked(true);
-                    }
+                        bind.userName.setText(userModel.getFullName());
+                        Picasso.get().load(userModel.getUserImage()).placeholder(R.drawable.baseline_account_circle_24).into(bind.userImg);
+                        bind.userMobile.setText(userModel.getMobile());
+                        bind.userPlan.setText(userModel.getUserPlan());
+                        bind.userMail.setText(userModel.getEmail());
+                        bind.userDevice.setText(userModel.getDeviceName());
+                        bind.userRegistrationDate.setText(userModel.getRegistrationDate());
 
-                    bind.callBtn.setOnClickListener(view -> VUtil.openDialer(ProfileViewActivity.this, userModel.getMobile()));
 
-                    bind.subscriptionChanger.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            handleUserStatusChange(isChecked);
+                        if (userModel.getMemberShip().equals("yes")) {
+                            bind.subscriptionChanger.setChecked(true);
                         }
 
-                        private void handleUserStatusChange(boolean isChecked) {
-                            CProgressDialog.mShow(ProfileViewActivity.this);
-                            Map<String, Object> updates = new HashMap<>();
-                            String newStatus = isChecked ? "yes" : "no";
-                            String planType = isChecked ? "paid" : "free";
-                            String paymentStatus = isChecked ? "completed" : "pending";
-                            updates.put("memberShip", newStatus);
-                            updates.put("userPlanType", planType);
-                            updates.put("paymentStatus", paymentStatus);
+                        bind.callBtn.setOnClickListener(view -> VUtil.openDialer(ProfileViewActivity.this, userModel.getMobile()));
 
-                            Constant.userDB.child(uid).updateChildren(updates).addOnCompleteListener(task -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showSuccessToast(ProfileViewActivity.this, "User Membership has been updated successfully.");
-                            }).addOnFailureListener(e -> {
-                                CProgressDialog.mDismiss();
-                                VUtil.showErrorToast(ProfileViewActivity.this, e.getMessage());
-                            });
+                        bind.subscriptionChanger.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                handleUserStatusChange(isChecked);
+                            }
 
-                        }
-                    });
+                            private void handleUserStatusChange(boolean isChecked) {
+                                CProgressDialog.mShow(ProfileViewActivity.this);
+                                Map<String, Object> updates = new HashMap<>();
+                                String newStatus = isChecked ? "yes" : "no";
+                                String planType = isChecked ? "paid" : "free";
+                                String paymentStatus = isChecked ? "completed" : "pending";
+                                updates.put("memberShip", newStatus);
+                                updates.put("userPlanType", planType);
+                                updates.put("paymentStatus", paymentStatus);
+
+                                Constant.userDB.child(uid).updateChildren(updates).addOnCompleteListener(task -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showSuccessToast(ProfileViewActivity.this, "User Membership has been updated successfully.");
+                                }).addOnFailureListener(e -> {
+                                    CProgressDialog.mDismiss();
+                                    VUtil.showErrorToast(ProfileViewActivity.this, e.getMessage());
+                                });
+
+                            }
+                        });
 
 
-                } else {
-                    VUtil.showWarning(ProfileViewActivity.this, "Model is null");
+                    } else {
+                        VUtil.showWarning(ProfileViewActivity.this, "Model is null");
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                VUtil.showErrorToast(ProfileViewActivity.this, error.getMessage());
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    VUtil.showErrorToast(ProfileViewActivity.this, error.getMessage());
 
-            }
-        });
+                }
+            });
+
+        }catch (Exception e){
+            Log.e("YourTag", "An error occurred", e);
+
+        }
+
 
     }
 }

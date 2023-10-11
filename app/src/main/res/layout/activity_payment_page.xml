@@ -57,12 +57,22 @@
                 android:text="To complete your purchase, kindly scan the QR code provided below for payment."
                 android:layout_height="wrap_content"/>
 
-            <ImageView
-                android:id="@+id/payment_qr_image"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_width="@dimen/_250sdp"
-                android:layout_height="@dimen/_250sdp"
-                android:src="@drawable/dummy_qr"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    android:id="@+id/pd"
+                    layout="@layout/custom_progress_bar"
+                    />
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:id="@+id/payment_qr_image"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="@dimen/_250sdp" />
+
+
+            </RelativeLayout>
 
 
             <TextView
